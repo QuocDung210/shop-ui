@@ -1,0 +1,47 @@
+.item__link {
+    width: 100%;
+    &.active .nav__item {
+        background-color: #3a4460;
+        border-left: 3px solid purple;
+    }
+}
+
+.active {
+    & .item__activeIcon {
+        display: block;
+    }
+    & .item__icon {
+        display: none;
+    }
+}
+
+.nav__item {
+    padding: 5px 10px;
+    color: rgba($color: #fff, $alpha: 0.7);
+    font-size: 2rem;
+    align-items: center;
+    border-left: 3px solid transparent;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+    gap: 10px;
+    transition: background-color ease-in-out 0.2s;
+
+    &:hover {
+        color: rgba($color: #fff, $alpha: 1);
+    }
+}
+
+.item__icon,
+.item__activeIcon {
+    width: 25px;
+    text-align: center;
+}
+
+.item__activeIcon {
+    display: none;
+}
+
+.title {
+    font-size: 1.6rem;
+}

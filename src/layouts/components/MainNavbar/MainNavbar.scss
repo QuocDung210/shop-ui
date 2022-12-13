@@ -1,0 +1,33 @@
+.main__navbar {
+    background-color: var(--black);
+}
+
+.nav__item {
+    position: relative;
+    .nav__item-label,
+    .nav-item-icon {
+        color: var(--white);
+        transition: all 0.5s ease;
+    }
+}
+
+.nav__item::after {
+    content: '';
+    display: block;
+    position: absolute;
+    border-left: 1px solid var(--white);
+    height: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+}
+
+.nav__item:hover {
+    .nav__item-label {
+        color: var(--color-1);
+    }
+    .nav-item-icon {
+        transform: rotate(180deg);
+        color: var(--color-1);
+    }
+}

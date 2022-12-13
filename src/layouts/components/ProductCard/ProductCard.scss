@@ -1,0 +1,152 @@
+.card-custom {
+    position: relative;
+}
+
+.card-left-label {
+    position: absolute;
+    top: 5px;
+    left: -5px;
+    z-index: 100;
+}
+.card-sale-label,
+.card-soldout-label,
+.card-popular-label {
+    position: relative;
+    min-width: 40px;
+    min-height: 3rem;
+    line-height: 3rem;
+    margin-bottom: 8px;
+    text-align: center;
+    color: var(--white);
+    padding: 0 5px;
+}
+
+.card-sale-label {
+    background-color: var(--color-1);
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.card-soldout-label {
+    background-color: var(--color-5);
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.card-right-label {
+    position: absolute;
+    top: 5px;
+    right: -5px;
+    z-index: 100;
+    .card-popular-label {
+        background-color: var(--color-6);
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+    .card-popular-label::after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        right: 0;
+
+        border-top: 6px solid var(--color-2);
+        border-right: 6px solid transparent;
+    }
+}
+
+.card-sale-label::after,
+.card-soldout-label::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+
+    border-top: 6px solid var(--color-2);
+    border-left: 6px solid transparent;
+}
+
+.card-img {
+    width: 100%;
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all ease 0.2s;
+    }
+}
+
+.card-img:hover {
+    img {
+        transform: scale(1.2);
+    }
+}
+
+.card-title-custom {
+    p {
+        min-height: 3rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--black);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all ease 0.2s;
+    }
+    :hover {
+        color: var(--color-6);
+    }
+}
+
+.card-btn-group {
+    border-top: 1px solid #ccc;
+    overflow: hidden;
+    position: relative;
+}
+.card-btn-group::after {
+    content: '';
+    position: absolute;
+    border-left: 1px solid #ccc;
+    height: 100%;
+    top: 0;
+    left: 50%;
+}
+
+.card-btn {
+    min-height: 35px;
+}
+
+.card-btn-link {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--black);
+    transition: all ease 0.3s;
+    span {
+        margin-left: 10px;
+    }
+}
+
+.card-btn:hover {
+    background-color: var(--color-6);
+    .card-btn-link {
+        color: var(--white);
+    }
+}
+
+@keyframes grow {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        height: 20%;
+        opacity: 1;
+    }
+}

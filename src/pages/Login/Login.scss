@@ -1,0 +1,30 @@
+.login {
+    // height: 100vh;
+    // background-image: url('https://gstatic.gvn360.com/2022/09/Phong-canh-huu-tinh_-10-1068x580.jpg');
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    width: 100%;
+    height: 100vh;
+    background-color: #ccc;
+}
+
+// .login-container {
+// }
+
+.login-wrapper {
+    background-color: var(--white);
+    box-shadow: 5px 10px 18px #888888;
+}
+
+.login-form {
+    max-width: 300px;
+    margin: 60px 0;
+}
+
+.login-img {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://gstatic.gvn360.com/2022/09/Phong-canh-huu-tinh_-10-1068x580.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
