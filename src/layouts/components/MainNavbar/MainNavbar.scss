@@ -1,25 +1,35 @@
 .main__navbar {
-    background-color: var(--black);
+    width: 100%;
 }
 
-.nav__item {
+.nav__item,
+.nav__item-mb {
     position: relative;
+    line-height: 1.3rem;
+
     .nav__item-label,
     .nav-item-icon {
-        color: var(--white);
+        color: var(--black);
+        font-size: 1.3rem;
+        font-weight: 500;
         transition: all 0.5s ease;
     }
+}
+
+.nav__item-mb {
+    margin: 0 !important;
+    width: 100%;
 }
 
 .nav__item::after {
     content: '';
     display: block;
     position: absolute;
-    border-left: 1px solid var(--white);
+    border-left: 1px solid var(--black);
     height: 14px;
     top: 50%;
     transform: translateY(-50%);
-    right: -15px;
+    right: -6px;
 }
 
 .nav__item:hover {

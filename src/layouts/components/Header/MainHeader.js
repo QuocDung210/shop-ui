@@ -1,71 +1,71 @@
 import Search from '../Search/Search';
 import 'tippy.js/dist/tippy.css';
 import Logo from '~/components/Logo';
-import { Col, Container, Offcanvas, Row } from 'react-bootstrap';
+import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import MainHeaderMenu from './MainHeaderMenu';
 import Cart from '../Cart';
-import Buttons from '~/components/Buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function MainHeader({ menuItems }) {
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false);
-    };
-    const handleShow = () => {
-        setShow(true);
-    };
+import MainNavbar from '../MainNavbar';
+import Tippy from '@tippyjs/react/headless';
+
+function MainHeader({ menuItems, navList }) {
     return (
-        <Container fluid className="d-flex align-items-center main-header">
-            <Container className="main-header-wrapper">
-                <Row className="justify-content-between main-header-contents">
-                    <Col lg={'auto'} xs={12} className="d-flex header-logo ">
-                        <div className="d-block d-lg-none header-nav-menu">
-                            <Offcanvas show={show} onHide={handleClose}>
-                                <Offcanvas.Header closeButton>
-                                    <Offcanvas.Title>Menu</Offcanvas.Title>
-                                </Offcanvas.Header>
-                                <Offcanvas.Body>
+        <Container fluid className="d-flex align-items-center p-0 main-header">
+            <Container className="p-0 main-header-wrapper">
+                <Navbar bg="light" expand="lg">
+                    <Container fluid>
+                        <Navbar.Brand>
+                            <div className="me-5 header-logo-wrapper">
+                                <Logo />
+                            </div>
+                        </Navbar.Brand>
+                        <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                        <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby={`offcanvasNavbarLabel`}>
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title id={`offcanvasNavbarLabel`}>Menu</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <div className="d-none d-lg-flex align-items-center gap-4 w-100">
+                                    <div className="flex-fill">
+                                        <MainNavbar navList={navList} />
+                                    </div>
+                                    <div>
+                                        <Tippy
+                                            delay={[0, 500]}
+                                            placement="bottom-end"
+                                            interactive
+                                            arrow
+                                            render={(attrs) => (
+                                                <div className="nav-search-popper" {...attrs}>
+                                                    <Search />
+                                                </div>
+                                            )}
+                                        >
+                                            <div className="nav-search-icon">
+                                                <FontAwesomeIcon icon={faSearch} />
+                                            </div>
+                                        </Tippy>
+                                    </div>
+
+                                    <MainHeaderMenu menuItems={menuItems} />
+
+                                    <Cart />
+                                </div>
+                                <div className="d-flex flex-column d-lg-none">
                                     <div>
                                         <Search />
                                     </div>
-                                    {/* <Nav as="ul" className="d-flex flex-column">
-                                    {NavList.map((navItem, idx) => (
-                                        <Nav.Item as="li" key={idx} className=" m-4">
-                                            <Link to={navItem.link}>
-                                                <span className="nav__item-label">{navItem.label}</span>
-                                            </Link>
-                                        </Nav.Item>
-                                    ))}
-                                </Nav> */}
-                                </Offcanvas.Body>
-                            </Offcanvas>
-                            <Buttons outline circle onClick={handleShow}>
-                                <FontAwesomeIcon icon={faBars} />
-                            </Buttons>
-                        </div>
-                        <div className="header-logo-wrapper">
-                            <Logo />
-                        </div>
-                        <div className="d-block d-lg-none header-user-avatar">
-                            <div className="d-flex justify-content-center align-items-center h-100 gap-4">
-                                <MainHeaderMenu menuItems={menuItems} />
-                                <Cart />
-                            </div>
-                        </div>
-                    </Col>
-                    <Col className="d-none d-lg-block inner-search">
-                        <Search />
-                    </Col>
-                    <Col lg={'auto'} className="d-none d-lg-block options">
-                        <div className="d-flex justify-content-center align-items-center h-100 gap-4">
-                            <MainHeaderMenu menuItems={menuItems} />
-                            <Cart />
-                        </div>
-                    </Col>
-                </Row>
+
+                                    <div>
+                                        <MainNavbar navList={navList} />
+                                    </div>
+                                </div>
+                            </Offcanvas.Body>
+                        </Navbar.Offcanvas>
+                    </Container>
+                </Navbar>
             </Container>
         </Container>
     );

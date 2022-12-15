@@ -10,9 +10,9 @@ function WithSidebar({ children }) {
             <Row>
                 <Header />
             </Row>
-            <Row>
+            {/* <Row>
                 <MainNavbar />
-            </Row>
+            </Row> */}
             <Row className="pt-5">
                 <div className="d-flex flex-row">
                     <Container className="p-0">

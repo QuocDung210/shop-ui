@@ -1,11 +1,13 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
 @import '~/node_modules/bootstrap/scss/bootstrap';
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/animations/scale.css';
 
 :root {
     --primary-color: purple;
-    --black: #333;
-    --white: #fff;
+    --black: #000000;
+    --white: #f8f9fa;
     --background-color: rgb(246, 193, 246);
     --text-color: #333;
     --text-input: #828282;

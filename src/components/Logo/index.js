@@ -1,16 +1,12 @@
-import images from '~/assets/images';
-import classNames from 'classnames/bind';
-import Style from './Logo.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config';
-
-const cx = classNames.bind(Style);
+import './Logo.scss';
 
 function Logo() {
     return (
         <Link to={config.routes.home}>
-            <div className={cx('logo')}>
-                <img src={images.logo} alt="logo" />
+            <div className="logo">
+                <h1 className="boujee-text">MyStore</h1>
             </div>
         </Link>
     );

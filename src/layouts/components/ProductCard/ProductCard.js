@@ -1,7 +1,5 @@
-import { faCartPlus, faInfo } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
 import './ProductCard.scss';
@@ -36,6 +34,13 @@ function ProductCard({ product }) {
                         onError={handleErrorImg}
                         ref={ref}
                     />
+                    <div className="card-tool">
+                        <Link to={`/product/${product.nickname || product.id}`}>
+                            <div className="card-tool-title">
+                                <p>View detail</p>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
                 <Card.Body>
                     <Card.Title className="card-title-custom">
@@ -45,7 +50,7 @@ function ProductCard({ product }) {
                     </Card.Title>
                     <Card.Text>{product.likes_count || '200.000'} đồng</Card.Text>
                 </Card.Body>
-                <Container fluid>
+                {/* <Container fluid>
                     <Row className="align-items-center card-btn-group">
                         <Col className="d-flex justify-content-center align-items-center p-0 card-btn">
                             <div className="card-btn-link">
@@ -62,7 +67,7 @@ function ProductCard({ product }) {
                             </Link>
                         </Col>
                     </Row>
-                </Container>
+                </Container> */}
             </Card>
         </>
     );

@@ -42,12 +42,40 @@ const MENU_ITEMS = [
     },
 ];
 
+const NavList = [
+    {
+        label: 'TRANG CHỦ',
+        link: config.routes.home,
+    },
+    {
+        label: 'SẢN PHẨM',
+        link: config.routes.store,
+        items: [
+            {
+                title: 'Quần áo nam',
+                to: '/profile',
+                separateBottom: true,
+            },
+            { title: 'Quần áo nữ', to: '/profile', separateBottom: true },
+            { title: 'Vest', to: '/profile' },
+        ],
+    },
+    {
+        label: 'GIỚI THIỆU',
+        link: config.routes.introduce,
+    },
+    {
+        label: 'LIÊN HỆ',
+        link: config.routes.contact,
+    },
+];
+
 function Header() {
     const ref = useRef(null);
     useEffect(() => {
         window.addEventListener('scroll', (event) => {
             if (ref.current) {
-                if (window.scrollY >= 50) {
+                if (window.scrollY >= 100) {
                     ref.current.classList.remove('d-none');
                 } else {
                     ref.current.classList.add('d-none');
@@ -63,10 +91,10 @@ function Header() {
                         <TopHeader />
                     </Col>
                     <Col className="p-0">
-                        <MainHeader menuItems={MENU_ITEMS} />
+                        <MainHeader menuItems={MENU_ITEMS} navList={NavList} />
                     </Col>
                     <Col className="d-none p-0 header-fixed-container" ref={ref}>
-                        <MainHeader menuItems={MENU_ITEMS} />
+                        <MainHeader menuItems={MENU_ITEMS} navList={NavList} />
                     </Col>
                 </Row>
                 <div className="d-none go-to-top">

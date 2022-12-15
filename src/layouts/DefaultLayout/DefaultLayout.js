@@ -30,9 +30,9 @@ function DefaultLayout({ children }) {
             <Row>
                 <Header />
             </Row>
-            <Row>
+            {/* <Row>
                 <MainNavbar />
-            </Row>
+            </Row> */}
             <Row className="justify-content-center">{children}</Row>
             <Row>
                 <Footer />

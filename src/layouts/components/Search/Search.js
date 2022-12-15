@@ -9,7 +9,7 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import ResultSearchItem from '~/components/ResultSearchItem';
 import './Search.scss';
 import { useDebounce } from '~/hooks';
-import { Button, Col, Container, Form } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { search } from '~/services/searchService';
@@ -18,7 +18,7 @@ function Search() {
     const [visible, setVisible] = useState(false);
     const [input, setInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const searchR = useSelector((state) => state.search.search.searchRes);
     const pending = useSelector((state) => state.search.search.isFetching);
@@ -45,17 +45,18 @@ function Search() {
 
         // fetchApi();
         search(debounced, dispatch);
-    }, [debounced]);
+        setSearchResults(searchR);
+    }, [debounced, dispatch, searchR]);
 
     useEffect(() => {
-        if (searchR) {
-            if (visible && searchR.length > 0) {
+        if (searchResults) {
+            if (visible && searchResults.length > 0) {
                 searchResultRef.current.classList.remove('d-none');
             } else {
                 searchResultRef.current.classList.add('d-none');
             }
         }
-    }, [visible, searchR]);
+    }, [visible, searchResults]);
 
     useEffect(() => {
         let handleMousedown = (e) => {
@@ -116,7 +117,7 @@ function Search() {
             className="p-0 d-flex align-items-center justify-content-center search__container"
             ref={searchRef}
         >
-            <div className="w-100 d-none d-lg-block">
+            <Row>
                 <Col sx={12} className="p-0 search">
                     <input
                         ref={searchInputRef}
@@ -142,15 +143,15 @@ function Search() {
                     <PopperWrapper>
                         <h4 className="result__title">Result</h4>
                         <div className="result-item" onClick={() => handleClickItem()}>
-                            {searchR &&
-                                searchR.map((searchResult) => (
+                            {searchResults &&
+                                searchResults.map((searchResult) => (
                                     <ResultSearchItem key={searchResult.id} searchResult={searchResult} />
                                 ))}
                         </div>
                     </PopperWrapper>
                 </div>
-            </div>
-            <div className="d-block d-lg-none w-100">
+            </Row>
+            {/* <div className="d-block d-lg-none w-100">
                 <Col xs={12}>
                     <Form className="d-flex search-form">
                         <Form.Control
@@ -167,7 +168,7 @@ function Search() {
                         </Button>
                     </Form>
                 </Col>
-            </div>
+            </div> */}
         </Container>
     );
 }

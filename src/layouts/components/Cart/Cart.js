@@ -4,9 +4,12 @@ import CartItem from './CartItem';
 function Cart() {
     return (
         <div className="cart-container">
-            <div className="cart-wrapper d-none d-lg-block">
+            <div className="d-flex align-items-center cart-wrapper gap-2">
+                <div className="cart-label">
+                    <span>GIỎ HÀNG / 0 đ</span>
+                </div>
                 <div className="d-flex align-items-center justify-content-center cart-bottom">
-                    <span>0</span>
+                    <span>1</span>
                 </div>
                 <div className="cart-top"></div>
                 <div className="cart-list cart-list-popper">
@@ -19,12 +22,6 @@ function Cart() {
                         <CartItem />
                     </PopperWrapper>
                 </div>
-            </div>
-            <div className="cart-wrapper d-block d-lg-none">
-                <div className="d-flex align-items-center justify-content-center cart-bottom">
-                    <span>0</span>
-                </div>
-                <div className="cart-top"></div>
             </div>
         </div>
     );
