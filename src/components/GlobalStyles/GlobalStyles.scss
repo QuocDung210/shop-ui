@@ -12,7 +12,7 @@
     --text-color: #333;
     --text-input: #828282;
     --background-input: #949494;
-    --hover-color: #5c4184;
+    --hover-color: #d3d3d3;
     --tippy-background: #432275;
     --scrollbar-color: #c7c7c7;
     --color-1: #83951c;
@@ -73,7 +73,10 @@ html *::-webkit-scrollbar-thumb:hover {
 .offcanvas {
     width: auto !important;
     min-width: 300px;
-    background-color: var(--color-4);
+    background-color: var(--white);
+    .offcanvas-header {
+        background-color: #f2f2f2;
+    }
 }
 //green width
 

@@ -1,7 +1,7 @@
 import { Col, Container, Row } from 'react-bootstrap';
+import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import MainNavbar from '../components/MainNavbar';
 import Sidebar from '../components/Sidebar';
 
 function WithSidebar({ children }) {
@@ -10,9 +10,9 @@ function WithSidebar({ children }) {
             <Row>
                 <Header />
             </Row>
-            {/* <Row>
-                <MainNavbar />
-            </Row> */}
+            <Row>
+                <Breadcrumb />
+            </Row>
             <Row className="pt-5">
                 <div className="d-flex flex-row">
                     <Container className="p-0">

@@ -13,8 +13,10 @@
     justify-content: center;
     align-items: center;
     user-select: none;
+    transition: all 0.3s ease;
     &:hover {
         opacity: 0.8;
+        color: white;
     }
     + .wrapper {
         margin-left: 10px;

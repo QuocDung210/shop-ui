@@ -52,12 +52,12 @@ const NavList = [
         link: config.routes.store,
         items: [
             {
-                title: 'Quần áo nam',
-                to: '/profile',
+                label: 'Quần áo nam',
+                link: '/profile',
                 separateBottom: true,
             },
-            { title: 'Quần áo nữ', to: '/profile', separateBottom: true },
-            { title: 'Vest', to: '/profile' },
+            { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+            { label: 'Vest', link: '/' },
         ],
     },
     {

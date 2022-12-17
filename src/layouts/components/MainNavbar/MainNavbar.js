@@ -6,30 +6,34 @@ import './MainNavbar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import Menu from '~/components/Popper/Menu';
+import MainNavItem from './MainNavItem';
 
 function MainNavbar({ navList }) {
     return (
-        <Container fluid className="  main__navbar">
-            <Nav as="ul">
+        <Container fluid className="p-0 header-nav">
+            <Nav as="ul" className="d-none d-lg-flex header-main-nav">
                 {navList.map((navItem, idx) => (
-                    <Nav.Item as="li" key={idx} className="d-flex align-items-center nav__item">
+                    <Nav.Item as="li" key={idx} className="d-flex align-items-center nav-item">
                         <Link to={navItem.link}>
                             {navItem.items ? (
                                 <Menu items={navItem.items} placement={'bottom-start'}>
                                     <div className="d-flex">
-                                        <span className="me-3 nav__item-label">{navItem.label}</span>
+                                        <span className="me-1 nav-item-label">{navItem.label}</span>
                                         <div className="nav-item-icon ">
                                             <FontAwesomeIcon icon={faChevronUp} />
                                         </div>
                                     </div>
                                 </Menu>
                             ) : (
-                                <span className="nav__item-label">{navItem.label}</span>
+                                <span className="nav-item-label">{navItem.label}</span>
                             )}
                         </Link>
                     </Nav.Item>
                 ))}
             </Nav>
+            <div className="d-block d-lg-none">
+                <MainNavItem navItems={navList} />
+            </div>
         </Container>
     );
 }

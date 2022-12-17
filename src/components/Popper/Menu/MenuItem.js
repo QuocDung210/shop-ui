@@ -8,8 +8,8 @@ function MenuItem({ item, onClick }) {
         separate__bottom: item.separateBottom,
     });
     return (
-        <Buttons className={classes} to={item.to} leftIcon={item.icon} onClick={onClick}>
-            {item.title}
+        <Buttons className={classes} to={item.link} leftIcon={item.icon} onClick={onClick}>
+            {item.label}
         </Buttons>
     );
 }

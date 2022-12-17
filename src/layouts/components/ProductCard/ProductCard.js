@@ -35,7 +35,7 @@ function ProductCard({ product }) {
                         ref={ref}
                     />
                     <div className="card-tool">
-                        <Link to={`/product/${product.nickname || product.id}`}>
+                        <Link to={`/store/product/${product.nickname || product.id}`}>
                             <div className="card-tool-title">
                                 <p>View detail</p>
                             </div>
@@ -44,30 +44,12 @@ function ProductCard({ product }) {
                 </div>
                 <Card.Body>
                     <Card.Title className="card-title-custom">
-                        <Link to={`/product/${product.nickname || product.id}`}>
+                        <Link to={`/store/product/${product.nickname || product.id}`}>
                             <p className="card-name">{product.title || product.nickname}</p>
                         </Link>
                     </Card.Title>
                     <Card.Text>{product.likes_count || '200.000'} đồng</Card.Text>
                 </Card.Body>
-                {/* <Container fluid>
-                    <Row className="align-items-center card-btn-group">
-                        <Col className="d-flex justify-content-center align-items-center p-0 card-btn">
-                            <div className="card-btn-link">
-                                <FontAwesomeIcon icon={faCartPlus} />
-                                <span>Thêm</span>
-                            </div>
-                        </Col>
-                        <Col className="d-flex justify-content-center align-items-center p-0 card-btn">
-                            <Link to={`/product/${product.nickname || product.id}`}>
-                                <div className="card-btn-link">
-                                    <FontAwesomeIcon icon={faInfo} />
-                                    <span>Chi tiết</span>
-                                </div>
-                            </Link>
-                        </Col>
-                    </Row>
-                </Container> */}
             </Card>
         </>
     );

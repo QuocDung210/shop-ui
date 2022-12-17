@@ -4,7 +4,7 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import 'tippy.js/dist/tippy.css';
 import { useEffect, useRef, useState } from 'react';
 
-// import * as searchService from '~/services/searchService';
+import * as searchService from '~/services/searchService';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import ResultSearchItem from '~/components/ResultSearchItem';
 import './Search.scss';
@@ -18,7 +18,8 @@ function Search() {
     const [visible, setVisible] = useState(false);
     const [input, setInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
     const searchR = useSelector((state) => state.search.search.searchRes);
     const pending = useSelector((state) => state.search.search.isFetching);
@@ -36,16 +37,14 @@ function Search() {
             setSearchResults([]);
             return;
         }
-        // const fetchApi = async () => {
-        //     setLoading(true);
-        //     const result = await searchService.search(debounced);
-        //     setSearchResults(result);
-        //     setLoading(false);
-        // };
+        const fetchApi = async () => {
+            setLoading(true);
+            const result = await searchService.search(debounced);
+            setSearchResults(result);
+            setLoading(false);
+        };
 
-        // fetchApi();
-        search(debounced, dispatch);
-        setSearchResults(searchR);
+        fetchApi();
     }, [debounced, dispatch, searchR]);
 
     useEffect(() => {
@@ -114,11 +113,11 @@ function Search() {
     return (
         <Container
             fluid
-            className="p-0 d-flex align-items-center justify-content-center search__container"
+            className=" d-flex align-items-center justify-content-center search__container"
             ref={searchRef}
         >
             <Row>
-                <Col sx={12} className="p-0 search">
+                <Col sx={12} className="p-0 mx-2 search">
                     <input
                         ref={searchInputRef}
                         onFocus={() => setVisible(true)}
@@ -129,17 +128,17 @@ function Search() {
                         onChange={handleSetInput}
                         onKeyDown={handleEnterSearch}
                     />
-                    {!!input && !pending && (
+                    {!!input && !loading && (
                         <button className="clear__input" onClick={handleClearInput}>
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
                     )}
-                    {pending && <FontAwesomeIcon icon={faSpinner} className="loading" />}
+                    {loading && <FontAwesomeIcon icon={faSpinner} className="loading" />}
                     <button className="search__button" onClick={handleSearch}>
                         <FontAwesomeIcon icon={faSearch} />
                     </button>
                 </Col>
-                <div className="search__result d-none" tabIndex="-1" ref={searchResultRef}>
+                <div className="search__result d-none p-0" tabIndex="-1" ref={searchResultRef}>
                     <PopperWrapper>
                         <h4 className="result__title">Result</h4>
                         <div className="result-item" onClick={() => handleClickItem()}>
@@ -151,24 +150,6 @@ function Search() {
                     </PopperWrapper>
                 </div>
             </Row>
-            {/* <div className="d-block d-lg-none w-100">
-                <Col xs={12}>
-                    <Form className="d-flex search-form">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                            value={input}
-                            onChange={handleSetInput}
-                            onKeyDown={handleEnterSearch}
-                        />
-                        <Button variant="outline-success" onClick={handleSearch}>
-                            Search
-                        </Button>
-                    </Form>
-                </Col>
-            </div> */}
         </Container>
     );
 }

@@ -21,12 +21,17 @@ function MainHeader({ menuItems, navList }) {
                                 <Logo />
                             </div>
                         </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                        <div className="d-flex gap-3">
+                            <div className="d-block d-lg-none">
+                                <Cart />
+                            </div>
+                            <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                        </div>
                         <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby={`offcanvasNavbarLabel`}>
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title id={`offcanvasNavbarLabel`}>Menu</Offcanvas.Title>
                             </Offcanvas.Header>
-                            <Offcanvas.Body>
+                            <Offcanvas.Body className="p-0">
                                 <div className="d-none d-lg-flex align-items-center gap-4 w-100">
                                     <div className="flex-fill">
                                         <MainNavbar navList={navList} />
@@ -54,10 +59,9 @@ function MainHeader({ menuItems, navList }) {
                                     <Cart />
                                 </div>
                                 <div className="d-flex flex-column d-lg-none">
-                                    <div>
+                                    <div className="my-4">
                                         <Search />
                                     </div>
-
                                     <div>
                                         <MainNavbar navList={navList} />
                                     </div>

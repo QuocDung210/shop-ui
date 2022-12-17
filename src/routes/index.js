@@ -1,6 +1,7 @@
 import { WithSidebar } from '~/layouts';
 import Home from '~/pages/Home';
 import Login from '~/pages/Login';
+import NotFound from '~/pages/NotFound';
 import Product from '~/pages/Product';
 import Register from '~/pages/Register';
 import SearchPage from '~/pages/SearchPage';
@@ -33,6 +34,10 @@ const publicRoutes = [
         path: config.routes.register,
         component: Register,
         layout: null,
+    },
+    {
+        path: config.routes._404,
+        component: NotFound,
     },
 ];
 

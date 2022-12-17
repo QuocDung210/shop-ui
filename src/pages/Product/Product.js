@@ -7,7 +7,6 @@ function Product() {
     const params = useParams();
     const [currentProduct, setCurrentProduct] = useState({});
     useEffect(() => {
-        console.log('check: ', params.id);
         const product = async () => {
             try {
                 const res = await axios.get(
