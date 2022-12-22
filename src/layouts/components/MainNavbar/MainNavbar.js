@@ -8,7 +8,7 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import Menu from '~/components/Popper/Menu';
 import MainNavItem from './MainNavItem';
 
-function MainNavbar({ navList }) {
+function MainNavbar({ navList, handleOpenOffcanvas }) {
     return (
         <Container fluid className="p-0 header-nav">
             <Nav as="ul" className="d-none d-lg-flex header-main-nav">
@@ -32,7 +32,7 @@ function MainNavbar({ navList }) {
                 ))}
             </Nav>
             <div className="d-block d-lg-none">
-                <MainNavItem navItems={navList} />
+                <MainNavItem navItems={navList} handleOpenOffcanvas={handleOpenOffcanvas} />
             </div>
         </Container>
     );

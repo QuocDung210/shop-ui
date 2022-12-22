@@ -1,12 +1,25 @@
-.wrapper {
+.sidebar-wrapper {
     flex-shrink: 0;
     width: 100%;
     height: auto;
     padding-bottom: 54px;
-    background: #292f4c;
     position: relative;
     display: flex;
     flex-direction: column;
+
+    .sidebar-title {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--black);
+        opacity: 0.6;
+    }
+    .sidebar-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
 }
 
 .nav__list {

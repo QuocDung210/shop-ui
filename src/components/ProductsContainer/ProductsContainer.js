@@ -1,10 +1,44 @@
-import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Pagination, Row } from 'react-bootstrap';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '~/layouts/components/ProductCard';
 import './ProductsContainer.scss';
 
-function ProductsContainer({ products }) {
+function ProductsContainer() {
+    // eslint-disable-next-line no-unused-vars
+    const [searchParams, setSearchParams] = useSearchParams();
+    const query = searchParams.get('q');
+
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        const allProducts = async () => {
+            try {
+                const res = await axios.get('https://jsonplaceholder.typicode.com/photos');
+                setProducts(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        const searchProduct = async () => {
+            try {
+                const res = await axios.get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${query}&type=more`);
+                setProducts(res.data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        if (query) {
+            searchProduct();
+        } else {
+            allProducts();
+        }
+    }, [query]);
     return (
         <Container fluid className="products-container">
+            <Row>
+                <h3>Kết quả tìm kiếm cho: {query}</h3>
+            </Row>
             <Row className="products-nav">
                 <Navbar bg="light" expand="lg">
                     <Container fluid>
@@ -33,42 +67,21 @@ function ProductsContainer({ products }) {
                 </Navbar>
             </Row>
             {products !== [] ? (
-                <>
-                    <Row className="products-list">
-                        <Container fluid className="p-0">
-                            <Row xs={2} sm={3} md={4} className="g-4">
-                                {products.map((product, index) => {
-                                    return (
-                                        index <= 11 && (
-                                            <Col key={index}>
-                                                <ProductCard product={product} />
-                                            </Col>
-                                        )
-                                    );
-                                })}
-                            </Row>
-                        </Container>
-                    </Row>
-                    <Row className="products-pagination">
-                        <Container fluid className="d-flex flex-row justify-content-center">
-                            <Pagination>
-                                <Pagination.First />
-                                <Pagination.Prev />
-                                <Pagination.Item>{1}</Pagination.Item>
-                                <Pagination.Ellipsis />
-                                <Pagination.Item>{10}</Pagination.Item>
-                                <Pagination.Item>{11}</Pagination.Item>
-                                <Pagination.Item active>{12}</Pagination.Item>
-                                <Pagination.Item>{13}</Pagination.Item>
-                                <Pagination.Item disabled>{14}</Pagination.Item>
-                                <Pagination.Ellipsis />
-                                <Pagination.Item>{20}</Pagination.Item>
-                                <Pagination.Next />
-                                <Pagination.Last />
-                            </Pagination>
-                        </Container>
-                    </Row>
-                </>
+                <Row className="products-list">
+                    <Container fluid className="p-0">
+                        <Row xs={2} sm={3} md={4} className="g-4">
+                            {products.map((product, index) => {
+                                return (
+                                    index <= 11 && (
+                                        <Col key={index}>
+                                            <ProductCard product={product} />
+                                        </Col>
+                                    )
+                                );
+                            })}
+                        </Row>
+                    </Container>
+                </Row>
             ) : (
                 <Row>
                     <h2>Không có kết quả phù hợp</h2>

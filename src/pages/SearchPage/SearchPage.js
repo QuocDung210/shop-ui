@@ -19,6 +19,7 @@ function SearchPage() {
         };
         allProducts();
     }, [params]);
+
     return (
         <Container fluid className="search-result-container">
             <Row className="search-result-title">

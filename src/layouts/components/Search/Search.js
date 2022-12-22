@@ -10,11 +10,10 @@ import ResultSearchItem from '~/components/ResultSearchItem';
 import './Search.scss';
 import { useDebounce } from '~/hooks';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { search } from '~/services/searchService';
 
-function Search() {
+function Search({ handleOpenOffcanvas }) {
     const [visible, setVisible] = useState(false);
     const [input, setInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -22,7 +21,6 @@ function Search() {
 
     const dispatch = useDispatch();
     const searchR = useSelector((state) => state.search.search.searchRes);
-    const pending = useSelector((state) => state.search.search.isFetching);
 
     const searchRef = useRef();
     const searchResultRef = useRef();
@@ -31,7 +29,6 @@ function Search() {
     const debounced = useDebounce(input, 500);
 
     const navigate = useNavigate();
-
     useEffect(() => {
         if (!debounced.trim()) {
             setSearchResults([]);
@@ -87,10 +84,12 @@ function Search() {
     };
 
     const handleSearch = (e) => {
-        setVisible(false);
-        searchResultRef.current.scrollIntoView();
         if (input.trim() !== '') {
-            navigate(`/search/${input}`);
+            handleOpenOffcanvas();
+            navigate(`/product?${createSearchParams({ q: input })}`);
+
+            setVisible(false);
+            searchResultRef.current.scrollIntoView();
         }
     };
 
@@ -102,11 +101,7 @@ function Search() {
     const handleEnterSearch = (e) => {
         if (e.code === 'Enter') {
             e.preventDefault();
-            if (input.trim() !== '') {
-                navigate(`/search/${input}`);
-                setVisible(false);
-                searchResultRef.current.scrollIntoView();
-            }
+            handleSearch();
         }
     };
 

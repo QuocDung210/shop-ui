@@ -5,9 +5,10 @@ import { Row, Container } from 'react-bootstrap';
 import './DefaultLayout.scss';
 import Footer from '../components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
+import { Outlet } from 'react-router-dom';
 function DefaultLayout({ children }) {
     return (
-        <Container fluid>
+        <Container fluid className="d-flex flex-column" style={{ minHeight: '100vh' }}>
             <Row>
                 <Header />
             </Row>
@@ -17,7 +18,9 @@ function DefaultLayout({ children }) {
             <Row>
                 <Breadcrumb />
             </Row>
-            <Row className="justify-content-center">{children}</Row>
+            <Row className="justify-content-center flex-fill">
+                <Outlet />
+            </Row>
             <Row>
                 <Footer />
             </Row>
@@ -26,7 +29,7 @@ function DefaultLayout({ children }) {
 }
 
 DefaultLayout.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
 };
 
 export default DefaultLayout;

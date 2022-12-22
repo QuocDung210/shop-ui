@@ -35,7 +35,7 @@ function ProductCard({ product }) {
                         ref={ref}
                     />
                     <div className="card-tool">
-                        <Link to={`/store/product/${product.nickname || product.id}`}>
+                        <Link to={`/product/${product.nickname || product.id}`}>
                             <div className="card-tool-title">
                                 <p>View detail</p>
                             </div>
@@ -44,7 +44,7 @@ function ProductCard({ product }) {
                 </div>
                 <Card.Body>
                     <Card.Title className="card-title-custom">
-                        <Link to={`/store/product/${product.nickname || product.id}`}>
+                        <Link to={`/product/${product.nickname || product.id}`}>
                             <p className="card-name">{product.title || product.nickname}</p>
                         </Link>
                     </Card.Title>

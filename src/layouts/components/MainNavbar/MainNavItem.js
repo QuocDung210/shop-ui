@@ -4,18 +4,19 @@ import { useState } from 'react';
 import { Collapse, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-function MainNavItem({ navItems }) {
+function MainNavItem({ navItems, handleOpenOffcanvas }) {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
 
     const handleClickNavItem = (navItem) => {
+        handleOpenOffcanvas();
         navigate(navItem.link);
     };
     const handleOpen = (e) => {
         setOpen(!open);
     };
     return (
-        <Nav as="ul" className="d-block d-lg-none header-offcanvas-nav">
+        <Nav as="ul" className=" header-offcanvas-nav">
             {navItems.map((navItem, idx) => (
                 <Nav.Item as="li" className="d-flex m-0 nav-item" key={idx}>
                     {navItem.items ? (
@@ -34,7 +35,7 @@ function MainNavItem({ navItems }) {
                             </div>
                             <Collapse in={open} dimension="height" timeout={100}>
                                 <div id="example-collapse-text" className="nav-item-collapse">
-                                    <MainNavItem navItems={navItem.items} />
+                                    <MainNavItem navItems={navItem.items} handleOpenOffcanvas={handleOpenOffcanvas} />
                                 </div>
                             </Collapse>
                         </div>

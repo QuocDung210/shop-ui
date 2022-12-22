@@ -5,6 +5,7 @@
 }
 .cart-wrapper {
     position: relative;
+    cursor: pointer;
     &:hover {
         .cart-list-popper {
             display: block;

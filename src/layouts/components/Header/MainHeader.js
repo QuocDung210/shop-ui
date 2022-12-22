@@ -9,8 +9,19 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import MainNavbar from '../MainNavbar';
 import Tippy from '@tippyjs/react/headless';
+import { useState } from 'react';
 
 function MainHeader({ menuItems, navList }) {
+    const [open, setOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setOpen(!open);
+    };
+
+    const handleOpenOffcanvas = () => {
+        setOpen(false);
+    };
+
     return (
         <Container fluid className="d-flex align-items-center p-0 main-header">
             <Container className="p-0 main-header-wrapper">
@@ -25,10 +36,10 @@ function MainHeader({ menuItems, navList }) {
                             <div className="d-block d-lg-none">
                                 <Cart />
                             </div>
-                            <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                            <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={toggleMenu} />
                         </div>
-                        <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby={`offcanvasNavbarLabel`}>
-                            <Offcanvas.Header closeButton>
+                        <Navbar.Offcanvas show={open} id="offcanvasNavbar" aria-labelledby={`offcanvasNavbarLabel`}>
+                            <Offcanvas.Header closeButton onHide={() => setOpen(false)}>
                                 <Offcanvas.Title id={`offcanvasNavbarLabel`}>Menu</Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body className="p-0">
@@ -44,7 +55,7 @@ function MainHeader({ menuItems, navList }) {
                                             arrow
                                             render={(attrs) => (
                                                 <div className="nav-search-popper" {...attrs}>
-                                                    <Search />
+                                                    <Search handleOpenOffcanvas={handleOpenOffcanvas} />
                                                 </div>
                                             )}
                                         >
@@ -60,10 +71,10 @@ function MainHeader({ menuItems, navList }) {
                                 </div>
                                 <div className="d-flex flex-column d-lg-none">
                                     <div className="my-4">
-                                        <Search />
+                                        <Search handleOpenOffcanvas={handleOpenOffcanvas} />
                                     </div>
                                     <div>
-                                        <MainNavbar navList={navList} />
+                                        <MainNavbar navList={navList} handleOpenOffcanvas={handleOpenOffcanvas} />
                                     </div>
                                 </div>
                             </Offcanvas.Body>

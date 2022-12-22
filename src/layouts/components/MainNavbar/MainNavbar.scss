@@ -26,6 +26,8 @@
 }
 
 .header-offcanvas-nav {
+    display: flex;
+    flex-direction: column;
     .nav-item {
         padding: 5px 20px;
         border-top: 1px solid #ccc;

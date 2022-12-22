@@ -11,7 +11,7 @@ function BreadcrumbMap() {
     const navigation = useNavigate();
     const pathNames = location.pathname.split('/').filter((x) => x);
     return (
-        <Container fluid>
+        <Container fluid className={pathNames.length < 1 && 'd-none'}>
             <Container className="d-flex align-items-center breadcrumb-container">
                 <Breadcrumb>
                     <Breadcrumb.Item as={'div'}>
@@ -31,12 +31,13 @@ function BreadcrumbMap() {
                     {pathNames.map((name, index) => {
                         const routeTo = `/${pathNames.slice(0, index + 1).join('/')}`;
                         const isLast = index === pathNames.length - 1;
+
                         return isLast ? (
                             <Breadcrumb.Item as={'div'} key={name}>
                                 <span>{name}</span>
                             </Breadcrumb.Item>
                         ) : (
-                            <Breadcrumb.Item as={'div'} key={name}>
+                            <Breadcrumb.Item as={'div'} key={name} className="d-flex">
                                 <div onClick={() => navigation(routeTo)}>
                                     <span style={{ color: 'black' }}>{name}</span>
                                 </div>
