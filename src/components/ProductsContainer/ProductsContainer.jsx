@@ -1,44 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
+
 import ProductCard from '~/layouts/components/ProductCard';
 import './ProductsContainer.scss';
 
-function ProductsContainer() {
-    // eslint-disable-next-line no-unused-vars
-    const [searchParams, setSearchParams] = useSearchParams();
-    const query = searchParams.get('q');
-
-    const [products, setProducts] = useState([]);
-    useEffect(() => {
-        const allProducts = async () => {
-            try {
-                const res = await axios.get('https://jsonplaceholder.typicode.com/photos');
-                setProducts(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        const searchProduct = async () => {
-            try {
-                const res = await axios.get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${query}&type=more`);
-                setProducts(res.data.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        if (query) {
-            searchProduct();
-        } else {
-            allProducts();
-        }
-    }, [query]);
+function ProductsContainer({ products, isLoading }) {
     return (
         <Container fluid className="products-container">
-            <Row>
-                <h3>Kết quả tìm kiếm cho: {query}</h3>
-            </Row>
             <Row className="products-nav">
                 <Navbar bg="light" expand="lg">
                     <Container fluid>
@@ -66,7 +33,7 @@ function ProductsContainer() {
                     </Container>
                 </Navbar>
             </Row>
-            {products !== [] ? (
+            {!isLoading ? (
                 <Row className="products-list">
                     <Container fluid className="p-0">
                         <Row xs={2} sm={3} md={4} className="g-4">
@@ -84,7 +51,19 @@ function ProductsContainer() {
                 </Row>
             ) : (
                 <Row>
-                    <h2>Không có kết quả phù hợp</h2>
+                    <Container fluid className="p-0">
+                        <Row xs={2} sm={3} md={4} className="g-4">
+                            {products.map((product, index) => {
+                                return (
+                                    index <= 11 && (
+                                        <Col key={index}>
+                                            <ProductCard.Loading />
+                                        </Col>
+                                    )
+                                );
+                            })}
+                        </Row>
+                    </Container>
                 </Row>
             )}
         </Container>

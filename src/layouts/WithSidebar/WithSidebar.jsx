@@ -1,13 +1,9 @@
 import { Col, Container, Row } from 'react-bootstrap';
-import Breadcrumb from '~/components/Breadcrumb';
-import Pagination from '~/components/Pagination';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 
 function WithSidebar({ children }) {
     return (
-        <Container fluid className="">
+        <Container fluid>
             {/* <Row>
                 <Header />
             </Row>
@@ -23,9 +19,6 @@ function WithSidebar({ children }) {
                             </Col>
                             <Col xs={12} lg={9}>
                                 {children}
-                                <Row>
-                                    <Pagination />
-                                </Row>
                             </Col>
                         </Row>
                     </Container>

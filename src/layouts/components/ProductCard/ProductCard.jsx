@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Placeholder } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
 import './ProductCard.scss';
@@ -54,5 +54,27 @@ function ProductCard({ product }) {
         </>
     );
 }
+
+const Loading = () => {
+    return (
+        <>
+            <Card>
+                <Placeholder animation="glow">
+                    <Placeholder style={{ width: '100%', height: '190px' }} />
+                </Placeholder>
+                <Card.Body>
+                    <Placeholder as={Card.Title} animation="glow">
+                        <Placeholder xs={12} /> <Placeholder xs={6} />
+                    </Placeholder>
+                    <Placeholder as={Card.Text} animation="glow">
+                        <Placeholder xs={12} />
+                    </Placeholder>
+                </Card.Body>
+            </Card>
+        </>
+    );
+};
+
+ProductCard.Loading = Loading;
 
 export default ProductCard;

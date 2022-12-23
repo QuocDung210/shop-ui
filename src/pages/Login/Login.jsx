@@ -3,12 +3,17 @@ import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import images from '~/assets/images';
 import Buttons from '~/components/Buttons';
 import Logo from '~/components/Logo';
 import config from '~/config';
 import './Login.scss';
 
 function Login() {
+    const handleLogin = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="d-flex align-items-center login">
             <Container className="login-container">
@@ -38,32 +43,27 @@ function Login() {
                                     </Form.Text>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Check me out" />
-                                    <div>
-                                        <span>Quên mật khẩu ?</span>
-                                    </div>
+                                    <Form.Check type="checkbox" label="Nhớ tài khoản" />
                                 </Form.Group>
-                                <Buttons primary lager>
+                                <Buttons primary lager onClick={handleLogin} className="button-login">
                                     Đăng nhập
                                 </Buttons>
-                                <Link to={config.routes.register}>
-                                    <p>chưa có tài khoản ?</p>
-                                </Link>
                             </Form>
-                            <hr />
+                            <div className="d-flex gap-2">
+                                <p>Chưa có tài khoản? </p>
+                                <Link to={config.routes.register}>
+                                    <p>Đăng ký ngay</p>
+                                </Link>
+                            </div>
                             <div>
-                                <p>hoặc</p>
-                                <Buttons primary lager leftIcon={<FontAwesomeIcon icon={faSquareFacebook} />}>
-                                    Đăng nhập bằng Facebook
-                                </Buttons>
-                                <Buttons primary lager leftIcon={<FontAwesomeIcon icon={faGoogle} />}>
-                                    Đăng nhập bằng Google
-                                </Buttons>
+                                <span>Quên mật khẩu ?</span>
                             </div>
                         </div>
                     </Col>
                     <Col className="p-0 d-none d-lg-block">
-                        <div className="login-img"></div>
+                        <div className="d-flex align-items-center login-img" style={{ borderLeft: '1px solid #ccc' }}>
+                            <img src={images.LoginImg} alt="login img" style={{ width: '100%' }} />
+                        </div>
                     </Col>
                 </Row>
             </Container>

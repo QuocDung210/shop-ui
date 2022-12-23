@@ -10,17 +10,17 @@ import { Link } from 'react-router-dom';
 import './Header.scss';
 
 function MainHeaderMenu({ menuItems }) {
-    const currentUser = false;
+    const currentUser = true;
     const userMenu = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,
-            title: 'Người dùng',
-            to: '/profile',
+            label: 'Người dùng',
+            link: '/profile',
             separateBottom: true,
         },
         {
             icon: <FontAwesomeIcon icon={faRightFromBracket} />,
-            title: 'Đăng xuất',
+            label: 'Đăng xuất',
             separateTop: true,
         },
     ];
@@ -39,6 +39,7 @@ function MainHeaderMenu({ menuItems }) {
                                 alt="user"
                                 className="current-user"
                                 fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                             />
                         </Menu>
                     </div>

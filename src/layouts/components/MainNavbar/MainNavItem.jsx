@@ -2,16 +2,10 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Collapse, Nav } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
-function MainNavItem({ navItems, handleOpenOffcanvas }) {
-    const navigate = useNavigate();
+function MainNavItem({ navItems, handleOpenOffcanvas, handleClickNavItem }) {
     const [open, setOpen] = useState(false);
 
-    const handleClickNavItem = (navItem) => {
-        handleOpenOffcanvas();
-        navigate(navItem.link);
-    };
     const handleOpen = (e) => {
         setOpen(!open);
     };
@@ -35,7 +29,11 @@ function MainNavItem({ navItems, handleOpenOffcanvas }) {
                             </div>
                             <Collapse in={open} dimension="height" timeout={100}>
                                 <div id="example-collapse-text" className="nav-item-collapse">
-                                    <MainNavItem navItems={navItem.items} handleOpenOffcanvas={handleOpenOffcanvas} />
+                                    <MainNavItem
+                                        navItems={navItem.items}
+                                        handleOpenOffcanvas={handleOpenOffcanvas}
+                                        handleClickNavItem={handleClickNavItem}
+                                    />
                                 </div>
                             </Collapse>
                         </div>

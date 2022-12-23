@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProductsContainer from './components/ProductsContainer';
 import config from './config';
 import { DefaultLayout, WithSidebar } from './layouts';
 import Home from './pages/Home';
@@ -7,7 +6,6 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Product from './pages/Product';
 import Register from './pages/Register';
-import SearchPage from './pages/SearchPage';
 import Store from './pages/Store';
 import User from './pages/User';
 
@@ -50,18 +48,14 @@ function App() {
                                 <Store />
                             </WithSidebar>
                         }
-                    >
-                        <Route index element={<ProductsContainer />} />
-                        {/* <Route path=":params" element={<ProductsContainer />} />     */}
-                    </Route>
+                    ></Route>
                     <Route path={config.routes.introduce} />
                     <Route path={config.routes.contact} />
                     <Route path={config.routes.product_detail} element={<Product />} />
                     <Route path={config.routes.userDetail} element={<User />}>
                         <Route path={config.routes.cartDetail} />
                     </Route>
-                    <Route path="*" element={<NotFound />} />
-                    <Route path="search/:name" element={<SearchPage />} />
+                    <Route path={config.routes._404} element={<NotFound />} />
                 </Route>
                 <Route path={config.routes.login} element={<Login />} />
                 <Route path={config.routes.register} element={<Register />} />

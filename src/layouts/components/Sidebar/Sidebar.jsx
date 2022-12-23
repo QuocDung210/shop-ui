@@ -17,9 +17,17 @@ const SIDEBAR_ITEMS = [
 function Sidebar() {
     return (
         <aside className="sidebar-wrapper">
-            <Container fluid>
+            <Container
+                fluid
+                style={{
+                    backgroundColor: '#ffffff',
+                    boxShadow: '0px 2px 12px #ccc',
+                }}
+            >
                 <Row className="justify-content-center align-items-center">
-                    <p className="m-0 sidebar-title">DANH MỤC</p>
+                    <p className="m-0 sidebar-title" style={{ textAlign: 'center' }}>
+                        DANH MỤC
+                    </p>
                 </Row>
                 <Row>
                     <MainNavItem navItems={SIDEBAR_ITEMS} />

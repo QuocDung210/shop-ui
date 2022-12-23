@@ -95,6 +95,7 @@ function Search({ handleOpenOffcanvas }) {
 
     const handleClickItem = () => {
         handleClearInput();
+        handleOpenOffcanvas();
         setVisible(false);
     };
 

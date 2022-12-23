@@ -54,9 +54,29 @@ const NavList = [
             {
                 label: 'Quần áo nam',
                 link: '/profile',
-                separateBottom: true,
+                items: [
+                    {
+                        label: 'Quần áo nam',
+                        link: '/profile',
+                        separateBottom: true,
+                    },
+                    { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+                    { label: 'Vest', link: '/' },
+                ],
             },
-            { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+            {
+                label: 'Quần áo nữ',
+                link: '/profile',
+                items: [
+                    {
+                        label: 'Quần áo nam',
+                        link: '/profile',
+                        separateBottom: true,
+                    },
+                    { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+                    { label: 'Vest', link: '/' },
+                ],
+            },
             { label: 'Vest', link: '/' },
         ],
     },

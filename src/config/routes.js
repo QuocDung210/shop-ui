@@ -3,7 +3,6 @@ const routes = {
     store: 'product',
     introduce: 'introduce',
     contact: '/contact',
-    search: '/search/:name',
     product_detail: 'product/:id',
     register: '/register',
     login: '/login',

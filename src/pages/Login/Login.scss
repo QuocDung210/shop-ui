@@ -5,7 +5,7 @@
     // background-size: cover;
     width: 100%;
     height: 100vh;
-    background-color: #ccc;
+    background-color: var(--background-color);
 }
 
 // .login-container {
@@ -24,7 +24,11 @@
 .login-img {
     width: 100%;
     height: 100%;
-    background-image: url('https://gstatic.gvn360.com/2022/09/Phong-canh-huu-tinh_-10-1068x580.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    // background-image: url('https://gstatic.gvn360.com/2022/09/Phong-canh-huu-tinh_-10-1068x580.jpg');
+    // background-repeat: no-repeat;
+    // background-size: cover;
+}
+
+.button-login {
+    width: 100%;
 }
