@@ -7,29 +7,8 @@ import MainHeader from './MainHeader';
 import { Col, Container, Row } from 'react-bootstrap';
 import config from '~/config';
 import { useEffect, useRef } from 'react';
+
 const MENU_ITEMS = [
-    // {
-    //     icon: <FontAwesomeIcon icon={faGear} />,
-    //     title: 'Cài đặt',
-    //     children: {
-    //         title: 'Cài đặt',
-    //         data: [
-    //             {
-    //                 code: 'en',
-    //                 title: 'English',
-    //             },
-    //             {
-    //                 code: 'vi',
-    //                 title: 'Vietnamese',
-    //             },
-    //         ],
-    //     },
-    // },
-    // {
-    //     icon: <FontAwesomeIcon icon={faCircleInfo} />,
-    //     title: 'Thông tin',
-    //     to: '/',
-    // },
     {
         icon: <FontAwesomeIcon icon={faRightToBracket} />,
         title: 'Đăng nhập',
@@ -83,6 +62,35 @@ const NavList = [
     {
         label: 'GIỚI THIỆU',
         link: config.routes.introduce,
+        items: [
+            {
+                label: 'Quần áo nam',
+                link: '/profile',
+                items: [
+                    {
+                        label: 'Quần áo nam',
+                        link: '/profile',
+                        separateBottom: true,
+                    },
+                    { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+                    { label: 'Vest', link: '/' },
+                ],
+            },
+            {
+                label: 'Quần áo nữ',
+                link: '/profile',
+                items: [
+                    {
+                        label: 'Quần áo nam',
+                        link: '/profile',
+                        separateBottom: true,
+                    },
+                    { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
+                    { label: 'Vest', link: '/' },
+                ],
+            },
+            { label: 'Vest', link: '/' },
+        ],
     },
     {
         label: 'LIÊN HỆ',

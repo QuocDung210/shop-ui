@@ -1,64 +1,32 @@
-import { faGoogle, faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
-import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Col, Container, Row, Stack } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
-import Buttons from '~/components/Buttons';
 import Logo from '~/components/Logo';
 import config from '~/config';
 import './Login.scss';
+import LoginForm from '~/components/AuthForm/login-form';
 
 function Login() {
-    const handleLogin = (e) => {
-        e.preventDefault();
-    };
-
     return (
         <div className="d-flex align-items-center login">
             <Container className="login-container">
                 <Row className="justify-content-center login-wrapper">
-                    <Col className=" d-flex flex-column justify-content-center align-items-center">
-                        <div className="login-form">
+                    <Col>
+                        <Stack gap={3} className="col-md-8 mx-auto login-form">
                             <div>
                                 <Logo />
                             </div>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <div className=" d-flex justify-content-center align-items-center">
-                                        <FontAwesomeIcon icon={faUser} />
-                                        <Form.Control type="email" placeholder="Enter email" />
-                                    </div>
-                                    <Form.Text className="text-muted">
-                                        We'll never share your email with anyone else.
-                                    </Form.Text>
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <div className=" d-flex justify-content-center align-items-center">
-                                        <FontAwesomeIcon icon={faKey} />
-                                        <Form.Control type="password" placeholder="Password" />
-                                    </div>
-                                    <Form.Text className="text-muted">
-                                        We'll never share your email with anyone else.
-                                    </Form.Text>
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Nhớ tài khoản" />
-                                </Form.Group>
-                                <Buttons primary lager onClick={handleLogin} className="button-login">
-                                    Đăng nhập
-                                </Buttons>
-                            </Form>
+
+                            <LoginForm />
                             <div className="d-flex gap-2">
-                                <p>Chưa có tài khoản? </p>
+                                <p className="m-0">Chưa có tài khoản? </p>
                                 <Link to={config.routes.register}>
-                                    <p>Đăng ký ngay</p>
+                                    <p className="m-0" style={{ color: 'var(--color-1)' }}>
+                                        Đăng ký ngay
+                                    </p>
                                 </Link>
                             </div>
-                            <div>
-                                <span>Quên mật khẩu ?</span>
-                            </div>
-                        </div>
+                        </Stack>
                     </Col>
                     <Col className="p-0 d-none d-lg-block">
                         <div className="d-flex align-items-center login-img" style={{ borderLeft: '1px solid #ccc' }}>

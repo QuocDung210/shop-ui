@@ -1,64 +1,53 @@
 import './Register.scss';
-import { faGoogle, faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
-import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import Buttons from '~/components/Buttons';
+import { Col, Container, Row, Stack } from 'react-bootstrap';
 import Logo from '~/components/Logo';
+import RegisterForm from '~/components/AuthForm/register-form';
+import images from '~/assets/images';
+import { Link } from 'react-router-dom';
+import config from '~/config';
 function Register() {
     return (
         <div className="d-flex align-items-center login">
             <Container className="login-container">
                 <Row className="justify-content-center login-wrapper">
-                    <Col className=" d-flex flex-column justify-content-center align-items-center">
-                        <div className="login-form">
+                    <Col xs={12} lg={7}>
+                        <p style={{ textAlign: 'end', marginTop: '20px ' }} className="d-none d-sm-block">
+                            Đã có tài khoản?{' '}
+                            <Link to={config.routes.login} style={{ color: 'var(--color-1)' }}>
+                                Đăng nhập
+                            </Link>
+                        </p>
+                        <Stack gap={3} className=" mx-auto login-form">
                             <div>
                                 <Logo />
                             </div>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <div className=" d-flex justify-content-center align-items-center">
-                                        <FontAwesomeIcon icon={faUser} />
-                                        <Form.Control type="email" placeholder="Enter email" />
-                                    </div>
-                                    <Form.Text className="text-muted">
-                                        We'll never share your email with anyone else.
-                                    </Form.Text>
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <div className=" d-flex justify-content-center align-items-center">
-                                        <FontAwesomeIcon icon={faKey} />
-                                        <Form.Control type="password" placeholder="Password" />
-                                    </div>
-                                    <Form.Text className="text-muted">
-                                        We'll never share your email with anyone else.
-                                    </Form.Text>
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Check me out" />
-                                    <div>
-                                        <span>Quên mật khẩu ?</span>
-                                    </div>
-                                </Form.Group>
-                                <Buttons primary lager>
-                                    Đăng nhập
-                                </Buttons>
-                                <p>chưa có tài khoản ?</p>
-                            </Form>
-                            <hr />
+
+                            <RegisterForm />
                             <div>
-                                <p>hoặc</p>
-                                <Buttons primary lager leftIcon={<FontAwesomeIcon icon={faSquareFacebook} />}>
-                                    Đăng nhập bằng Facebook
-                                </Buttons>
-                                <Buttons primary lager leftIcon={<FontAwesomeIcon icon={faGoogle} />}>
-                                    Đăng nhập bằng Google
-                                </Buttons>
+                                <p className="fs-5">
+                                    Bằng việc đăng ký, tôi đồng ý với{' '}
+                                    <strong>
+                                        <u>Điều khoản dịch vụ</u>
+                                    </strong>{' '}
+                                    và{' '}
+                                    <strong>
+                                        <u>Chính sách bảo mật</u>
+                                    </strong>{' '}
+                                    của MyStore.
+                                </p>
                             </div>
-                        </div>
+                            <p style={{ textAlign: 'center' }} className="d-block d-sm-none fs-4">
+                                Đã có tài khoản?{' '}
+                                <Link to={config.routes.login} style={{ color: 'var(--color-1)' }}>
+                                    Đăng nhập
+                                </Link>
+                            </p>
+                        </Stack>
                     </Col>
                     <Col className="p-0 d-none d-lg-block">
-                        <div className="login-img"></div>
+                        <div className="d-flex align-items-center login-img" style={{ borderLeft: '1px solid #ccc' }}>
+                            <img src={images.LoginImg} alt="login img" style={{ width: '100%' }} />
+                        </div>
                     </Col>
                 </Row>
             </Container>

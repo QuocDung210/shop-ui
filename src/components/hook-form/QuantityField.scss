@@ -1,0 +1,32 @@
+.product-quantity {
+    .form-control {
+        width: 30px;
+        height: 30px;
+        border-radius: 0;
+        font-size: 1.6rem;
+        font-weight: 600;
+        padding: 0;
+        text-align: center;
+    }
+    .add-btn,
+    .decrease-btn {
+        border: 1px solid black;
+        background-color: var(--black);
+        padding: 0 5px;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all ease 0.3s;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: auto;
+}

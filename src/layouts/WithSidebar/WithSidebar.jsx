@@ -4,12 +4,6 @@ import Sidebar from '../components/Sidebar';
 function WithSidebar({ children }) {
     return (
         <Container fluid>
-            {/* <Row>
-                <Header />
-            </Row>
-            <Row>
-                <Breadcrumb />
-            </Row> */}
             <Row className="pt-3">
                 <Col className="d-flex flex-row">
                     <Container className="p-0">
@@ -24,9 +18,6 @@ function WithSidebar({ children }) {
                     </Container>
                 </Col>
             </Row>
-            {/* <Row>
-                <Footer />
-            </Row> */}
         </Container>
     );
 }

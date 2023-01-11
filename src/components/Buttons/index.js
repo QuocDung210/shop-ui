@@ -21,6 +21,7 @@ function Buttons({
     className,
     leftIcon,
     rightIcon,
+    type,
     ...passProps
 }) {
     let Comp = 'button';

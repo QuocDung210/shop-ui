@@ -31,4 +31,9 @@
 
 .button-login {
     width: 100%;
+    &:hover {
+        background-color: var(--white) !important;
+        color: var(--color-1);
+        border: 1px solid var(--color-1);
+    }
 }

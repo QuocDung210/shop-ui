@@ -1,4 +1,4 @@
-import { Carousel, Container, Row } from 'react-bootstrap';
+import { Carousel, Col, Container, Row } from 'react-bootstrap';
 import './Slider.scss';
 
 const listSlider = [
@@ -24,19 +24,25 @@ const listSlider = [
 
 function Slider() {
     return (
-        <Container fluid className="p-0 slider-container">
+        <Container fluid className="p-5 slider-container">
             <Row className="m-0 slider-wrapper">
-                <Carousel className="p-0 slider">
-                    {listSlider.map((sliderItem, idx) => (
-                        <Carousel.Item interval={3000} key={idx}>
-                            <img className="d-block w-100 slider-img" src={sliderItem.image} alt={sliderItem.mess} />
-                            <Carousel.Caption>
-                                <h3>{sliderItem.label}</h3>
-                                <p>{sliderItem.descrip}</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>
+                <Col>
+                    <Carousel className="p-0 slider" controls={false}>
+                        {listSlider.map((sliderItem, idx) => (
+                            <Carousel.Item interval={3000} key={idx}>
+                                <img
+                                    className="d-block w-100 slider-img"
+                                    src={sliderItem.image}
+                                    alt={sliderItem.mess}
+                                />
+                                <Carousel.Caption>
+                                    <h3>{sliderItem.label}</h3>
+                                    <p>{sliderItem.descrip}</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        ))}
+                    </Carousel>
+                </Col>
             </Row>
         </Container>
     );

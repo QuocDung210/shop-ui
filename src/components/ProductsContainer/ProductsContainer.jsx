@@ -1,71 +1,54 @@
-import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 import ProductCard from '~/layouts/components/ProductCard';
+import Buttons from '../Buttons';
+
 import './ProductsContainer.scss';
 
-function ProductsContainer({ products, isLoading }) {
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+
+function ProductsContainer(props) {
+    // const { products, title, to } = props;
+    const responsive = {
+        superLargeDesktop: {
+            breakpoint: { max: 4000, min: 3000 },
+            items: 5,
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 4,
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 3,
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 2,
+        },
+    };
     return (
-        <Container fluid className="products-container">
-            <Row className="products-nav">
-                <Navbar bg="light" expand="lg">
-                    <Container fluid>
-                        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="navbarScroll" />
-                        <Navbar.Collapse id="navbarScroll">
-                            <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-                                <Nav.Link href="#action1">Home</Nav.Link>
-                                <Nav.Link href="#action2">Link</Nav.Link>
-                                <NavDropdown title="Link" id="navbarScrollingDropdown">
-                                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
-                                </NavDropdown>
-                                <Nav.Link href="#" disabled>
-                                    Link
-                                </Nav.Link>
-                            </Nav>
-                            <Form className="d-flex">
-                                <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                                <Button variant="outline-success">Search</Button>
-                            </Form>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-            </Row>
-            {!isLoading ? (
-                <Row className="products-list">
-                    <Container fluid className="p-0">
-                        <Row xs={2} sm={3} md={4} className="g-4">
-                            {products.map((product, index) => {
-                                return (
-                                    index <= 11 && (
-                                        <Col key={index}>
-                                            <ProductCard product={product} />
-                                        </Col>
-                                    )
-                                );
-                            })}
-                        </Row>
-                    </Container>
-                </Row>
-            ) : (
+        <Container fluid>
+            <Container className="product-slider">
                 <Row>
-                    <Container fluid className="p-0">
-                        <Row xs={2} sm={3} md={4} className="g-4">
-                            {products.map((product, index) => {
-                                return (
-                                    index <= 11 && (
-                                        <Col key={index}>
-                                            <ProductCard.Loading />
-                                        </Col>
-                                    )
-                                );
-                            })}
-                        </Row>
-                    </Container>
+                    <Col>
+                        <h3>Chưa biết để gì</h3>
+                    </Col>
+                    <Col style={{ textAlign: 'end' }}>
+                        <Buttons primary>See All</Buttons>
+                    </Col>
                 </Row>
-            )}
+                <Row>
+                    <Carousel responsive={responsive} className="p-0" showDots renderButtonGroupOutside={true}>
+                        {Array.from({ length: 8 }).map((_, idx) => (
+                            <div className="product-slider-item">
+                                <ProductCard.Loading key={idx} />
+                            </div>
+                        ))}
+                    </Carousel>
+                </Row>
+            </Container>
         </Container>
     );
 }
