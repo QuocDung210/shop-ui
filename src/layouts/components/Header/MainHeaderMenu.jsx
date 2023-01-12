@@ -15,7 +15,7 @@ function MainHeaderMenu({ menuItems }) {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             label: 'Người dùng',
-            link: '/profile',
+            link: config.routes.user,
             separateBottom: true,
         },
         {

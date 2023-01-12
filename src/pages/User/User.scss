@@ -1,0 +1,29 @@
+.db-menu {
+    background-color: white;
+}
+
+.db-content {
+    background-color: var(--white);
+}
+
+.db-menu-item {
+    padding: 10px;
+    color: var(--black);
+    &:hover {
+        border-left: 5px solid var(--color-1);
+        color: var(--color-1);
+    }
+    transition: all ease 0.2s;
+    cursor: pointer;
+}
+.db-menu-item-icon,
+.db-menu-item-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.db-menu-item-icon {
+    min-width: 30px;
+    text-align: center;
+    padding-right: 10px;
+}

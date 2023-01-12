@@ -11,6 +11,12 @@ function Home() {
             <Row>
                 <ProductsContainer />
             </Row>
+            <Row>
+                <ProductsContainer />
+            </Row>
+            <Row>
+                <ProductsContainer />
+            </Row>
         </Container>
     );
 }

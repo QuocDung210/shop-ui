@@ -8,6 +8,9 @@ import Product from './pages/Product';
 import Register from './pages/Register';
 import Store from './pages/Store';
 import User from './pages/User';
+import ChangePassword from './pages/User/ChangePassword';
+import History from './pages/User/History';
+import Profile from './pages/User/Profile';
 
 function App() {
     return (
@@ -52,8 +55,11 @@ function App() {
                     <Route path={config.routes.introduce} />
                     <Route path={config.routes.contact} />
                     <Route path={config.routes.product_detail} element={<Product />} />
-                    <Route path={config.routes.userDetail} element={<User />}>
+                    <Route path={config.routes.user} element={<User />}>
                         <Route path={config.routes.cartDetail} />
+                        <Route path={config.routes.userDetail} element={<Profile />} />
+                        <Route path={config.routes.changePassword} element={<ChangePassword />} />
+                        <Route path={config.routes.history} element={<History />} />
                     </Route>
                     <Route path={config.routes._404} element={<NotFound />} />
                 </Route>

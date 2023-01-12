@@ -7,6 +7,8 @@ import './ProductsContainer.scss';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function ProductsContainer(props) {
     // const { products, title, to } = props;
@@ -28,22 +30,57 @@ function ProductsContainer(props) {
             items: 2,
         },
     };
+
+    const CustomRightArrow = ({ onClick, ...rest }) => {
+        // const {
+        //     onMove,
+        //     carouselState: { currentSlide, deviceType },
+        // } = rest;
+        // onMove means if dragging or swiping in progress.
+        return (
+            <button onClick={() => onClick()} className="rightArrow">
+                <FontAwesomeIcon icon={faArrowRight} />
+            </button>
+        );
+    };
+    const CustomLeftArrow = ({ onClick, ...rest }) => {
+        // const {
+        //     onMove,
+        //     carouselState: { currentSlide, deviceType },
+        // } = rest;
+        // onMove means if dragging or swiping in progress.
+        return (
+            <button onClick={() => onClick()} className="leftArrow">
+                <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+        );
+    };
+
     return (
         <Container fluid>
             <Container className="product-slider">
                 <Row>
-                    <Col>
-                        <h3>Chưa biết để gì</h3>
+                    <Col className="d-flex align-items-center">
+                        <h3 className="m-0">Chưa biết để gì</h3>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Buttons primary>See All</Buttons>
+                        <Buttons primary rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}>
+                            See All
+                        </Buttons>
                     </Col>
                 </Row>
                 <Row>
-                    <Carousel responsive={responsive} className="p-0" showDots renderButtonGroupOutside={true}>
+                    <Carousel
+                        responsive={responsive}
+                        className="p-0"
+                        showDots
+                        customRightArrow={<CustomRightArrow />}
+                        customLeftArrow={<CustomLeftArrow />}
+                        renderButtonGroupOutside={true}
+                    >
                         {Array.from({ length: 8 }).map((_, idx) => (
-                            <div className="product-slider-item">
-                                <ProductCard.Loading key={idx} />
+                            <div className="product-slider-item " key={idx}>
+                                <ProductCard.Loading />
                             </div>
                         ))}
                     </Carousel>

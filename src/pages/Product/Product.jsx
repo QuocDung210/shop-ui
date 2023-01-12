@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Col, Container, Placeholder, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import AddCartForm from '~/components/Form/add-cart-form';
+import ProductsContainer from '~/components/ProductsContainer';
 import './Product.scss';
 import ProductImgs from './ProductImgs';
 const colors = [
@@ -82,10 +83,10 @@ function Product() {
                     </Col>
                 </Row>
                 <Row>
-                    <p>Sản phẩm liên quan</p>
+                    <ProductsContainer />
                 </Row>
                 <Row className="mb-5">
-                    <p>Sản phẩm đã xem</p>
+                    <ProductsContainer />
                 </Row>
             </Container>
         </Container>
