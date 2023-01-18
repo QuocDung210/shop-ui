@@ -1,5 +1,5 @@
 import { Container, Stack } from 'react-bootstrap';
-
+import ChangePasswordForm from '~/components/Form/change-password-form';
 function ChangePassword() {
     return (
         <Container fluid>
@@ -9,7 +9,9 @@ function ChangePassword() {
                     <p>Bạn nên cập nhập mật khẩu thường xuyên vì lý do bảo mật</p>
                 </div>
                 <hr />
-                <div>form</div>
+                <div>
+                    <ChangePasswordForm />
+                </div>
             </Stack>
         </Container>
     );

@@ -12,6 +12,7 @@ import { faAnglesRight, faArrowLeft, faArrowRight } from '@fortawesome/free-soli
 
 function ProductsContainer(props) {
     // const { products, title, to } = props;
+    const lg = 2;
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -64,7 +65,11 @@ function ProductsContainer(props) {
                         <h3 className="m-0">Chưa biết để gì</h3>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Buttons primary rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}>
+                        <Buttons
+                            className={lg <= 4 && 'd-none'}
+                            primary
+                            rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}
+                        >
                             See All
                         </Buttons>
                     </Col>
@@ -78,7 +83,7 @@ function ProductsContainer(props) {
                         customLeftArrow={<CustomLeftArrow />}
                         renderButtonGroupOutside={true}
                     >
-                        {Array.from({ length: 8 }).map((_, idx) => (
+                        {Array.from({ length: lg }).map((_, idx) => (
                             <div className="product-slider-item " key={idx}>
                                 <ProductCard.Loading />
                             </div>

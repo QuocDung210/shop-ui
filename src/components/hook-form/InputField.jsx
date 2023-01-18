@@ -10,8 +10,14 @@ function InputField(props) {
 
     return (
         <FormGroup className="mb-3">
-            <InputGroup hasValidation>
-                {label && <FormLabel>{label}</FormLabel>}
+            <InputGroup hasValidation style={{ alignItems: 'center' }}>
+                {label && (
+                    <FormLabel
+                        style={{ minWidth: '100px', textAlign: 'end', marginRight: '30px', marginBottom: '0px' }}
+                    >
+                        {label}
+                    </FormLabel>
+                )}
                 <FormControl
                     id={name}
                     type={type}

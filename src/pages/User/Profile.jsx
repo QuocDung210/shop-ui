@@ -1,4 +1,5 @@
-import { Container, Stack } from 'react-bootstrap';
+import { Col, Container, Stack } from 'react-bootstrap';
+import ProfileForm from '~/components/Form/profile-form';
 
 function Profile() {
     return (
@@ -9,7 +10,11 @@ function Profile() {
                     <p>quan ly thong tin</p>
                 </div>
                 <hr />
-                <div>form</div>
+                <div>
+                    <Col xs={12} md={8}>
+                        <ProfileForm />
+                    </Col>
+                </div>
             </Stack>
         </Container>
     );
