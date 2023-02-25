@@ -21,7 +21,7 @@ const OFFCANVAS_NAV = [
 
 const USER_NAV = [
     {
-        link: config.routes.userDetail,
+        link: config.routes.user,
         label: 'TÀI KHOẢN',
     },
     {
@@ -45,11 +45,11 @@ function MainNavbar({ navList, handleOpenOffcanvas }) {
         <Container fluid className="p-0 header-nav">
             <Nav as="ul" className="d-none d-lg-flex header-main-nav">
                 {navList.map((navItem, idx) => (
-                    <Nav.Item as="li" key={idx} className="d-flex align-items-center nav-item ">
+                    <Nav.Item as="li" key={idx} className="d-flex align-items-center nav-item">
                         <Link to={navItem.link}>
                             {navItem.items ? (
                                 <Menu items={navItem.items} placement={'bottom-start'}>
-                                    <div className="d-flex">
+                                    <div className="d-flex align-items-center">
                                         <span className="me-1 nav-item-label">{navItem.label}</span>
                                         <div className="nav-item-icon ">
                                             <FontAwesomeIcon icon={faChevronUp} />
@@ -64,7 +64,7 @@ function MainNavbar({ navList, handleOpenOffcanvas }) {
                 ))}
             </Nav>
             <div className="d-block d-lg-none">
-                <Nav as="ul" className=" header-offcanvas-nav">
+                <Nav as="ul" className="header-offcanvas-nav">
                     {offNav.map((navItem, idx) => (
                         <Nav.Item as="li" className="d-flex m-0 nav-item" key={idx}>
                             {navItem.items ? (

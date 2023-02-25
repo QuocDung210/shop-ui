@@ -1,36 +1,20 @@
 import { FastField, Form, Formik } from 'formik';
 import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
-import QuantityField from '../hook-form/QuantityField';
-import SelectField from '../hook-form/SelectField';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
 
-function ChangePasswordForm(props) {
-    const { color, size } = props;
-
+function ChangePasswordForm() {
     const initialValues = {
-        name: '',
-        birthday: '',
-        phoneNum: null,
-        email: '',
-        city: '',
-        address: '',
+        oldPw: '',
+        newPw: '',
+        reEnterPw: '',
     };
 
-    const phoneRegExp =
-        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
     const validationSchema = yup.object().shape({
-        birthday: yup.string().required('Vui lòng chọn kích thước'),
-        name: yup.string().required('Vui lòng nhập tên'),
-        email: yup.string().email('Email không hợp lệ').required('vui lòng nhập email'),
-        phoneNum: yup
-            .string()
-            .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
-            .required('Vui lòng nhập số điện thoại'),
-        city: yup.string(),
-        address: yup.string(),
+        oldPw: yup.string().required('Vui lòng chọn kích thước'),
+        newPw: yup.string().required('Vui lòng nhập tên'),
+        reEnterPw: yup.string().required('vui lòng nhập email'),
     });
 
     const handleSubmitForm = (values) => {
@@ -47,28 +31,28 @@ function ChangePasswordForm(props) {
                 // const { values, errors, touched } = formikProps;
                 return (
                     <Form>
-                        <FastField name="name" label="Họ tên :" component={InputField} type="text" placeholder="name" />
                         <FastField
-                            name="birthday"
-                            label="Ngày sinh :"
-                            type="date"
+                            name="oldPw"
+                            label="Mat khau cu :"
                             component={InputField}
-                            placeholder="birthday"
+                            type="password"
+                            placeholder="Mat khau cu"
                         />
                         <FastField
-                            name="phoneNum"
-                            label="Sđt :"
+                            name="newPw"
+                            label="Mat khau moi :"
+                            type="password"
                             component={InputField}
-                            type="text"
+                            placeholder="Mat khau moi"
+                        />
+                        <FastField
+                            name="reEnterPw"
+                            label="Nhap lai mat khau :"
+                            component={InputField}
+                            type="password"
                             placeholder="Phone number..."
                         />
-                        <FastField
-                            name="email"
-                            label="Email :"
-                            component={InputField}
-                            type="email"
-                            placeholder="Email..."
-                        />
+
                         <FormGroup>
                             <Buttons primary>Cập nhật</Buttons>
                         </FormGroup>

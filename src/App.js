@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import config from './config';
 import { DefaultLayout, WithSidebar } from './layouts';
+import Admin from './pages/Admin';
+import Dashboard from './pages/Admin/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -65,6 +67,9 @@ function App() {
                 </Route>
                 <Route path={config.routes.login} element={<Login />} />
                 <Route path={config.routes.register} element={<Register />} />
+                <Route path="/admin" element={<Admin />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                </Route>
             </Routes>
         </Router>
     );

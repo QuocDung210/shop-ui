@@ -44,7 +44,7 @@ function MainHeaderMenu({ menuItems }) {
                         </Menu>
                     </div>
                 ) : (
-                    <div className=" options__list">
+                    <div className="options__list">
                         <Buttons primary rounded to={config.routes.login}>
                             Log in
                         </Buttons>
