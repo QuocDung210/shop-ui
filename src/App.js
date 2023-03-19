@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import config from './config';
 import { DefaultLayout, WithSidebar } from './layouts';
 import Admin from './pages/Admin';
-import Dashboard from './pages/Admin/Dashboard';
+import Dashboard from './pages/Admin/pages/Dashboard/Dashboard';
+import Accounts from './pages/Admin/pages/Accounts';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -13,6 +14,9 @@ import User from './pages/User';
 import ChangePassword from './pages/User/ChangePassword';
 import History from './pages/User/History';
 import Profile from './pages/User/Profile';
+import AddProduct from './pages/Admin/pages/AddProduct';
+import AdminProducts from './pages/Admin/pages/AdminProducts';
+import AddAccount from './pages/Admin/pages/AddAccount';
 
 function App() {
     return (
@@ -68,7 +72,14 @@ function App() {
                 <Route path={config.routes.login} element={<Login />} />
                 <Route path={config.routes.register} element={<Register />} />
                 <Route path="/admin" element={<Admin />}>
+                    <Route index element={<Dashboard />} />
                     <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="account" element={<Accounts />}></Route>
+                    <Route path="add-product" element={<AddProduct />} />
+                    <Route path="add-account" element={<AddAccount />} />
+                    <Route path="order" element={<Accounts />} />
+                    <Route path="products" element={<AdminProducts />} />
+                    <Route path="notify" element={<Accounts />} />
                 </Route>
             </Routes>
         </Router>

@@ -12,4 +12,16 @@ function Logo() {
     );
 }
 
+const NotLink = () => {
+    return (
+        <>
+            <div className="logo">
+                <h1 className="boujee-text">MyStore</h1>
+            </div>
+        </>
+    );
+};
+
+Logo.NotLink = NotLink;
+
 export default Logo;

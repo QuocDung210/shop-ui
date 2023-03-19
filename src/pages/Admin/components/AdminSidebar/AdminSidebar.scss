@@ -1,0 +1,38 @@
+.admin-sidebar-container {
+    height: 100%;
+    max-height: 100vh;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 1px 3px rgb(3 0 71 / 12%);
+    .admin-info {
+        .admin-img {
+            height: 100px;
+            width: 100px;
+            border: 4px solid white;
+            border-radius: 999px;
+            object-fit: cover;
+        }
+        .admin-name {
+            text-align: center;
+            color: var(--white);
+        }
+    }
+    .admin-sidebar-menu {
+        overflow: overlay;
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 5% 10%;
+            color: #8a8a8a;
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            &:hover {
+                background-color: var(--color-5);
+                color: var(--white);
+            }
+        }
+    }
+}

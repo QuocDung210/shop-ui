@@ -10,6 +10,9 @@ function ProductImgs({ images }) {
         { id: 0, value: images },
         { id: 1, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
         { id: 2, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+        { id: 3, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+        { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+        { id: 5, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
     ];
     const [img, setImg] = useState(imgs[0]);
 

@@ -1,0 +1,15 @@
+.revenue-container {
+    padding: 20px;
+    border-radius: 5px;
+    background-color: var(--white);
+    box-shadow: 0px 1px 3px rgb(3 0 71 / 12%);
+    text-align: center;
+    .revenue-header {
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+    .revenue-progressbar {
+        padding: 20px 60px;
+    }
+}

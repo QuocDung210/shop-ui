@@ -53,6 +53,10 @@
     color: var(--primary-color);
     background-color: var(--white);
     border-color: var(--primary-color);
+    &:hover {
+        color: var(--color-1);
+        border-color: var(--color-1);
+    }
 }
 
 .small {

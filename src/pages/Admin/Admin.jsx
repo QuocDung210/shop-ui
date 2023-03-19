@@ -1,65 +1,83 @@
-import { faChartArea, faClockRotateLeft, faTag, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faClockRotateLeft, faGauge, faTag, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Container, Image, Nav, Navbar, NavDropdown, Offcanvas, Row, Stack } from 'react-bootstrap';
+import { useState } from 'react';
+import { Col, Container, Navbar, Offcanvas, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import Images from '~/components/Images';
-import Sidebar from '~/layouts/components/Sidebar';
 import './Admin.scss';
-import AdminSidebar from './AdminSidebar';
+import AdminSidebar from './components/AdminSidebar';
 
 const ADMIN_SIDEBAR_ITEMS = [
     {
-        icon: <FontAwesomeIcon icon={faChartArea} />,
+        icon: <FontAwesomeIcon icon={faGauge} />,
         title: 'Bảng điều khiển',
         link: 'dashboard',
     },
     {
         icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'Quản lý tài khoản',
-        link: '#',
+        title: 'Tài khoản',
+        link: 'account',
     },
     {
         icon: <FontAwesomeIcon icon={faClockRotateLeft} />,
-        title: 'Quản lý đơn hàng',
-        link: '#',
+        title: 'Đơn hàng',
+        link: 'order',
     },
     {
         icon: <FontAwesomeIcon icon={faTag} />,
-        title: 'Quản lý sản phẩm',
-        link: '#',
+        title: 'Sản phẩm',
+        link: 'products',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faBell} />,
+        title: 'Thông báo',
+        link: 'notify',
     },
 ];
 
 function AdminMainPage() {
+    const [open, setOpen] = useState(false);
+
+    const handleToggleMenu = () => {
+        setOpen(!open);
+    };
+
+    const handleCloseOffCanvas = () => {
+        setOpen(false);
+    };
+
     return (
-        <Container fluid className="admin">
+        <Container fluid className="admin-container">
             <Row>
-                <Col xs={2} className="d-none d-lg-block p-0">
+                <Col xs={2} className="d-none d-lg-block admin-sidebar">
                     <AdminSidebar sbItems={ADMIN_SIDEBAR_ITEMS} />
                 </Col>
-                <Col>
+                <Col className="admin-content">
                     <Container fluid className="px-0">
-                        <Row className="p-0 admin-header">
+                        <Row className="admin-content-top ">
                             <Navbar key={'lg'} expand={'lg'} className="py-4">
                                 <Container fluid>
-                                    <Navbar.Brand href="#">
-                                        <h3 className="m-0">Dashboard</h3>
-                                    </Navbar.Brand>
-                                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${'lg'}`} />
+                                    <Navbar.Toggle
+                                        aria-controls={`offcanvasNavbar-expand-${'lg'}`}
+                                        onClick={handleToggleMenu}
+                                    />
                                     <Navbar.Offcanvas
                                         id={`offcanvasNavbar-expand-${'lg'}`}
                                         aria-labelledby={`offcanvasNavbarLabel-expand-${'lg'}`}
                                         placement="end"
+                                        show={open}
                                     >
-                                        <Offcanvas.Header closeButton></Offcanvas.Header>
+                                        <Offcanvas.Header closeButton onHide={() => setOpen(false)}></Offcanvas.Header>
                                         <Offcanvas.Body className="d-block d-lg-none p-0">
-                                            <AdminSidebar sbItems={ADMIN_SIDEBAR_ITEMS} />
+                                            <AdminSidebar
+                                                sbItems={ADMIN_SIDEBAR_ITEMS}
+                                                handleCloseOffCanvas={handleCloseOffCanvas}
+                                            />
                                         </Offcanvas.Body>
                                     </Navbar.Offcanvas>
                                 </Container>
                             </Navbar>
                         </Row>
-                        <Row className="my-4">
+                        <Row className="admin-content-bottom m-4">
                             <Outlet />
                         </Row>
                     </Container>

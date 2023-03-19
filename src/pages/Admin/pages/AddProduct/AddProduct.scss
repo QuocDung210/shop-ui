@@ -1,0 +1,87 @@
+.pd-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    h3 {
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+    .pd-name-input {
+        flex: 1;
+        height: 50px;
+        padding: 0 20px;
+        background-color: var(--background-color);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+    }
+}
+
+.pd-img {
+    height: 100%;
+    .file-input-container {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--background-color);
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        .pd-img-input {
+            display: none;
+        }
+        .file-label {
+            text-align: center;
+            .file-label-icon {
+                font-size: 4rem;
+            }
+        }
+    }
+}
+.pd-img-list {
+    overflow: overlay;
+    .item-img {
+        position: relative;
+        .item-img-delete {
+            position: absolute;
+            font-size: 2rem;
+            color: #ccc;
+            top: 0;
+            right: 0;
+            &:hover {
+                color: var(--black);
+            }
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+    }
+}
+
+.pd-quantity,
+.pd-regular-price,
+.pd-discout {
+    input {
+        width: 100%;
+        height: 50px;
+        padding: 0 20px;
+        background-color: var(--background-color);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+    }
+}
+
+.pd-brand,
+.pd-category {
+    select {
+        height: 50px;
+        width: 100%;
+        padding: 0 20px;
+        background-color: var(--background-color);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+    }
+}

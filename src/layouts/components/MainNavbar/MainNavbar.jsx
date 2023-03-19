@@ -32,7 +32,7 @@ const USER_NAV = [
 
 function MainNavbar({ navList, handleOpenOffcanvas }) {
     const navigate = useNavigate();
-    const user = false;
+    const user = true;
 
     const offNav = user ? [...navList, ...USER_NAV] : [...navList, ...OFFCANVAS_NAV];
 

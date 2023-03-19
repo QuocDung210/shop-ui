@@ -55,6 +55,7 @@ a[href] {
 ///scrollbar
 html *::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 html *::-webkit-scrollbar-thumb {
