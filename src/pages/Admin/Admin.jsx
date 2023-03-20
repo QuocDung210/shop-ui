@@ -1,11 +1,14 @@
 import { faBell, faClockRotateLeft, faGauge, faTag, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
-import { Col, Container, Navbar, Offcanvas, Row } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
-import './Admin.scss';
+import { useRef, useState } from 'react';
+import { Col, Container, Navbar, Offcanvas, Row, Stack } from 'react-bootstrap';
+import { Link, Outlet } from 'react-router-dom';
+import Images from '~/components/Images';
 import AdminSidebar from './components/AdminSidebar';
+import Tippy from '@tippyjs/react/headless';
 
+import './Admin.scss';
+import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 const ADMIN_SIDEBAR_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faGauge} />,
@@ -36,6 +39,9 @@ const ADMIN_SIDEBAR_ITEMS = [
 
 function AdminMainPage() {
     const [open, setOpen] = useState(false);
+    const [enable, setEnable] = useState(false);
+    const contentBox = useRef(null);
+    const top = useRef(null);
 
     const handleToggleMenu = () => {
         setOpen(!open);
@@ -45,15 +51,28 @@ function AdminMainPage() {
         setOpen(false);
     };
 
+    const handleScroll = (e) => {
+        if (e.target.scrollTop > 300) {
+            setEnable(true);
+        } else {
+            setEnable(false);
+        }
+    };
+
+    const handleScrollTop = () => {
+        top.current.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
         <Container fluid className="admin-container">
             <Row>
                 <Col xs={2} className="d-none d-lg-block admin-sidebar">
                     <AdminSidebar sbItems={ADMIN_SIDEBAR_ITEMS} />
                 </Col>
-                <Col className="admin-content">
-                    <Container fluid className="px-0">
-                        <Row className="admin-content-top ">
+                <Col className="admin-content" onScroll={handleScroll}>
+                    <div ref={top}></div>
+                    <Container fluid className="px-0" ref={contentBox}>
+                        <Row className="admin-content-top">
                             <Navbar key={'lg'} expand={'lg'} className="py-4">
                                 <Container fluid>
                                     <Navbar.Toggle
@@ -76,11 +95,62 @@ function AdminMainPage() {
                                     </Navbar.Offcanvas>
                                 </Container>
                             </Navbar>
+
+                            <div xs={2} className="admin-menu">
+                                <div className="d-flex align-items-center">
+                                    <Tippy
+                                        delay={[0, 200]}
+                                        placement="bottom-end"
+                                        interactive
+                                        arrow
+                                        zIndex={9999}
+                                        trigger="click"
+                                        render={(attrs) => (
+                                            <Stack className="admin-menu-wrapper content-box p-3" {...attrs}>
+                                                <div className="admin-menu-option">option 1</div>
+                                                <div className="admin-menu-option">option 2</div>
+                                                <div className="admin-menu-option">option 3</div>
+                                                <div className="admin-menu-option">option 4</div>
+                                            </Stack>
+                                        )}
+                                    >
+                                        <FontAwesomeIcon icon={faBell} className="admin-menu-icon" />
+                                    </Tippy>
+                                </div>
+                                <div>
+                                    <Tippy
+                                        trigger="click"
+                                        delay={[0, 200]}
+                                        placement="bottom-end"
+                                        interactive
+                                        arrow
+                                        render={(attrs) => (
+                                            <Stack className="admin-avatar-menu content-box p-3" {...attrs}>
+                                                <Link to={'/admin/member-profile'}>
+                                                    <div className="admin-avatar-menu-option">Người dùng</div>
+                                                </Link>
+                                                <div className="admin-avatar-menu-option">Đăng xuất</div>
+                                            </Stack>
+                                        )}
+                                    >
+                                        <Images
+                                            src=""
+                                            alt="user"
+                                            className="admin-avatar"
+                                            fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                            style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
+                                        />
+                                    </Tippy>
+                                </div>
+                            </div>
                         </Row>
                         <Row className="admin-content-bottom m-4">
                             <Outlet />
                         </Row>
                     </Container>
+                    <div className={`btn-go-top ${!enable && 'd-none'}`} onClick={handleScrollTop}>
+                        <FontAwesomeIcon icon={faArrowAltCircleUp} className="btn-go-top-icon" />
+                    </div>
                 </Col>
             </Row>
         </Container>

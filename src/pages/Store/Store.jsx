@@ -25,7 +25,14 @@ function Store() {
         const searchProduct = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${query}&type=more`);
+                const res = await axios.get(`https://tiktok.fullstack.edu.vn/api/users/search`, {
+                    params: {
+                        q: query,
+                        type: 'more',
+                    },
+                });
+
+                // const res = await axios.get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${query}&type=more`);
                 setProducts(res.data.data);
                 setIsLoading(false);
             } catch (error) {

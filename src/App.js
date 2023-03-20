@@ -17,6 +17,9 @@ import Profile from './pages/User/Profile';
 import AddProduct from './pages/Admin/pages/AddProduct';
 import AdminProducts from './pages/Admin/pages/AdminProducts';
 import AddAccount from './pages/Admin/pages/AddAccount';
+import UpdateProduct from './pages/Admin/pages/UpdateProduct';
+import AdminOrder from './pages/Admin/pages/AdminOrder';
+import MemberProfile from './pages/Admin/pages/MemberProfile';
 
 function App() {
     return (
@@ -75,11 +78,13 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="account" element={<Accounts />}></Route>
-                    <Route path="add-product" element={<AddProduct />} />
                     <Route path="add-account" element={<AddAccount />} />
-                    <Route path="order" element={<Accounts />} />
                     <Route path="products" element={<AdminProducts />} />
+                    <Route path="add-product" element={<AddProduct />} />
+                    <Route path="update-product" element={<UpdateProduct />} />
+                    <Route path="order" element={<AdminOrder />} />
                     <Route path="notify" element={<Accounts />} />
+                    <Route path="member-profile" element={<MemberProfile />} />
                 </Route>
             </Routes>
         </Router>

@@ -1,8 +1,13 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'https://tiktok.fullstack.edu.vn/api/',
+    baseURL: process.env.REACT_APP_BASE_URL,
+
     timeout: 2000,
+});
+
+axiosClient.interceptors.request.use(async (config) => {
+    return config;
 });
 
 axiosClient.interceptors.response.use(

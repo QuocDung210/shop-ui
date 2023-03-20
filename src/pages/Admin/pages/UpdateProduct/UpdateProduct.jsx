@@ -1,3 +1,4 @@
+import './UpdateProduct.scss';
 import { faCirclePlus, faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
@@ -5,7 +6,6 @@ import { Button, ButtonGroup, Col, Container, Dropdown, Row } from 'react-bootst
 import Buttons from '~/components/Buttons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import './AddProduct.scss';
 
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
@@ -27,7 +27,7 @@ const PRODUCT_SPECIFICATIONS = [
     'Kích thước',
 ];
 
-function AddProduct() {
+function UpdateProduct() {
     const inputFileRef = useRef(null);
     const inputSpecificationRef = useRef(null);
     const brandRef = useRef(null);
@@ -130,7 +130,7 @@ function AddProduct() {
     return (
         <Container fluid className="add-product-container">
             <Row className="mb-4">
-                <h2>Thêm sản phẩm</h2>
+                <h2>Cập nhật sản phẩm</h2>
             </Row>
 
             <Row className="g-4">
@@ -336,4 +336,4 @@ function AddProduct() {
     );
 }
 
-export default AddProduct;
+export default UpdateProduct;

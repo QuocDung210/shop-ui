@@ -1,0 +1,78 @@
+.bg-total {
+    background-color: #5ddff9 !important;
+}
+.bg-success {
+    background-color: #97ff60 !important;
+}
+
+.bg-waiting {
+    background-color: #ffb517 !important;
+}
+
+.bg-delivery {
+    background-color: rgb(35, 114, 251) !important;
+}
+
+.bg-cancel {
+    background: rgb(172, 172, 172) !important;
+}
+
+.statistical-wrapper {
+    display: flex;
+    .statistical-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 3rem;
+        background-color: #5ddff9;
+    }
+    .statistical-describe {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        h4 {
+            margin: 0;
+        }
+        p {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #c0c0c0;
+        }
+    }
+}
+
+.statistical-tabs > li > button {
+    color: var(--black);
+    font-weight: 600;
+    &:hover {
+        color: var(--color-1);
+    }
+    &:active {
+        color: var(--color-6);
+    }
+}
+
+.order-list-item {
+    &:hover {
+        border-radius: 10px;
+        background-color: var(--color-4);
+    }
+    .order-menu {
+        .order-menu-option {
+            padding: 5px 20px;
+            cursor: pointer;
+            &:hover {
+                border-radius: 10px;
+                background-color: var(--color-4);
+            }
+        }
+    }
+    .order-menu-icon {
+        cursor: pointer;
+        padding: 5px;
+    }
+}

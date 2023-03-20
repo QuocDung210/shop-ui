@@ -233,7 +233,7 @@ function AdminProducts() {
                                 render={(attrs) => (
                                     <Stack className="acc-menu content-box p-3" {...attrs}>
                                         <div className="acc-menu-option">
-                                            <Link to={'/admin/add-product'}>
+                                            <Link to={'/admin/update-product'}>
                                                 <p className="my-2 mx-3">Cập nhật</p>
                                             </Link>
                                         </div>

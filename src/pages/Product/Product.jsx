@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Col, Container, Placeholder, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { ProductApi } from '~/api';
 import AddCartForm from '~/components/Form/add-cart-form';
 import ProductsContainer from '~/components/ProductsContainer';
 import './Product.scss';
@@ -31,11 +31,14 @@ function Product() {
         const product = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(
-                    `https://tiktok.fullstack.edu.vn/api/users/search?q=${params.id}&type=less`,
-                );
-
-                setCurrentProduct(res.data.data[0]);
+                // const res = await axios.get(
+                //     `https://tiktok.fullstack.edu.vn/api/users/search?q=${params.id}&type=less`,
+                // );
+                const res = await ProductApi.getById({
+                    q: params.id,
+                    type: 'less',
+                });
+                setCurrentProduct(res.data[0]);
                 setLoading(false);
             } catch (error) {
                 console.log(error);

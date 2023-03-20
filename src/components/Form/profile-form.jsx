@@ -1,13 +1,13 @@
 import { FastField, Form, Formik } from 'formik';
 import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
-import QuantityField from '../hook-form/QuantityField';
-import SelectField from '../hook-form/SelectField';
+// import QuantityField from '../hook-form/QuantityField';
+// import SelectField from '../hook-form/SelectField';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
 
 function ProfileForm(props) {
-    const { color, size } = props;
+    // const { color, size } = props;
 
     const initialValues = {
         name: '',

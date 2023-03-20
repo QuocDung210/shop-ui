@@ -4,6 +4,7 @@ const images = {
     errorImg: require('~/assets/images/error.png'),
     noDataImg: require('~/assets/images/no-data.png'),
     LoginImg: require('~/assets/images/login.png'),
+    background: require('~/assets/images/04.jpg'),
 };
 
 export default images;
