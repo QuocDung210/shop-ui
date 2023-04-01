@@ -2,6 +2,14 @@
     background-color: transparent;
     margin: 20px 20px 0px 20px;
     padding: 10px;
+    .product-slider-header {
+        background-color: var(--color-5);
+        .product-slider-title {
+            h2 {
+                color: var(--white);
+            }
+        }
+    }
 }
 .product-slider-item {
     margin: 10px 10px;

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import Menu from '~/components/Popper/Menu';
 import MainNavItem from './MainNavItem';
+import useAuth from '~/hooks/useAuth';
 
 const OFFCANVAS_NAV = [
     {
@@ -24,17 +25,17 @@ const USER_NAV = [
         link: config.routes.user,
         label: 'TÀI KHOẢN',
     },
-    {
-        link: config.routes.userDetail,
-        label: 'ĐĂNG XUẤT',
-    },
+    // {
+    //     link: config.routes.userDetail,
+    //     label: 'ĐĂNG XUẤT',
+    // },
 ];
 
 function MainNavbar({ navList, handleOpenOffcanvas }) {
     const navigate = useNavigate();
-    const user = true;
+    const auth = useAuth();
 
-    const offNav = user ? [...navList, ...USER_NAV] : [...navList, ...OFFCANVAS_NAV];
+    const offNav = auth?.accessToken ? [...navList, ...USER_NAV] : [...navList, ...OFFCANVAS_NAV];
 
     const handleClickNavItem = (navItem) => {
         handleOpenOffcanvas();

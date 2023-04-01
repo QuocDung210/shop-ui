@@ -1,23 +1,17 @@
 import { FormGroup, FormControl, FormLabel, InputGroup } from 'react-bootstrap';
-
+import './InputField.scss';
 function InputField(props) {
     const { field, form, type, label, placeholder, disable } = props;
 
     const { name } = field;
+
     const { errors, touched } = form;
 
     const showError = errors[name] && touched[name];
-
     return (
         <FormGroup className="mb-3">
-            <InputGroup hasValidation style={{ alignItems: 'center' }}>
-                {label && (
-                    <FormLabel
-                        style={{ minWidth: '100px', textAlign: 'end', marginRight: '30px', marginBottom: '0px' }}
-                    >
-                        {label}
-                    </FormLabel>
-                )}
+            <InputGroup hasValidation className="ipg-wrapper">
+                {label && <FormLabel className="ipg-label mb-0 d-none d-sm-block">{label}</FormLabel>}
                 <FormControl
                     id={name}
                     type={type}
@@ -26,8 +20,11 @@ function InputField(props) {
                     placeholder={placeholder}
                     disabled={disable}
                     isInvalid={showError}
+                    className="ipg-form-control"
                 />
-                <FormControl.Feedback type="invalid">{errors[name]}</FormControl.Feedback>
+                <FormControl.Feedback className="ipg-form-feedback" type="invalid">
+                    {errors[name]}
+                </FormControl.Feedback>
             </InputGroup>
         </FormGroup>
     );

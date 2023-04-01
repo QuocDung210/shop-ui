@@ -6,13 +6,15 @@ import Buttons from '~/components/Buttons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './AddProduct.scss';
-
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '~/firebase/configFirebase';
+import { FirebaseService } from '~/firebase/firebaseService';
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
     'RAM',
     'Ổ cứng',
     'Card đồ họa ',
-    'màng hình',
+    'Màng hình',
     'Cỗng giao tiếp',
     'Âm thanh',
     'Bàn phím',
@@ -40,16 +42,36 @@ function AddProduct() {
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
-    const [selected, setSelected] = useState(PRODUCT_SPECIFICATIONS[0]);
+    const [selected, setSelected] = useState(0);
     const dt = new DataTransfer();
-
+    //Set name
     const handleSetName = (e) => {
         setName(e.target.value);
     };
 
     //Add-Delete product images
     const handleAddImg = (e) => {
-        setImages([...e.target.files]);
+        let intersection = [];
+        if (images) {
+            for (let i = 0; i < [...e.target.files].length; i++) {
+                var check = false;
+                for (let j = 0; j < images.length; j++) {
+                    if ([...e.target.files][i].name === images[j].name) {
+                        check = true;
+                    }
+                }
+                if (!check) {
+                    intersection.push([...e.target.files][i]);
+                }
+            }
+        }
+        if (images) {
+            setImages([...images, ...intersection]);
+            // setData({ ...data, images: [...images, ...intersection] });
+        } else {
+            setImages([...e.target.files]);
+            // setData({ ...data, images: [...e.target.files] });
+        }
     };
     const handleDeleteImg = (idx) => {
         for (let image of images) {
@@ -63,24 +85,38 @@ function AddProduct() {
         }
         inputFileRef.current.files = dt.files;
         setImages([...dt.files]);
+        // setData({ ...data, images: [...dt.files] });
     };
 
+    //Set-delete Specification
     const handleSetSpecification = (e) => {
         setSpecificationInput(e.target.value);
     };
 
     const handleAddSpecification = () => {
         for (let item of specificationsList) {
-            if (item.name === selected) {
+            if (item.name === PRODUCT_SPECIFICATIONS[selected]) {
                 return;
             }
         }
         setSpecificationsList([
             ...specificationsList,
-            { name: selected, value: specificationInput || 'Đang cập nhật' },
+            { name: PRODUCT_SPECIFICATIONS[selected], value: specificationInput || 'Đang cập nhật' },
         ]);
+
         setSpecificationInput('');
+        if (selected < PRODUCT_SPECIFICATIONS.length) {
+            setSelected(selected + 1);
+        }
         inputSpecificationRef.current.focus();
+    };
+
+    const handleDeleteSpecification = (specification) => {
+        setSpecificationsList(
+            specificationsList.filter((value, idx, arr) => {
+                return value.name !== specification.name;
+            }),
+        );
     };
 
     const handleEnter = (e) => {
@@ -90,6 +126,7 @@ function AddProduct() {
         }
     };
 
+    //Set quantity
     const handleSetQuantity = (e) => {
         let quantity = e.target.value;
 
@@ -100,6 +137,7 @@ function AddProduct() {
         }
     };
 
+    //Set price
     const handleSetPrice = (e) => {
         let pr = e.target.value;
 
@@ -110,6 +148,7 @@ function AddProduct() {
         }
     };
 
+    //Set discount
     const handleSetDiscount = (e) => {
         let dc = e.target.value;
 
@@ -120,13 +159,26 @@ function AddProduct() {
         }
     };
 
-    const handleDeleteSpecification = (specification) => {
-        setSpecificationsList(
-            specificationsList.filter((value, idx, arr) => {
-                return value.name !== specification.name;
-            }),
-        );
+    //Create product
+    const handleCreate = async () => {
+        const urls = await FirebaseService.uploadImg(images);
+
+        const data = {
+            name: name,
+            description: description,
+            specificationsList: specificationsList,
+            quantity: quantity,
+            price: price,
+            discount: discount,
+            productImages: urls,
+        };
+        try {
+            await setDoc(doc(db, 'a', name), data);
+        } catch (err) {
+            console.log(err);
+        }
     };
+
     return (
         <Container fluid className="add-product-container">
             <Row className="mb-4">
@@ -209,11 +261,12 @@ function AddProduct() {
                         <Row>
                             <div className="content-box px-4">
                                 <h3>Thông số kỹ thuật</h3>
+
                                 <div className="d-flex">
                                     <div className="pd-specifications-option">
                                         <Dropdown className="specifications-dropdown-wrapper" as={ButtonGroup}>
                                             <Button className="specifications-btn-dropdown" variant="success">
-                                                {selected}
+                                                {PRODUCT_SPECIFICATIONS[selected]}
                                             </Button>
 
                                             <Dropdown.Toggle
@@ -225,7 +278,7 @@ function AddProduct() {
 
                                             <Dropdown.Menu className="specifications-menu">
                                                 {PRODUCT_SPECIFICATIONS.map((item, idx) => (
-                                                    <Dropdown.Item key={idx} onClick={() => setSelected(item)}>
+                                                    <Dropdown.Item key={idx} onClick={() => setSelected(idx)}>
                                                         {item}
                                                     </Dropdown.Item>
                                                 ))}
@@ -234,6 +287,7 @@ function AddProduct() {
                                     </div>
                                     <div className="pd-specifications-input mb-4">
                                         <input
+                                            disabled={selected >= PRODUCT_SPECIFICATIONS.length}
                                             ref={inputSpecificationRef}
                                             type={'text'}
                                             spellCheck="false"
@@ -312,20 +366,7 @@ function AddProduct() {
                             </div>
                         </Row>
                         <Row className="content-box">
-                            <Buttons
-                                primary
-                                onClick={() => {
-                                    // console.log('name : ', name);
-                                    // console.log('inages', images);
-                                    // console.log('description: ', test);
-                                    console.log(discount);
-                                    console.log(brandRef.current.value);
-                                    console.log(specificationInput);
-                                    console.log(specificationsList);
-                                    // editorTestFeild.current.innerHTML = test;
-                                    setName('hahaha');
-                                }}
-                            >
+                            <Buttons primary onClick={handleCreate}>
                                 Tạo
                             </Buttons>
                         </Row>
@@ -337,3 +378,14 @@ function AddProduct() {
 }
 
 export default AddProduct;
+
+// () => {
+//     // console.log('name : ', name);
+//     console.log('inages', images);
+//     // console.log('description: ', test);
+//     console.log(discount);
+//     console.log(brandRef.current.value);
+//     console.log(specificationInput);
+//     console.log(specificationsList);
+//     // editorTestFeild.current.innerHTML = test;
+// }

@@ -60,6 +60,13 @@
     list-style: none;
     padding-left: 0;
     margin-bottom: 0;
+    .header-user-name {
+        min-width: 40px;
+        text-align: end;
+        font-weight: 600;
+        margin-right: 10px;
+        color: var(--text-color);
+    }
     &:hover {
         .current-user {
             border-color: var(--color-6);
@@ -136,6 +143,7 @@
         }
     }
 }
+.nav-notify-icon,
 .nav-search-icon {
     width: 30px;
     height: 30px;
@@ -145,7 +153,17 @@
     border-radius: 999px;
     background-color: var(--black);
     color: var(--white);
+    cursor: pointer;
 }
+
+.nav-notify-popper {
+    .notify-list {
+        min-width: 200px;
+        max-height: 500px;
+        overflow: overlay;
+    }
+}
+
 .nav-search-popper {
     padding: 20px;
     border: 1px solid #ccc;
@@ -198,12 +216,6 @@
     to {
         top: 0;
     }
-}
-
-.header-user-name {
-    margin-right: 5px;
-    text-decoration: underline;
-    color: var(--black);
 }
 
 //Mobile

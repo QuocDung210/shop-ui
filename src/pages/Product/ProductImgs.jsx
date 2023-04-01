@@ -28,7 +28,7 @@ function ProductImgs({ images }) {
                 <Carousel interval={null} activeIndex={currentImg} onSelect={handleClick}>
                     {imgs.map((img, idx) => (
                         <Carousel.Item key={idx}>
-                            <img className="pd-img" src={img.value} alt="slide" />
+                            <img className="pd-slider-img" src={img.value} alt="slide" />
                         </Carousel.Item>
                     ))}
                 </Carousel>

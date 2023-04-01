@@ -3,7 +3,6 @@ import { Col, Container, Placeholder, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { ProductApi } from '~/api';
 import AddCartForm from '~/components/Form/add-cart-form';
-import ProductsContainer from '~/components/ProductsContainer';
 import './Product.scss';
 import ProductImgs from './ProductImgs';
 const colors = [
@@ -49,14 +48,14 @@ function Product() {
 
     return (
         <Container fluid>
-            <Container style={{ backgroundColor: 'var(--background-color)' }}>
-                <Row className="mt-4 product-detail">
-                    <Col xs={12} lg={5} style={style} className="mb-4">
+            <Container>
+                <Row className="product-detail mt-4 ">
+                    <Col xs={12} lg={5} className="content-box mb-4">
                         <div className="w-100">
                             {loading ? <ProductImgs.Loading /> : <ProductImgs images={currentProduct.avatar} />}
                         </div>
                     </Col>
-                    <Col xs={12} lg={7} style={style} className="mb-4">
+                    <Col xs={12} lg={7} className="content-box mb-4">
                         <div className="product-detail-name">
                             {loading ? (
                                 <Placeholder as={'p'} animation="glow">
@@ -84,12 +83,6 @@ function Product() {
                             <AddCartForm color={colors} size={colors} />
                         </div>
                     </Col>
-                </Row>
-                <Row>
-                    <ProductsContainer />
-                </Row>
-                <Row className="mb-5">
-                    <ProductsContainer />
                 </Row>
             </Container>
         </Container>

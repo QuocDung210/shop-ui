@@ -5,7 +5,6 @@ import Logo from '~/components/Logo';
 import config from '~/config';
 import './Login.scss';
 import LoginForm from '~/components/AuthForm/login-form';
-
 function Login() {
     return (
         <div className="d-flex align-items-center login">

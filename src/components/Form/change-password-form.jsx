@@ -3,8 +3,11 @@ import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
+import { AuthApi } from '~/api';
+import useAuth from '~/hooks/useAuth';
 
 function ChangePasswordForm() {
+    const currentUser = useAuth();
     const initialValues = {
         oldPw: '',
         newPw: '',
@@ -12,13 +15,29 @@ function ChangePasswordForm() {
     };
 
     const validationSchema = yup.object().shape({
-        oldPw: yup.string().required('Vui lòng chọn kích thước'),
-        newPw: yup.string().required('Vui lòng nhập tên'),
-        reEnterPw: yup.string().required('vui lòng nhập email'),
+        oldPw: yup.string().required('Vui lòng nhập...'),
+        newPw: yup.string().required('Vui lòng nhập...'),
+        reEnterPw: yup
+            .string()
+            .oneOf([yup.ref('newPw'), null], 'Mật khẩu không khớp')
+            .required('Vui lòng nhập mật khẩu'),
     });
 
-    const handleSubmitForm = (values) => {
-        console.log('check value :', values);
+    const handleSubmitForm = async (values) => {
+        console.log('check value :', values, currentUser?.accessToken);
+        const data = {
+            oldPassword: values.oldPw,
+            newPassword: values.newPw,
+        };
+        const config = {
+            headers: { Authorization: `Bearer ${currentUser?.accessToken}` },
+        };
+        try {
+            const res = await AuthApi.changePassword(data, config);
+            console.log(res);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -33,24 +52,24 @@ function ChangePasswordForm() {
                     <Form>
                         <FastField
                             name="oldPw"
-                            label="Mat khau cu :"
+                            label="Mật khẩu cũ:"
                             component={InputField}
                             type="password"
-                            placeholder="Mat khau cu"
+                            placeholder="Old password..."
                         />
                         <FastField
                             name="newPw"
-                            label="Mat khau moi :"
+                            label="Mật khẩu mới:"
                             type="password"
                             component={InputField}
-                            placeholder="Mat khau moi"
+                            placeholder="New password..."
                         />
                         <FastField
                             name="reEnterPw"
-                            label="Nhap lai mat khau :"
+                            label="Nhập lại:"
                             component={InputField}
                             type="password"
-                            placeholder="Phone number..."
+                            placeholder="Retype..."
                         />
 
                         <FormGroup>

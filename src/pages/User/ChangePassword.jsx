@@ -5,7 +5,7 @@ function ChangePassword() {
         <Container fluid>
             <Stack>
                 <div>
-                    <h2>THAY DOI MAT KHAU</h2>
+                    <h2>ĐỔI MẬT KHẨU</h2>
                     <p>Bạn nên cập nhập mật khẩu thường xuyên vì lý do bảo mật</p>
                 </div>
                 <hr />

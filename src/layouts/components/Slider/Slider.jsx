@@ -1,4 +1,6 @@
-import { Carousel, Col, Container, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Carousel, Col, Container, Row, Stack } from 'react-bootstrap';
+import { FirebaseService } from '~/firebase/firebaseService';
 import './Slider.scss';
 
 const listSlider = [
@@ -23,26 +25,57 @@ const listSlider = [
 ];
 
 function Slider() {
+    const [currentAdImgs, setCurrentAddImgs] = useState([]);
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await FirebaseService.getImgs('AdImgs', 'img');
+            setCurrentAddImgs(res.listImg);
+        };
+        fetch();
+    }, []);
     return (
-        <Container fluid className="p-5 slider-container">
+        <Container fluid className="slider-container">
             <Row className="m-0 slider-wrapper">
-                <Col>
-                    <Carousel className="p-0 slider" controls={false}>
-                        {listSlider.map((sliderItem, idx) => (
-                            <Carousel.Item interval={3000} key={idx}>
-                                <img
-                                    className="d-block w-100 slider-img"
-                                    src={sliderItem.image}
-                                    alt={sliderItem.mess}
-                                />
-                                <Carousel.Caption>
-                                    <h3>{sliderItem.label}</h3>
-                                    <p>{sliderItem.descrip}</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
-                </Col>
+                <Container>
+                    <Row className="gap-3">
+                        <Col md={2} className="content-box d-none d-lg-block">
+                            <Stack gap={2}>
+                                <div className="slider-category">
+                                    <p>Laptop Gaming</p>
+                                </div>
+                                <div className="slider-category">
+                                    <p>Laptop Văn phòng</p>
+                                </div>
+                                <div className="slider-category">
+                                    <p>Laptop Đồ Họa</p>
+                                </div>
+                            </Stack>
+                        </Col>
+                        <Col className="content-box p-0">
+                            <Carousel className="p-0 slider" controls={false}>
+                                {currentAdImgs.length > 0
+                                    ? currentAdImgs.map((item, idx) => (
+                                          <Carousel.Item interval={3000} key={idx}>
+                                              <img className="d-block w-100 slider-img" src={item} alt={idx} />
+                                          </Carousel.Item>
+                                      ))
+                                    : listSlider.map((sliderItem, idx) => (
+                                          <Carousel.Item interval={3000} key={idx}>
+                                              <img
+                                                  className="d-block w-100 slider-img"
+                                                  src={sliderItem.image}
+                                                  alt={sliderItem.mess}
+                                              />
+                                              <Carousel.Caption>
+                                                  <h3>{sliderItem.label}</h3>
+                                                  <p>{sliderItem.descrip}</p>
+                                              </Carousel.Caption>
+                                          </Carousel.Item>
+                                      ))}
+                            </Carousel>
+                        </Col>
+                    </Row>
+                </Container>
             </Row>
         </Container>
     );

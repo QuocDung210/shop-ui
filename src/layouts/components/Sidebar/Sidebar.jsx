@@ -4,32 +4,14 @@ import MainNavItem from '../MainNavbar/MainNavItem';
 
 const CATEGORY = [
     {
-        label: 'Quần áo nam',
-        link: '/profile',
-        items: [
-            {
-                label: 'Quần áo nam',
-                link: '/profile',
-                separateBottom: true,
-            },
-            { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
-            { label: 'Vest', link: '/' },
-        ],
+        label: 'Gaming',
+        link: '#',
     },
     {
-        label: 'Quần áo nữ',
-        link: '/profile',
-        items: [
-            {
-                label: 'Quần áo nam',
-                link: '/profile',
-                separateBottom: true,
-            },
-            { label: 'Quần áo nữ', link: '/profile', separateBottom: true },
-            { label: 'Vest', link: '/' },
-        ],
+        label: 'Văn Phòng',
+        link: '#',
     },
-    { label: 'Vest', link: '/' },
+    { label: 'Đồ họa', link: '#' },
 ];
 
 function Sidebar() {
@@ -38,17 +20,9 @@ function Sidebar() {
     };
     return (
         <aside className="sidebar-wrapper">
-            <Container
-                fluid
-                style={{
-                    backgroundColor: '#ffffff',
-                    boxShadow: '0px 2px 12px #ccc',
-                }}
-            >
+            <Container fluid className="content-box">
                 <Row className="justify-content-center align-items-center">
-                    <p className="m-0 sidebar-title" style={{ textAlign: 'center' }}>
-                        DANH MỤC
-                    </p>
+                    <p className="sidebar-title text-center mb-4">DANH MỤC</p>
                 </Row>
                 <Row>
                     <Nav as="ul" className=" header-offcanvas-nav">

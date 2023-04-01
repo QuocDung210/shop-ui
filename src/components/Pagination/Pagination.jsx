@@ -2,7 +2,7 @@ import { Container, Pagination, Row } from 'react-bootstrap';
 
 function Pagiantion() {
     return (
-        <Container fluid style={{ backgroundColor: '#ffffff', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}>
+        <Container fluid className="content-box">
             <Row>
                 <Container fluid></Container>
                 <Pagination className="d-flex justify-content-center">

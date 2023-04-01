@@ -1,21 +1,20 @@
 .header-menu {
     z-index: 1000;
     width: 224px;
-    background-color: var(--color-2) !important;
-    overflow: hidden;
+
     .menu__item {
         width: 100%;
         border-radius: 0;
-        color: var(--white);
+        color: var(--black);
         background-color: transparent;
         justify-content: start;
-        font-weight: 400;
+        font-weight: 500;
         padding: 11px 16px;
         + .menu__item {
             margin-left: 0;
         }
         &:hover {
-            background-color: var(--color-1);
+            background-color: var(--color-4);
         }
         &.separate__top {
             border-top: 1px solid var(--background-input);

@@ -3,11 +3,18 @@ import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { registerFailed, registerSuccess, startRegister } from '~/redux/slices/authSlice';
+import { AuthApi } from '~/api';
 function RegisterForm(props) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const initialValues = {
         name: '',
         email: '',
-        phoneNum: '',
+        phone: '',
         password: '',
         confirmPassword: '',
     };
@@ -18,10 +25,7 @@ function RegisterForm(props) {
     const validationSchema = yup.object().shape({
         name: yup.string().required('Vui lòng nhập tên'),
         email: yup.string().email('Email không hợp lệ').required('vui lòng nhập email'),
-        phoneNum: yup
-            .string()
-            .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
-            .required('Vui lòng nhập số điện thoại'),
+        phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ').required('Vui lòng nhập số điện thoại'),
         password: yup.string().required('Vui lòng nhập mật khẩu'),
         confirmPassword: yup
             .string()
@@ -29,8 +33,28 @@ function RegisterForm(props) {
             .required('Vui lòng nhập mật khẩu'),
     });
 
-    const handleSubmitForm = (values) => {
-        console.log('Submkt: ', values);
+    const handleSubmitForm = async (values) => {
+        const { name, email, phone, password } = values;
+        console.log(name, email, phone, password);
+        dispatch(startRegister());
+        try {
+            const res = await AuthApi.register({
+                name: name,
+                email: email,
+                phone: phone,
+                password: password,
+            });
+
+            dispatch(registerSuccess(res));
+            if (res.user.role === 'admin' || res.user.role === 'employee') {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
+        } catch (error) {
+            console.log('Error: ', error.status);
+            dispatch(registerFailed());
+        }
     };
 
     return (
@@ -46,7 +70,7 @@ function RegisterForm(props) {
                     <Form>
                         <FastField name="name" component={InputField} type="text" placeholder="Name..." />
                         <FastField name="email" component={InputField} type="email" placeholder="Email..." />
-                        <FastField name="phoneNum" component={InputField} type="text" placeholder="Phone number..." />
+                        <FastField name="phone" component={InputField} type="text" placeholder="Phone number..." />
                         <FastField name="password" component={InputField} type="password" placeholder="Password..." />
                         <FastField
                             name="confirmPassword"

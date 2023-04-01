@@ -1,4 +1,13 @@
-import { faBell, faClockRotateLeft, faGauge, faTag, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBell,
+    faBuildingFlag,
+    faClockRotateLeft,
+    faGauge,
+    faRectangleAd,
+    faTag,
+    faTags,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
 import { Col, Container, Navbar, Offcanvas, Row, Stack } from 'react-bootstrap';
@@ -34,6 +43,21 @@ const ADMIN_SIDEBAR_ITEMS = [
         icon: <FontAwesomeIcon icon={faBell} />,
         title: 'Thông báo',
         link: 'notify',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faRectangleAd} />,
+        title: 'Quảng cáo',
+        link: 'advertising',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faBuildingFlag} />,
+        title: 'Thương hiệu',
+        link: 'brand',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faTags} />,
+        title: 'Các thứ linh tinh',
+        link: 'brand',
     },
 ];
 

@@ -1,4 +1,4 @@
-import { faEllipsisV, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faEllipsisV, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Modal, Row, Stack } from 'react-bootstrap';
@@ -60,6 +60,7 @@ function Account() {
     const [showDeleteMembers, setShowDeleteMembers] = useState(false);
     const [curentMember, setCurrentMember] = useState({});
     const [isChecked, setIsChecked] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const handleCheckAll = (e) => {
         const checkboxItem = document.querySelectorAll('.checkbox-item');
@@ -111,7 +112,17 @@ function Account() {
             setIsChecked(false);
         }
     };
+    const handleNext = () => {
+        if (currentPage < 10) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
     return (
         <Container fluid className="acc-wrapper">
             <Row className="mb-4">
@@ -191,7 +202,7 @@ function Account() {
                                 <Images
                                     src=""
                                     alt="user"
-                                    className="current-user"
+                                    className="current-user d-none d-md-block"
                                     fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                                     style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                                 />
@@ -233,6 +244,24 @@ function Account() {
                         </Col>
                     </Row>
                 ))}
+                <Row style={{ borderTop: '2px solid #ccc' }}>
+                    <div className="page-pagination d-flex justify-content-end pt-4">
+                        <p className="mb-0 me-5">{`${currentPage}/${10} trang`}</p>
+                        <div className="page-pagination-btn d-flex align-items-center  ">
+                            <FontAwesomeIcon
+                                icon={faChevronLeft}
+                                className="pagination-btn-prev"
+                                onClick={handlePrev}
+                            />
+
+                            <FontAwesomeIcon
+                                icon={faChevronRight}
+                                className="pagination-btn-next"
+                                onClick={handleNext}
+                            />
+                        </div>
+                    </div>
+                </Row>
             </Row>
             <Modal show={showSetRole} onHide={handleCloseSetRole} className="set-role">
                 <Modal.Body>

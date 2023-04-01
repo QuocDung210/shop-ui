@@ -20,7 +20,11 @@ import AddAccount from './pages/Admin/pages/AddAccount';
 import UpdateProduct from './pages/Admin/pages/UpdateProduct';
 import AdminOrder from './pages/Admin/pages/AdminOrder';
 import MemberProfile from './pages/Admin/pages/MemberProfile';
-
+import ProtectedRoutes from './ProtectedRoutes/protected-routes';
+import AdminNotify from './pages/Admin/pages/AdminNotify';
+import Notify from './pages/Notify';
+import Ad from './pages/Admin/pages/Ad';
+import Brand from './pages/Admin/pages/Brand';
 function App() {
     return (
         // <Router>
@@ -64,16 +68,21 @@ function App() {
                     <Route path={config.routes.introduce} />
                     <Route path={config.routes.contact} />
                     <Route path={config.routes.product_detail} element={<Product />} />
+                    {/* <Route element={<ProtectedRoutes roles={['admin', 'employee', 'customer']} />}> */}
                     <Route path={config.routes.user} element={<User />}>
+                        <Route index element={<Profile />} />
                         <Route path={config.routes.cartDetail} />
                         <Route path={config.routes.userDetail} element={<Profile />} />
                         <Route path={config.routes.changePassword} element={<ChangePassword />} />
                         <Route path={config.routes.history} element={<History />} />
                     </Route>
+                    {/* </Route> */}
+                    <Route path="notify" element={<Notify />} />
                     <Route path={config.routes._404} element={<NotFound />} />
                 </Route>
                 <Route path={config.routes.login} element={<Login />} />
                 <Route path={config.routes.register} element={<Register />} />
+                {/* <Route element={<ProtectedRoutes roles={['admin', 'employee']} />}> */}
                 <Route path="/admin" element={<Admin />}>
                     <Route index element={<Dashboard />} />
                     <Route path="dashboard" element={<Dashboard />} />
@@ -83,9 +92,12 @@ function App() {
                     <Route path="add-product" element={<AddProduct />} />
                     <Route path="update-product" element={<UpdateProduct />} />
                     <Route path="order" element={<AdminOrder />} />
-                    <Route path="notify" element={<Accounts />} />
+                    <Route path="notify" element={<AdminNotify />} />
                     <Route path="member-profile" element={<MemberProfile />} />
+                    <Route path="advertising" element={<Ad />} />
+                    <Route path="brand" element={<Brand />} />
                 </Route>
+                {/* </Route> */}
             </Routes>
         </Router>
     );

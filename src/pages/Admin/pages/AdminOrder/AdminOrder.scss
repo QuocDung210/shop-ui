@@ -55,24 +55,45 @@
         color: var(--color-6);
     }
 }
-
-.order-list-item {
-    &:hover {
-        border-radius: 10px;
-        background-color: var(--color-4);
-    }
-    .order-menu {
-        .order-menu-option {
-            padding: 5px 20px;
-            cursor: pointer;
-            &:hover {
-                border-radius: 10px;
-                background-color: var(--color-4);
+.admin-order-list {
+    border-bottom: 2px solid #ccc;
+    .order-list-item {
+        &:hover {
+            border-radius: 10px;
+            background-color: var(--color-4);
+        }
+        .order-menu {
+            .order-menu-option {
+                padding: 5px 20px;
+                cursor: pointer;
+                &:hover {
+                    border-radius: 10px;
+                    background-color: var(--color-4);
+                }
             }
         }
+        .order-menu-icon {
+            cursor: pointer;
+            padding: 5px;
+        }
     }
-    .order-menu-icon {
-        cursor: pointer;
-        padding: 5px;
+}
+
+.page-pagination {
+    p {
+        color: #ccc;
+        font-weight: 600;
+        user-select: none;
+    }
+    .page-pagination-btn {
+        .pagination-btn-prev,
+        .pagination-btn-next {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .pagination-btn-prev:hover,
+        .pagination-btn-next:hover {
+            color: var(--color-1);
+        }
     }
 }

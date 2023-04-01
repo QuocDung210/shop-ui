@@ -5,11 +5,12 @@ import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import MainHeaderMenu from './MainHeaderMenu';
 import Cart from '../Cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import MainNavbar from '../MainNavbar';
 import Tippy from '@tippyjs/react/headless';
 import { useState } from 'react';
+import Buttons from '~/components/Buttons';
 
 function MainHeader({ menuItems, navList }) {
     const [open, setOpen] = useState(false);
@@ -49,7 +50,31 @@ function MainHeader({ menuItems, navList }) {
                                     </div>
                                     <div>
                                         <Tippy
-                                            delay={[0, 500]}
+                                            trigger="click"
+                                            delay={[0, 300]}
+                                            placement="bottom-end"
+                                            interactive
+                                            arrow
+                                            render={(attrs) => (
+                                                <div className="nav-notify-popper content-box">
+                                                    <div className="notify-list">hahaha</div>
+                                                    <div className="notify-viewall-btn text-end">
+                                                        <Buttons primary to={'notify'}>
+                                                            View All
+                                                        </Buttons>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        >
+                                            <div className="nav-notify-icon">
+                                                <FontAwesomeIcon icon={faBell} />
+                                            </div>
+                                        </Tippy>
+                                    </div>
+                                    <div>
+                                        <Tippy
+                                            trigger="click"
+                                            delay={[0, 100]}
                                             placement="bottom-end"
                                             interactive
                                             arrow

@@ -5,23 +5,29 @@ import Buttons from '~/components/Buttons';
 import Images from '~/components/Images';
 import Menu from '~/components/Popper/Menu';
 import config from '~/config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutSuccess } from '~/redux/slices/authSlice';
 
 function MainHeaderMenu({ menuItems }) {
-    const currentUser = true;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const currentUser = useSelector((state) => state.auth.login.currentUser);
     const userMenu = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             label: 'Người dùng',
             link: config.routes.user,
-            separateBottom: true,
         },
         {
             icon: <FontAwesomeIcon icon={faRightFromBracket} />,
             label: 'Đăng xuất',
-            separateTop: true,
+            action: () => {
+                dispatch(logoutSuccess());
+                navigate('/');
+            },
         },
     ];
 
@@ -31,7 +37,7 @@ function MainHeaderMenu({ menuItems }) {
                 {currentUser ? (
                     <div className="d-flex justify-content-end align-items-center options__list">
                         <Link>
-                            <p className="mb-0 d-none d-sm-block header-user-name">tên người dùng</p>
+                            <p className="mb-0 d-none d-sm-block header-user-name">{currentUser.user.name}</p>
                         </Link>
                         <Menu items={userMenu} placement={'bottom-end'}>
                             <Images

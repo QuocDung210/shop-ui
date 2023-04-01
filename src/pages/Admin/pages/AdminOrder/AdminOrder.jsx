@@ -1,8 +1,18 @@
-import { faBan, faCheck, faClock, faEllipsisV, faLayerGroup, faTruck } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBan,
+    faCheck,
+    faChevronLeft,
+    faChevronRight,
+    faClock,
+    faEllipsisV,
+    faLayerGroup,
+    faTruck,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Container, Row, Stack, Tab, Tabs } from 'react-bootstrap';
 import Tippy from '@tippyjs/react/headless';
 import './AdminOrder.scss';
+import { useState } from 'react';
 
 const STATISTICAL_ITEM = [
     {
@@ -78,6 +88,27 @@ const data = [
 ];
 
 function AdminOrder() {
+    const [currentType, setCurrentType] = useState(data[0].name);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const handleSetType = (e) => {
+        setCurrentType(e);
+        setCurrentPage(1);
+    };
+
+    const handleNext = () => {
+        if (currentPage < 10) {
+            setCurrentPage(currentPage + 1);
+        }
+        console.log(currentType);
+    };
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
     return (
         <Container fluid>
             <Row>
@@ -109,10 +140,11 @@ function AdminOrder() {
                         defaultActiveKey={STATISTICAL_ITEM[0].name}
                         id="justify-tab-example"
                         className="statistical-tabs"
+                        onSelect={handleSetType}
                     >
                         {STATISTICAL_ITEM.map((item, idx) => (
                             <Tab key={idx} eventKey={item.name} title={item.name}>
-                                <Row className="admin-order-list content-box">
+                                <Row className="admin-order-list px-5 py-3">
                                     <Row className="mb-3 fw-bold">
                                         <Col xs={3}>Mã đơn hàng</Col>
                                         <Col xs={2}>Ngày mua hàng</Col>
@@ -159,6 +191,24 @@ function AdminOrder() {
                                             </Col>
                                         </Row>
                                     ))}
+                                </Row>
+                                <Row>
+                                    <div className="page-pagination d-flex justify-content-end pt-4">
+                                        <p className="mb-0 me-5">{`${currentPage}/${10} trang`}</p>
+                                        <div className="page-pagination-btn d-flex align-items-center  ">
+                                            <FontAwesomeIcon
+                                                icon={faChevronLeft}
+                                                className="pagination-btn-prev"
+                                                onClick={handlePrev}
+                                            />
+
+                                            <FontAwesomeIcon
+                                                icon={faChevronRight}
+                                                className="pagination-btn-next"
+                                                onClick={handleNext}
+                                            />
+                                        </div>
+                                    </div>
                                 </Row>
                             </Tab>
                         ))}

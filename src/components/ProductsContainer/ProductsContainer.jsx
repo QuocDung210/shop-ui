@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function ProductsContainer(props) {
-    // const { products, title, to } = props;
-    const lg = 2;
+    const { products = null, title, isLoading } = props;
+    const lg = 4;
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -20,7 +20,7 @@ function ProductsContainer(props) {
         },
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
-            items: 4,
+            items: 5,
         },
         tablet: {
             breakpoint: { max: 1024, min: 464 },
@@ -59,14 +59,14 @@ function ProductsContainer(props) {
 
     return (
         <Container fluid>
-            <Container className="product-slider">
-                <Row>
-                    <Col className="d-flex align-items-center">
-                        <h3 className="m-0">Chưa biết để gì</h3>
+            <Container className="product-slider ">
+                <Row className="product-slider-header">
+                    <Col className="product-slider-title d-flex align-items-center">
+                        <h2 className="m-0">{title}</h2>
                     </Col>
-                    <Col style={{ textAlign: 'end' }}>
+                    <Col className="text-end p-0">
                         <Buttons
-                            className={lg <= 4 && 'd-none'}
+                            // className={lg <= 4 && 'd-none'}
                             primary
                             rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}
                         >
@@ -78,16 +78,21 @@ function ProductsContainer(props) {
                     <Carousel
                         responsive={responsive}
                         className="p-0"
-                        showDots
                         customRightArrow={<CustomRightArrow />}
                         customLeftArrow={<CustomLeftArrow />}
                         renderButtonGroupOutside={true}
                     >
-                        {Array.from({ length: lg }).map((_, idx) => (
-                            <div className="product-slider-item " key={idx}>
-                                <ProductCard.Loading />
-                            </div>
-                        ))}
+                        {isLoading || !products
+                            ? Array.from({ length: lg }).map((_, idx) => (
+                                  <div className="product-slider-item " key={idx}>
+                                      <ProductCard.Loading />
+                                  </div>
+                              ))
+                            : products?.map((product, idx) => (
+                                  <div className="product-slider-item " key={idx}>
+                                      <ProductCard product={product} />
+                                  </div>
+                              ))}
                     </Carousel>
                 </Row>
             </Container>

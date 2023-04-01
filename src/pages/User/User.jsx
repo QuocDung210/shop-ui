@@ -1,7 +1,9 @@
 import { faCartShopping, faClock, faKey, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import config from '~/config';
+import { logoutFailed, logoutSuccess, startLogout } from '~/redux/slices/authSlice';
 import './User.scss';
 
 const { Container, Row, Col, Stack } = require('react-bootstrap');
@@ -25,19 +27,24 @@ const DASH_BOARD_MENU = [
     {
         title: 'Giỏ hàng',
         icon: <FontAwesomeIcon icon={faCartShopping} />,
-    },
-    {
-        title: 'Đăng xuất',
-        icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+        link: '#',
     },
 ];
 
 function User() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        dispatch(logoutSuccess());
+        navigate('/');
+    };
+
     return (
         <Container fluid>
-            <Container className="mt-3">
-                <Row>
-                    <Col md={3} className="db-menu p-0 d-none d-md-block">
+            <Container className="my-4">
+                <Row className="g-4">
+                    <Col md={3} className="content-box p-0">
                         <Stack>
                             {DASH_BOARD_MENU.map((item, idx) => (
                                 <Link to={item.link} className="d-flex align-items-center db-menu-item" key={idx}>
@@ -45,23 +52,16 @@ function User() {
                                     <div className="db-menu-item-title">{item.title}</div>
                                 </Link>
                             ))}
+                            <div className="d-flex align-items-center db-menu-item" onClick={handleLogOut}>
+                                <div className="db-menu-item-icon">
+                                    <FontAwesomeIcon icon={faRightFromBracket} />
+                                </div>
+                                <div className="db-menu-item-title">Đăng xuất</div>
+                            </div>
                         </Stack>
                     </Col>
-                    <Col className="db-menu p-0 d-block d-md-none" xs={2}>
-                        <Stack>
-                            {DASH_BOARD_MENU.map((item, idx) => (
-                                <Link
-                                    to={item.link}
-                                    className="d-flex align-items-center justify-content-center db-menu-item"
-                                    key={idx}
-                                >
-                                    <div className="db-menu-item-icon p-0">{item.icon}</div>
-                                </Link>
-                            ))}
-                        </Stack>
-                    </Col>
-                    <Col md={9} xs={10}>
-                        <div className="db-content">
+                    <Col className="content-box">
+                        <div>
                             <Outlet />
                         </div>
                     </Col>

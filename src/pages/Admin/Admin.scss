@@ -15,6 +15,7 @@
             background-color: var(--white);
             box-shadow: 0px 2px 1px rgb(0 0 0 / 12%);
             .admin-menu {
+                z-index: 10;
                 width: 100px;
                 position: absolute;
                 top: 50%;
@@ -45,13 +46,6 @@
             margin: 10px 0;
         }
     }
-}
-
-.content-box {
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 1px 3px rgb(3 0 71 / 20%);
-    background-color: var(--white);
 }
 
 .admin-avatar-menu {

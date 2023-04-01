@@ -20,6 +20,9 @@ function Menu({ children, items = [], placement = 'bottom' }) {
                         if (isParent) {
                             setHistory((prev) => [...prev, item.children]);
                         }
+                        if (item.action) {
+                            item.action();
+                        }
                     }}
                 />
             );
@@ -27,19 +30,22 @@ function Menu({ children, items = [], placement = 'bottom' }) {
     };
     return (
         <Tippy
+            trigger="click"
             delay={[0, 200]}
             placement={placement}
             interactive
             render={(attrs) => (
-                <div className="header-menu" tabIndex="-1" {...attrs}>
+                <div className="header-menu " tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         {history.length > 1 && (
                             <Header
                                 title={current.title}
-                                onClick={() => setHistory((prev) => prev.slice(0, prev.length - 1))}
+                                onClick={() => {
+                                    setHistory((prev) => prev.slice(0, prev.length - 1));
+                                }}
                             />
                         )}
-                        <div className="menu-options">{renderItems()}</div>
+                        <div className="menu-options content-box">{renderItems()}</div>
                     </PopperWrapper>
                 </div>
             )}

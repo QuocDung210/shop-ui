@@ -47,21 +47,14 @@ function Store() {
     }, [query]);
 
     return (
-        <Container fluid className="shop__container d-flex flex-column gap-2 mb-4">
+        <Container fluid className="shop-container d-flex flex-column gap-2 mb-4">
             {query && (
-                <Row
-                    className="shop-header"
-                    style={{ backgroundColor: '#ffffff', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
-                >
+                <Row className="shop-header content-box">
                     <h3 className="mt-2 mb-2">{`Kết quả tìm kiếm cho : "${query}"`}</h3>
                 </Row>
             )}
             <Row className="shop-products">
-                <Container
-                    fluid
-                    className="products-container"
-                    style={{ backgroundColor: '#ffffff', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
-                >
+                <Container fluid className="products-container content-box">
                     <Row className="products-nav">
                         <Navbar bg="light" expand="lg">
                             <Container fluid>

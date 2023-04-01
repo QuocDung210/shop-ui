@@ -1,4 +1,11 @@
-import { faEllipsisV, faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+    faChevronLeft,
+    faChevronRight,
+    faEllipsisV,
+    faMinus,
+    faPlus,
+    faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
 import { useState } from 'react';
@@ -59,6 +66,19 @@ function AdminProducts() {
     // const [curentMember, setCurrentMember] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const handleNext = () => {
+        if (currentPage < 10) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     const handleSetInput = (e) => {
         setSearchValue(e.target.value);
@@ -116,7 +136,7 @@ function AdminProducts() {
     return (
         <Container fluid className="acc-wrapper">
             <Row className="mb-4">
-                <h2>Danh sách thành viên</h2>
+                <h2>Danh sách sản phẩm</h2>
             </Row>
             <Row className="acc-tools mb-4 content-box">
                 <div className="d-flex align-items-center  p-0">
@@ -250,6 +270,24 @@ function AdminProducts() {
                         </Col>
                     </Row>
                 ))}
+                <Row style={{ borderTop: '2px solid #ccc' }}>
+                    <div className="page-pagination d-flex justify-content-end pt-4">
+                        <p className="mb-0 me-5">{`${currentPage}/${10} trang`}</p>
+                        <div className="page-pagination-btn d-flex align-items-center  ">
+                            <FontAwesomeIcon
+                                icon={faChevronLeft}
+                                className="pagination-btn-prev"
+                                onClick={handlePrev}
+                            />
+
+                            <FontAwesomeIcon
+                                icon={faChevronRight}
+                                className="pagination-btn-next"
+                                onClick={handleNext}
+                            />
+                        </div>
+                    </div>
+                </Row>
             </Row>
 
             <Modal show={showDeleteMember} onHide={handleCloseDeleteMember} className="delete-member">
