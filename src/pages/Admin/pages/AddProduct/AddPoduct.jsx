@@ -1,14 +1,16 @@
 import { faCirclePlus, faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Row } from 'react-bootstrap';
 import Buttons from '~/components/Buttons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './AddProduct.scss';
-import { setDoc, doc } from 'firebase/firestore';
-import { db } from '~/firebase/configFirebase';
-import { FirebaseService } from '~/firebase/firebaseService';
+
+import { toast } from 'react-toastify';
+import { BrandApi } from '~/api';
+import { seriesApi } from '~/api/seriesApi';
+import { categoryApi } from '~/api/categoryApi';
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
     'RAM',
@@ -34,6 +36,7 @@ function AddProduct() {
     const inputSpecificationRef = useRef(null);
     const brandRef = useRef(null);
     const categoryRef = useRef(null);
+    const seriesRef = useRef(null);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [specificationInput, setSpecificationInput] = useState('');
@@ -43,7 +46,26 @@ function AddProduct() {
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [selected, setSelected] = useState(0);
+    const [brandList, setBrandList] = useState(null);
+    const [seriesList, setSeriesList] = useState(null);
+    const [categoryList, setCategoryList] = useState(null);
     const dt = new DataTransfer();
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const brandRes = await BrandApi.getAll();
+                const seriesRes = await seriesApi.getAll();
+                const categoryRes = await categoryApi.getAll();
+                setBrandList(brandRes);
+                setSeriesList(seriesRes);
+                setCategoryList(categoryRes);
+            } catch (err) {
+                toast.error(err);
+            }
+        };
+        fetch();
+    }, []);
     //Set name
     const handleSetName = (e) => {
         setName(e.target.value);
@@ -161,22 +183,29 @@ function AddProduct() {
 
     //Create product
     const handleCreate = async () => {
-        const urls = await FirebaseService.uploadImg(images);
+        const brand = brandRef.current.value;
+        const series = seriesRef.current.value;
+        const category = categoryRef.current.value;
 
+        // const urls = await FirebaseService.uploadImg(images);
         const data = {
             name: name,
             description: description,
-            specificationsList: specificationsList,
-            quantity: quantity,
+            tags: specificationsList,
+            available: quantity,
             price: price,
             discount: discount,
-            productImages: urls,
+            // productImages: urls,
+            brandId: brand,
+            categoryId: category,
+            seriesId: series,
         };
-        try {
-            await setDoc(doc(db, 'a', name), data);
-        } catch (err) {
-            console.log(err);
-        }
+        console.log(data);
+        // try {
+        //     await setDoc(doc(db, 'products', name), data);
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     return (
@@ -329,10 +358,11 @@ function AddProduct() {
                                     <option hidden value={''}>
                                         --Chọn thương hiệu--
                                     </option>
-                                    <option value={'Asus'}>hahahah</option>
-                                    <option value={'MSI'}>hahahah</option>
-                                    <option value={'Lenovo'}>hahahah</option>
-                                    <option value={'Mac'}>hahahah</option>
+                                    {brandList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="pd-category mb-4">
@@ -341,11 +371,29 @@ function AddProduct() {
                                     <option value={''} hidden>
                                         --Chọn danh mục--
                                     </option>
+                                    {categoryList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="pd-series mb-4">
+                                <h3>Series</h3>
+                                <select ref={seriesRef} name="series" id="series" defaultValue={''}>
+                                    <option value={''} hidden>
+                                        --Chọn Series--
+                                    </option>
+                                    {seriesList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                    {/* <option>hahahah</option>
                                     <option>hahahah</option>
                                     <option>hahahah</option>
                                     <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
+                                    <option>hahahah</option> */}
                                 </select>
                             </div>
                         </Row>
@@ -378,14 +426,3 @@ function AddProduct() {
 }
 
 export default AddProduct;
-
-// () => {
-//     // console.log('name : ', name);
-//     console.log('inages', images);
-//     // console.log('description: ', test);
-//     console.log(discount);
-//     console.log(brandRef.current.value);
-//     console.log(specificationInput);
-//     console.log(specificationsList);
-//     // editorTestFeild.current.innerHTML = test;
-// }

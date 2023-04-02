@@ -57,7 +57,7 @@ const ADMIN_SIDEBAR_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faTags} />,
         title: 'Các thứ linh tinh',
-        link: 'brand',
+        link: 'category-series',
     },
 ];
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Carousel, Col, Container, Row, Stack } from 'react-bootstrap';
 import { FirebaseService } from '~/firebase/firebaseService';
 import './Slider.scss';
+import { categoryApi } from '~/api/categoryApi';
 
 const listSlider = [
     {
@@ -26,10 +27,13 @@ const listSlider = [
 
 function Slider() {
     const [currentAdImgs, setCurrentAddImgs] = useState([]);
+    const [category, setCategory] = useState(null);
     useEffect(() => {
         const fetch = async () => {
-            const res = await FirebaseService.getImgs('AdImgs', 'img');
-            setCurrentAddImgs(res.listImg);
+            const resAdImg = await FirebaseService.getImgs('AdImgs', 'img');
+            const resCategory = await categoryApi.getAll();
+            setCurrentAddImgs(resAdImg.listImg);
+            setCategory(resCategory);
         };
         fetch();
     }, []);
@@ -40,15 +44,11 @@ function Slider() {
                     <Row className="gap-3">
                         <Col md={2} className="content-box d-none d-lg-block">
                             <Stack gap={2}>
-                                <div className="slider-category">
-                                    <p>Laptop Gaming</p>
-                                </div>
-                                <div className="slider-category">
-                                    <p>Laptop Văn phòng</p>
-                                </div>
-                                <div className="slider-category">
-                                    <p>Laptop Đồ Họa</p>
-                                </div>
+                                {category?.map((item, idx) => (
+                                    <div key={idx} className="slider-category">
+                                        <p>{item.name}</p>
+                                    </div>
+                                ))}
                             </Stack>
                         </Col>
                         <Col className="content-box p-0">

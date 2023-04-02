@@ -30,7 +30,7 @@ function Brand() {
                 setBrandList(res);
                 setSelected(res[0]);
             } catch (err) {
-                console.log(err);
+                toast.error(err);
             }
         };
         fetchApi();
@@ -157,6 +157,7 @@ function Brand() {
 
     return (
         <>
+            <ToastContainer />
             <Container fluid>
                 <Row className="mb-4">
                     <h2>Thương hiệu</h2>
@@ -395,7 +396,6 @@ function Brand() {
                     </div>
                 </Row>
             </Container>
-            <ToastContainer />
         </>
     );
 }
