@@ -34,3 +34,9 @@
         }
     }
 }
+
+.category-show-list,
+.series-show-list {
+    max-height: 300px;
+    overflow: scroll;
+}

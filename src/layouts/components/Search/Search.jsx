@@ -4,23 +4,19 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import 'tippy.js/dist/tippy.css';
 import { useEffect, useRef, useState } from 'react';
 
-import * as searchService from '~/services/searchService';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import ResultSearchItem from '~/components/ResultSearchItem';
 import './Search.scss';
 import { useDebounce } from '~/hooks';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, createSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { ProductApi } from '~/api';
 
 function Search({ handleOpenOffcanvas }) {
     const [visible, setVisible] = useState(false);
     const [input, setInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const dispatch = useDispatch();
-    const searchR = useSelector((state) => state.search.search.searchRes);
 
     const searchRef = useRef();
     const searchResultRef = useRef();
@@ -36,13 +32,26 @@ function Search({ handleOpenOffcanvas }) {
         }
         const fetchApi = async () => {
             setLoading(true);
-            const result = await searchService.search(debounced);
-            setSearchResults(result);
+            // const result = await searchService.search(debounced);
+            const result = await ProductApi.getAll({
+                query: debounced,
+                pageIndex: 1,
+                pageSize: 12,
+                totalRow: 0,
+                sort: 0,
+                products: [],
+                brandId: 0,
+                categoryId: 0,
+                seriesId: 0,
+                minPrice: 0,
+                maxPrice: 0,
+            });
+            setSearchResults(result.products);
             setLoading(false);
         };
 
         fetchApi();
-    }, [debounced, dispatch, searchR]);
+    }, [debounced]);
 
     useEffect(() => {
         if (searchResults) {
@@ -139,8 +148,8 @@ function Search({ handleOpenOffcanvas }) {
                         <h4 className="result__title">Result</h4>
                         <div className="result-item" onClick={() => handleClickItem()}>
                             {searchResults &&
-                                searchResults.map((searchResult) => (
-                                    <ResultSearchItem key={searchResult.id} searchResult={searchResult} />
+                                searchResults.map((searchResult, idx) => (
+                                    <ResultSearchItem key={idx} searchResult={searchResult} />
                                 ))}
                         </div>
                     </PopperWrapper>

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import config from './config';
-import { DefaultLayout, WithSidebar } from './layouts';
+import { DefaultLayout } from './layouts';
 import Admin from './pages/Admin';
 import Dashboard from './pages/Admin/pages/Dashboard/Dashboard';
 import Accounts from './pages/Admin/pages/Accounts';
@@ -60,14 +60,7 @@ function App() {
                 <Routes>
                     <Route path={config.routes.home} element={<DefaultLayout />}>
                         <Route index element={<Home />} />
-                        <Route
-                            path={config.routes.store}
-                            element={
-                                <WithSidebar>
-                                    <Store />
-                                </WithSidebar>
-                            }
-                        ></Route>
+                        <Route path={config.routes.store} element={<Store />}></Route>
                         <Route path={config.routes.introduce} />
                         <Route path={config.routes.contact} />
                         <Route path={config.routes.product_detail} element={<Product />} />
@@ -93,7 +86,7 @@ function App() {
                         <Route path="add-account" element={<AddAccount />} />
                         <Route path="products" element={<AdminProducts />} />
                         <Route path="add-product" element={<AddProduct />} />
-                        <Route path="update-product" element={<UpdateProduct />} />
+                        <Route path="update-product/:id" element={<UpdateProduct />} />
                         <Route path="order" element={<AdminOrder />} />
                         <Route path="notify" element={<AdminNotify />} />
                         <Route path="member-profile" element={<MemberProfile />} />

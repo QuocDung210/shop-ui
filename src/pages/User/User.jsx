@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import config from '~/config';
-import { logoutFailed, logoutSuccess, startLogout } from '~/redux/slices/authSlice';
+import { logoutSuccess } from '~/redux/slices/authSlice';
 import './User.scss';
 
 const { Container, Row, Col, Stack } = require('react-bootstrap');
@@ -24,11 +24,11 @@ const DASH_BOARD_MENU = [
         icon: <FontAwesomeIcon icon={faClock} />,
         link: config.routes.history,
     },
-    {
-        title: 'Giỏ hàng',
-        icon: <FontAwesomeIcon icon={faCartShopping} />,
-        link: '#',
-    },
+    // {
+    //     title: 'Giỏ hàng',
+    //     icon: <FontAwesomeIcon icon={faCartShopping} />,
+    //     link: '#',
+    // },
 ];
 
 function User() {

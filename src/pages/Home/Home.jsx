@@ -23,7 +23,6 @@ function Home() {
 
         fetchApi();
     }, []);
-
     return (
         <Container fluid style={{ backgroundColor: 'var(--background-color)' }}>
             <Row>

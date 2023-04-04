@@ -8,9 +8,10 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './AddProduct.scss';
 
 import { toast } from 'react-toastify';
-import { BrandApi } from '~/api';
+import { BrandApi, ProductApi } from '~/api';
 import { seriesApi } from '~/api/seriesApi';
 import { categoryApi } from '~/api/categoryApi';
+import { FirebaseService } from '~/firebase/firebaseService';
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
     'RAM',
@@ -186,21 +187,33 @@ function AddProduct() {
         const brand = brandRef.current.value;
         const series = seriesRef.current.value;
         const category = categoryRef.current.value;
+        let spList = [];
+        for (let key in specificationsList) {
+            spList.push(specificationsList[key].value);
+        }
 
-        // const urls = await FirebaseService.uploadImg(images);
-        const data = {
-            name: name,
-            description: description,
-            tags: specificationsList,
-            available: quantity,
-            price: price,
-            discount: discount,
-            // productImages: urls,
-            brandId: brand,
-            categoryId: category,
-            seriesId: series,
-        };
-        console.log(data);
+        try {
+            const urls = await FirebaseService.uploadImg(images, 'ProductImgs');
+            const data = {
+                name: name,
+                brandId: brand,
+                categoryId: category,
+                seriesId: series,
+                price: price,
+                discount: discount,
+                description: description,
+                tags: spList,
+                images: urls,
+                available: parseInt(quantity),
+            };
+
+            const pdRes = await ProductApi.addProduct(data);
+            toast.success('Success');
+            console.log(pdRes);
+        } catch (err) {
+            toast.error(err);
+        }
+
         // try {
         //     await setDoc(doc(db, 'products', name), data);
         // } catch (err) {

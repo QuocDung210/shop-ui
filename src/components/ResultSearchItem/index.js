@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
 import Styles from './ResultSearchItem.module.scss';
 import Images from '../Images';
+import { splitNumber } from '~/numberSplit';
 const cx = classNames.bind(Styles);
 
 function ResultSearchItem({ searchResult }) {
     return (
-        <Link to={`/product/${searchResult.nickname}`} className={cx('wrapper')}>
-            <Images className={cx('avatar')} src={searchResult.avatar} alt="avatar" />
+        <Link to={`/product/${searchResult?.id}`} className={cx('wrapper')}>
+            <Images className={cx('product__img')} src={searchResult.images[0]} alt="avatar" />
             <div className={cx('info')}>
-                <p className={cx('music__name')}>
-                    <span className={cx('name')}>{searchResult.full_name}</span>
-                    {searchResult.tick && <FontAwesomeIcon icon={faCheckCircle} className={cx('check')} />}
-                </p>
-                <p className={cx('singer__name')}>{searchResult.nickname}</p>
+                <p className={cx('product__name')}>{searchResult.name}</p>
+                <p className={cx('product__price')}>{`${splitNumber(searchResult.price)} đ`}</p>
             </div>
         </Link>
     );

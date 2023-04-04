@@ -160,7 +160,7 @@ function Series() {
                 <Row className="gap-3">
                     <Col sm={3} xs={12} className="content-box">
                         <h3>Danh sách</h3>
-                        <Stack gap={3}>
+                        <Stack gap={3} className="series-show-list">
                             {seriesList ? (
                                 seriesList.map((item, idx) => (
                                     <div

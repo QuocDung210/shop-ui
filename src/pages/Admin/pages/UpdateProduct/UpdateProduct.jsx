@@ -1,11 +1,17 @@
 import './UpdateProduct.scss';
 import { faCirclePlus, faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Row } from 'react-bootstrap';
 import Buttons from '~/components/Buttons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useParams } from 'react-router-dom';
+import { BrandApi, ProductApi } from '~/api';
+import { seriesApi } from '~/api/seriesApi';
+import { categoryApi } from '~/api/categoryApi';
+import { FirebaseService } from '~/firebase/firebaseService';
+import { toast } from 'react-toastify';
 
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
@@ -28,20 +34,66 @@ const PRODUCT_SPECIFICATIONS = [
 ];
 
 function UpdateProduct() {
+    const params = useParams();
     const inputFileRef = useRef(null);
     const inputSpecificationRef = useRef(null);
     const brandRef = useRef(null);
     const categoryRef = useRef(null);
+    const seriesRef = useRef(null);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [specificationInput, setSpecificationInput] = useState('');
     const [specificationsList, setSpecificationsList] = useState([]);
-    const [images, setImages] = useState(null);
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [selected, setSelected] = useState(PRODUCT_SPECIFICATIONS[0]);
+
+    const [images, setImages] = useState(null);
+    const [currentImgs, setCurrentImgs] = useState([]);
+    const [imgsDel, setImgsDel] = useState([]);
+    const [brandList, setBrandList] = useState([]);
+    const [seriesList, setSeriesList] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+    const [categorySelected, setCategorySelected] = useState(0);
+    const [brandSelected, setBrandSelected] = useState(0);
+    const [seriesSelected, setSeriesSelected] = useState(0);
+    const [currentProduct, setCurrentProduct] = useState({});
+
     const dt = new DataTransfer();
+
+    useEffect(() => {
+        const fetch = async () => {
+            const resProduct = await ProductApi.getByIdProduct(params.id);
+            console.log(resProduct);
+            setCurrentProduct(resProduct);
+            const resBrand = await BrandApi.getAll();
+            const resSeries = await seriesApi.getAll();
+            const resCategory = await categoryApi.getAll();
+            setSeriesList(resSeries);
+            setCategoryList(resCategory);
+            setBrandList(resBrand);
+            setName(resProduct.name);
+            setPrice(resProduct.price);
+            setQuantity(resProduct.available);
+            setDiscount(resProduct.discount);
+            setDescription(resProduct.description);
+            setCurrentImgs(resProduct.images);
+            setSeriesSelected(resProduct.seriesId);
+            setCategorySelected(resProduct.categoryId);
+            setBrandSelected(resProduct.brandId);
+            let temp = [];
+            for (let i = 0; i < PRODUCT_SPECIFICATIONS.length; i++) {
+                temp.push({
+                    name: PRODUCT_SPECIFICATIONS[i],
+                    value: resProduct.tags[i],
+                });
+            }
+            setSpecificationsList(temp);
+            setSelected(temp.length);
+        };
+        fetch();
+    }, [params.id]);
 
     const handleSetName = (e) => {
         setName(e.target.value);
@@ -120,13 +172,68 @@ function UpdateProduct() {
         }
     };
 
-    const handleDeleteSpecification = (specification) => {
+    const handleDeleteSpecification = (specification, idx) => {
         setSpecificationsList(
             specificationsList.filter((value, idx, arr) => {
                 return value.name !== specification.name;
             }),
         );
+        setSelected(idx);
     };
+
+    const handleDeleteCurrentImg = (img) => {
+        setCurrentImgs(currentImgs.filter((item) => item !== img));
+        setImgsDel([...imgsDel, img]);
+    };
+
+    const handleSelectCategory = (e) => {
+        setCategorySelected(e.target.value);
+    };
+    const handleSelectSeries = (e) => {
+        setSeriesSelected(e.target.value);
+    };
+    const handleSelectBrand = (e) => {
+        setBrandSelected(e.target.value);
+    };
+    const handleUpdate = async () => {
+        try {
+            let newImgs = [];
+            if (images?.length > 0) {
+                const urls = await FirebaseService.uploadImg(images, 'ProductImgs');
+                newImgs = [...urls];
+            }
+            let spList = [];
+            for (let key in specificationsList) {
+                spList.push(specificationsList[key].value);
+            }
+            if (imgsDel?.length > 0) {
+                for (let img of imgsDel) {
+                    await FirebaseService.deleteImg(img);
+                }
+            }
+            console.log('check mang: ', [...newImgs, ...currentImgs]);
+            const data = {
+                id: currentProduct.id,
+                name: name || 'Chưa cập nhật tên',
+                brandId: brandSelected,
+                categoryId: categorySelected,
+                seriesId: seriesSelected,
+                price: price || 0,
+                discount: discount || 0,
+                description: description,
+                tags: spList,
+                images: newImgs,
+                available: quantity || 0,
+            };
+            console.log(data);
+            await ProductApi.updateProduct(data);
+            toast.success('Cập nhật thành công.');
+            setImgsDel([]);
+        } catch (err) {
+            toast.error(err);
+        }
+    };
+
     return (
         <Container fluid className="add-product-container">
             <Row className="mb-4">
@@ -176,6 +283,24 @@ function UpdateProduct() {
                         <Row className="mb-4">
                             <div className="px-4 pd-img content-box ">
                                 <h3>Ảnh sản phẩm</h3>
+                                <div className="my-4">
+                                    <h4>{`Ảnh hiện có:  ${currentImgs.length}`}</h4>
+                                    <div className="pd-img-list d-flex">
+                                        {currentImgs !== [] &&
+                                            currentImgs.map((img, idx) => {
+                                                return (
+                                                    <div key={idx} className="item-img me-4">
+                                                        <FontAwesomeIcon
+                                                            className="item-img-delete"
+                                                            icon={faCircleXmark}
+                                                            onClick={() => handleDeleteCurrentImg(img)}
+                                                        />
+                                                        <img src={`${img}`} alt="img" />
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
                                 <div className="file-input-container mb-4">
                                     <input
                                         ref={inputFileRef}
@@ -213,7 +338,7 @@ function UpdateProduct() {
                                     <div className="pd-specifications-option">
                                         <Dropdown className="specifications-dropdown-wrapper" as={ButtonGroup}>
                                             <Button className="specifications-btn-dropdown" variant="success">
-                                                {selected}
+                                                {PRODUCT_SPECIFICATIONS[selected]}
                                             </Button>
 
                                             <Dropdown.Toggle
@@ -225,7 +350,7 @@ function UpdateProduct() {
 
                                             <Dropdown.Menu className="specifications-menu">
                                                 {PRODUCT_SPECIFICATIONS.map((item, idx) => (
-                                                    <Dropdown.Item key={idx} onClick={() => setSelected(item)}>
+                                                    <Dropdown.Item key={idx} onClick={() => setSelected(idx)}>
                                                         {item}
                                                     </Dropdown.Item>
                                                 ))}
@@ -234,6 +359,7 @@ function UpdateProduct() {
                                     </div>
                                     <div className="pd-specifications-input mb-4">
                                         <input
+                                            disabled={specificationsList.length === PRODUCT_SPECIFICATIONS.length}
                                             ref={inputSpecificationRef}
                                             type={'text'}
                                             spellCheck="false"
@@ -252,7 +378,7 @@ function UpdateProduct() {
                                             <FontAwesomeIcon
                                                 icon={faCircleXmark}
                                                 className="pd-specification-delete-icon"
-                                                onClick={() => handleDeleteSpecification(specification)}
+                                                onClick={() => handleDeleteSpecification(specification, idx)}
                                             />
                                             <p className="mb-0 ms-3">{specification.value}</p>
                                         </div>
@@ -271,27 +397,65 @@ function UpdateProduct() {
                             </div>
                             <div className="pd-brand mb-4">
                                 <h3>Thương hiệu</h3>
-                                <select ref={brandRef} name="brand" id="brand" required defaultValue={''}>
+                                <select
+                                    ref={brandRef}
+                                    name="brand"
+                                    id="brand"
+                                    required
+                                    value={brandSelected}
+                                    onChange={handleSelectBrand}
+                                >
                                     <option hidden value={''}>
                                         --Chọn thương hiệu--
                                     </option>
-                                    <option value={'Asus'}>hahahah</option>
-                                    <option value={'MSI'}>hahahah</option>
-                                    <option value={'Lenovo'}>hahahah</option>
-                                    <option value={'Mac'}>hahahah</option>
+                                    {brandList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="pd-category mb-4">
                                 <h3>Danh mục</h3>
-                                <select ref={categoryRef} name="category" id="category" defaultValue={''}>
+                                <select
+                                    ref={categoryRef}
+                                    name="category"
+                                    id="category"
+                                    value={categorySelected}
+                                    onChange={handleSelectCategory}
+                                >
                                     <option value={''} hidden>
                                         --Chọn danh mục--
                                     </option>
+                                    {categoryList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="pd-series mb-4">
+                                <h3>Series</h3>
+                                <select
+                                    ref={seriesRef}
+                                    name="series"
+                                    id="series"
+                                    value={seriesSelected}
+                                    onChange={handleSelectSeries}
+                                >
+                                    <option value={''} hidden>
+                                        --Chọn Series--
+                                    </option>
+                                    {seriesList?.map((item, idx) => (
+                                        <option key={idx} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                    {/* <option>hahahah</option>
                                     <option>hahahah</option>
                                     <option>hahahah</option>
                                     <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
+                                    <option>hahahah</option> */}
                                 </select>
                             </div>
                         </Row>
@@ -312,20 +476,7 @@ function UpdateProduct() {
                             </div>
                         </Row>
                         <Row className="content-box">
-                            <Buttons
-                                primary
-                                onClick={() => {
-                                    // console.log('name : ', name);
-                                    // console.log('inages', images);
-                                    // console.log('description: ', test);
-                                    console.log(discount);
-                                    console.log(brandRef.current.value);
-                                    console.log(specificationInput);
-                                    console.log(specificationsList);
-                                    // editorTestFeild.current.innerHTML = test;
-                                    setName('hahaha');
-                                }}
-                            >
+                            <Buttons primary onClick={handleUpdate}>
                                 Tạo
                             </Buttons>
                         </Row>

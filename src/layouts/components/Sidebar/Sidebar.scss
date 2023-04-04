@@ -14,3 +14,35 @@
         opacity: 0.6;
     }
 }
+
+.nav-item {
+    border-radius: 10px;
+    cursor: pointer;
+    p {
+        font-size: 1.8rem;
+        padding: 10px;
+    }
+    &:hover {
+        background-color: var(--color-4);
+    }
+}
+
+.price-range-slider {
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        font-weight: 500;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+}

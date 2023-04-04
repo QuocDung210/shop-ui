@@ -160,7 +160,7 @@ function Category() {
                 <Row className="gap-3">
                     <Col sm={3} xs={12} className="content-box">
                         <h3>Danh sách</h3>
-                        <Stack gap={3}>
+                        <Stack gap={3} className="category-show-list">
                             {categoryList ? (
                                 categoryList.map((item, idx) => (
                                     <div

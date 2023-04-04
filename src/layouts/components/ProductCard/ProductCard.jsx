@@ -3,6 +3,7 @@ import { Card, Placeholder } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
 import './ProductCard.scss';
+import { splitNumber } from '~/numberSplit';
 
 function ProductCard({ product }) {
     const ref = useRef(null);
@@ -15,27 +16,27 @@ function ProductCard({ product }) {
         <>
             <Card className="card-custom">
                 <div className="card-left-label">
-                    <div className="card-sale-label">
-                        <span>-20%</span>
+                    <div className={`card-sale-label ${product?.discount === 0 && 'd-none'}`}>
+                        <span>{product?.discount}%</span>
                     </div>
-                    <div className="card-soldout-label">
-                        <span>bán hết</span>
+                    <div className={`card-soldout-label ${product?.available !== 0 && 'd-none'}`}>
+                        <span>Bán hết</span>
                     </div>
                 </div>
-                <div className="card-right-label">
+                {/* <div className="card-right-label">
                     <div className="card-popular-label">
                         <span>Nổi bật</span>
                     </div>
-                </div>
+                </div> */}
                 <div className="card-img">
                     <Card.Img
                         variant="top"
-                        src={product.thumbnailUrl || product.avatar}
+                        src={product?.avatar || product?.images[0]}
                         onError={handleErrorImg}
                         ref={ref}
                     />
                     <div className="card-tool">
-                        <Link to={`/product/${product.nickname || product.id}`}>
+                        <Link to={`/product/${product?.nickname || product?.id}`}>
                             <div className="card-tool-title">
                                 <p>View detail</p>
                             </div>
@@ -44,11 +45,11 @@ function ProductCard({ product }) {
                 </div>
                 <Card.Body>
                     <Card.Title className="card-title-custom">
-                        <Link to={`/product/${product.nickname || product.id}`}>
-                            <p className="card-name">{product.title || product.nickname}</p>
+                        <Link to={`/product/${product?.nickname || product?.id}`}>
+                            <p className="card-name">{product?.name || product?.nickname}</p>
                         </Link>
                     </Card.Title>
-                    <Card.Text>{product.likes_count || '200.000'} đồng</Card.Text>
+                    <Card.Text>{`${splitNumber(product?.price)} đ`}</Card.Text>
                 </Card.Body>
             </Card>
         </>

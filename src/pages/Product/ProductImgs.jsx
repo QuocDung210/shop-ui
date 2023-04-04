@@ -2,22 +2,25 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Container, Row, Carousel, Placeholder, Modal } from 'react-bootstrap';
-
-function ProductImgs({ images }) {
+import images from '~/assets/images';
+function ProductImgs({ imageList = [] }) {
     const [currentImg, setCurrentImg] = useState(0);
     const [openModal, setopenModal] = useState(false);
-    const imgs = [
-        { id: 0, value: images },
-        { id: 1, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
-        { id: 2, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-        { id: 3, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-        { id: 4, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-        { id: 5, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
-    ];
-    const [img, setImg] = useState(imgs[0]);
+    const [img, setImg] = useState(imageList[0]);
+
+    const imgList = () => {
+        let a = [];
+        for (let i = 0; i < imageList.length; i++) {
+            a.push({
+                id: i,
+                value: imageList[i],
+            });
+        }
+        return a;
+    };
 
     const handleClick = (index) => {
-        const wordSlider = imgs[index];
+        const wordSlider = imgList()[index];
         setImg(wordSlider);
         setCurrentImg(index);
     };
@@ -26,9 +29,9 @@ function ProductImgs({ images }) {
         <Container fluid>
             <Row className="img-slide">
                 <Carousel interval={null} activeIndex={currentImg} onSelect={handleClick}>
-                    {imgs.map((img, idx) => (
+                    {imgList().map((img, idx) => (
                         <Carousel.Item key={idx}>
-                            <img className="pd-slider-img" src={img.value} alt="slide" />
+                            <img className="pd-slider-img" src={img.value || images.errorImg} alt="slide" />
                         </Carousel.Item>
                     ))}
                 </Carousel>
@@ -36,11 +39,11 @@ function ProductImgs({ images }) {
                     <FontAwesomeIcon icon={faEye} />
                 </div>
                 <div className="d-flex pt-4 imgs-pd">
-                    {imgs.map((data, i) => (
+                    {imgList().map((data, i) => (
                         <div className="thumbnail" key={i}>
                             <img
                                 className={img.id === i ? 'clicked' : ''}
-                                src={data.value}
+                                src={data.value || images.errorImg}
                                 onClick={() => handleClick(i)}
                                 height="70"
                                 width="100"
@@ -62,7 +65,7 @@ function ProductImgs({ images }) {
                     <div>
                         <img
                             style={{ width: '100%', maxHeight: '500px', objectFit: 'contain' }}
-                            src={imgs[currentImg].value}
+                            src={imgList()[currentImg]?.value}
                             alt="slide"
                         />
                     </div>

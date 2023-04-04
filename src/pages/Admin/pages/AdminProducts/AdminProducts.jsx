@@ -8,12 +8,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Modal, Row, Stack } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Buttons from '~/components/Buttons';
 import Images from '~/components/Images';
 import './AdminProducts.scss';
+import { ProductApi } from '~/api';
+import { toast } from 'react-toastify';
+import { FirebaseService } from '~/firebase/firebaseService';
+import { splitNumber } from '~/numberSplit';
 
 const data = [
     {
@@ -63,13 +67,36 @@ function AdminProducts() {
     const [type, setType] = useState(data[0].name);
     const [showDeleteMember, setShowDeleteMember] = useState(false);
     const [showDeleteMembers, setShowDeleteMembers] = useState(false);
-    // const [curentMember, setCurrentMember] = useState({});
+    const [productList, setProductList] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [deleteTarget, setDeleteTarget] = useState({});
+
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await ProductApi.getAll({
+                query: '',
+                pageIndex: currentPage,
+                pageSize: 5,
+                totalRow: 0,
+                sort: 0,
+                products: [],
+                brandId: 0,
+                categoryId: 0,
+                seriesId: 0,
+                minPrice: 0,
+                maxPrice: 0,
+            });
+            setProductList(res.products);
+            setTotalPage(res.totalRow);
+        };
+        fetch();
+    }, [currentPage]);
 
     const handleNext = () => {
-        if (currentPage < 10) {
+        if (currentPage < totalPage) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -108,9 +135,26 @@ function AdminProducts() {
     };
 
     const handleCloseDeleteMember = () => setShowDeleteMember(false);
-    const handleShowDeleteMember = () => setShowDeleteMember(true);
-    const handleDeleteMember = () => {
+    const handleShowDeleteMember = (item) => {
+        setShowDeleteMember(true);
+        setDeleteTarget(item);
+    };
+    const handleDeleteMember = async () => {
+        try {
+            if (deleteTarget.images) {
+                for (let img of deleteTarget.images) {
+                    await FirebaseService.deleteImg(img);
+                }
+            }
+            const res = await ProductApi.deleteProduct(deleteTarget.id);
+            console.log(res);
+            toast.success('Xóa thành công.');
+        } catch (err) {
+            console.log(err);
+            toast.error(err);
+        }
         setShowDeleteMember(false);
+        setDeleteTarget({});
     };
 
     const handleCloseDeleteMembers = () => setShowDeleteMembers(false);
@@ -133,6 +177,7 @@ function AdminProducts() {
             setIsChecked(false);
         }
     };
+
     return (
         <Container fluid className="acc-wrapper">
             <Row className="mb-4">
@@ -207,13 +252,13 @@ function AdminProducts() {
                             <span className="ms-3">Tên sản phẩm</span>
                         </div>
                     </Col>
-                    <Col xs={2}>Ngày tạo</Col>
+                    <Col xs={2}>Bán được</Col>
                     <Col xs={2}>Trạng thái</Col>
-                    <Col xs={2}>Giá</Col>
+                    <Col xs={2}>{'Giá (đồng)'}</Col>
                     <Col xs={1}></Col>
                 </Row>
                 <hr />
-                {data.map((member, idx) => (
+                {productList?.map((item, idx) => (
                     <Row key={idx} className="py-3 acc-list-item">
                         <Col xs={5}>
                             <div className="d-flex align-items-center gap-3">
@@ -221,28 +266,28 @@ function AdminProducts() {
                                     type={'checkbox'}
                                     size={60}
                                     className="acc-checkbox checkbox-item"
-                                    value={member.name}
+                                    value={item?.id}
                                     name="productIds"
                                     onChange={renderDeleteBtn}
                                 />
                                 <Images
-                                    src=""
+                                    src={item.images[0]}
                                     alt="user"
                                     className="current-user"
                                     fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                                     style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                                 />
-                                <span className="ms-3">{member.name}</span>
+                                <span className="pd-item-name ms-3">{item?.name}</span>
                             </div>
                         </Col>
                         <Col xs={2} className="d-flex align-items-center">
-                            {idx + 1}
+                            {item?.sold}
                         </Col>
                         <Col xs={2} className="d-flex align-items-center">
-                            {member.uv}
+                            {item?.available > 0 ? <p className="m-0">Còn hàng</p> : <p className="m-0">Hết hàng</p>}
                         </Col>
                         <Col xs={2} className="d-flex align-items-center">
-                            {member.pv}
+                            {splitNumber(item?.price)}
                         </Col>
                         <Col xs={1} className="d-flex align-items-center justify-content-end">
                             <Tippy
@@ -253,12 +298,12 @@ function AdminProducts() {
                                 render={(attrs) => (
                                     <Stack className="acc-menu content-box p-3" {...attrs}>
                                         <div className="acc-menu-option">
-                                            <Link to={'/admin/update-product'}>
+                                            <Link to={`/admin/update-product/${item.id}`}>
                                                 <p className="my-2 mx-3">Cập nhật</p>
                                             </Link>
                                         </div>
                                         <div className="acc-menu-option">
-                                            <p className="my-2 mx-3" onClick={() => handleShowDeleteMember()}>
+                                            <p className="my-2 mx-3" onClick={() => handleShowDeleteMember(item)}>
                                                 Xóa
                                             </p>
                                         </div>
@@ -272,7 +317,7 @@ function AdminProducts() {
                 ))}
                 <Row style={{ borderTop: '2px solid #ccc' }}>
                     <div className="page-pagination d-flex justify-content-end pt-4">
-                        <p className="mb-0 me-5">{`${currentPage}/${10} trang`}</p>
+                        <p className="mb-0 me-5">{`${currentPage}/${totalPage} trang`}</p>
                         <div className="page-pagination-btn d-flex align-items-center  ">
                             <FontAwesomeIcon
                                 icon={faChevronLeft}
