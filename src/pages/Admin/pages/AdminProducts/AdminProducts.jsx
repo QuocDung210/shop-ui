@@ -14,57 +14,13 @@ import { Link } from 'react-router-dom';
 import Buttons from '~/components/Buttons';
 import Images from '~/components/Images';
 import './AdminProducts.scss';
-import { ProductApi } from '~/api';
+import { BrandApi, ProductApi } from '~/api';
 import { toast } from 'react-toastify';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { splitNumber } from '~/numberSplit';
+import useAuth from '~/hooks/useAuth';
 
-const data = [
-    {
-        name: 'Asus',
-        uv: 31.47,
-        pv: 2400,
-        fill: '#8884d8',
-    },
-    {
-        name: 'Macbook',
-        uv: 26.69,
-        pv: 4567,
-        fill: '#83a6ed',
-    },
-    {
-        name: 'HP',
-        uv: 15.69,
-        pv: 1398,
-        fill: '#8dd1e1',
-    },
-    {
-        name: 'Dell',
-        uv: 8.22,
-        pv: 9800,
-        fill: '#82ca9d',
-    },
-    {
-        name: 'MSI',
-        uv: 8.63,
-        pv: 3908,
-        fill: '#a4de6c',
-    },
-    {
-        name: 'Lenovo',
-        uv: 2.63,
-        pv: 4800,
-        fill: '#d0ed57',
-    },
-    {
-        name: 'Acer',
-        uv: 6.67,
-        pv: 4800,
-        fill: '#ffc658',
-    },
-];
 function AdminProducts() {
-    const [type, setType] = useState(data[0].name);
     const [showDeleteMember, setShowDeleteMember] = useState(false);
     const [showDeleteMembers, setShowDeleteMembers] = useState(false);
     const [productList, setProductList] = useState([]);
@@ -73,6 +29,14 @@ function AdminProducts() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const [deleteTarget, setDeleteTarget] = useState({});
+    const [deleteMultiTarget, setDeleteMultiTarget] = useState([]);
+    const [dataBrand, setDataBrand] = useState([]);
+    const [type, setType] = useState({});
+    const [render, setRender] = useState(false);
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -89,12 +53,13 @@ function AdminProducts() {
                 minPrice: 0,
                 maxPrice: 0,
             });
+            const resCate = await BrandApi.getAll();
+            setDataBrand(resCate);
             setProductList(res.products);
             setTotalPage(res.totalRow);
         };
         fetch();
-    }, [currentPage]);
-
+    }, [currentPage, render]);
     const handleNext = () => {
         if (currentPage < totalPage) {
             setCurrentPage(currentPage + 1);
@@ -120,64 +85,87 @@ function AdminProducts() {
 
     const handleCheckAll = (e) => {
         const checkboxItem = document.querySelectorAll('.checkbox-item');
+
         if (e.target.checked === true) {
             setIsChecked(true);
+            setDeleteMultiTarget(productList);
             checkboxItem.forEach((item) => {
                 item.checked = true;
             });
         } else if (e.target.checked === false) {
             setIsChecked(false);
-
+            setDeleteMultiTarget([]);
             checkboxItem.forEach((item) => {
                 item.checked = false;
             });
         }
     };
 
-    const handleCloseDeleteMember = () => setShowDeleteMember(false);
-    const handleShowDeleteMember = (item) => {
+    const handleCloseDeleteProduct = () => setShowDeleteMember(false);
+    const handleShowDeleteProduct = (item) => {
         setShowDeleteMember(true);
         setDeleteTarget(item);
     };
-    const handleDeleteMember = async () => {
+    const handleDeleteProduct = async () => {
         try {
-            if (deleteTarget.images) {
+            if (deleteTarget.images[0] !== '') {
                 for (let img of deleteTarget.images) {
                     await FirebaseService.deleteImg(img);
                 }
             }
-            const res = await ProductApi.deleteProduct(deleteTarget.id);
-            console.log(res);
+            await ProductApi.deleteProduct(deleteTarget.id, configHeader);
+            setRender(!render);
             toast.success('Xóa thành công.');
         } catch (err) {
-            console.log(err);
             toast.error(err);
         }
         setShowDeleteMember(false);
         setDeleteTarget({});
     };
 
-    const handleCloseDeleteMembers = () => setShowDeleteMembers(false);
-    const handleShowDeleteMembers = () => {
+    const handleCloseDeleteProducts = () => setShowDeleteMembers(false);
+    const handleShowDeleteProducts = () => {
         setShowDeleteMembers(true);
     };
-    const handleDeleteMembers = () => {
-        const checked = document.querySelectorAll('input[name="productIds"]:checked');
+    const handleDeleteProducts = async () => {
+        try {
+            toast.warning('Đang xử lý, xin bạn hãy chờ.');
+            for (let product of deleteMultiTarget) {
+                if (product.images[0] !== '') {
+                    for (let img of product.images) {
+                        await FirebaseService.deleteImg(img);
+                    }
+                }
+                await ProductApi.deleteProduct(product.id, configHeader);
+            }
+            const checked = document.querySelectorAll('input[name="productIds"]:checked');
 
-        checked.forEach((item) => {
-            console.log(item.value);
-        });
+            checked.forEach((item) => {
+                item.checked = false;
+            });
+            setIsChecked(false);
+            setDeleteMultiTarget([]);
+            setRender(!render);
+            toast.success('Xóa thành công.');
+        } catch (err) {
+            toast.error('Xóa không thành công.');
+        }
         setShowDeleteMembers(false);
     };
-    const renderDeleteBtn = () => {
+    const renderDeleteBtn = (e, item) => {
         const checked = document.querySelectorAll('input[name="productIds"]:checked');
+
         if (checked.length > 0) {
             setIsChecked(true);
         } else {
             setIsChecked(false);
         }
+        if (e.target.checked === true) {
+            setDeleteMultiTarget([...deleteMultiTarget, item]);
+        } else {
+            setDeleteMultiTarget(deleteMultiTarget.filter((pd) => pd.id !== item.id));
+        }
     };
-
     return (
         <Container fluid className="acc-wrapper">
             <Row className="mb-4">
@@ -192,7 +180,7 @@ function AdminProducts() {
                     <Buttons
                         disabled={!isChecked}
                         primary
-                        onClick={handleShowDeleteMembers}
+                        onClick={handleShowDeleteProducts}
                         leftIcon={<FontAwesomeIcon icon={faMinus} />}
                     >
                         Xoá đã chọn
@@ -203,7 +191,7 @@ function AdminProducts() {
                 <Col xs={3}>
                     <Dropdown className="filter-product" as={ButtonGroup}>
                         <Button className="btn-filter-product" variant="success">
-                            {type}
+                            {type?.name || 'All'}
                         </Button>
 
                         <Dropdown.Toggle
@@ -214,9 +202,9 @@ function AdminProducts() {
                         />
 
                         <Dropdown.Menu className="menu-filter-product">
-                            {data.map((item, idx) => (
-                                <Dropdown.Item key={idx} onClick={() => setType(item.name)}>
-                                    {item.name}
+                            {dataBrand.map((item, idx) => (
+                                <Dropdown.Item key={idx} onClick={() => setType(item)}>
+                                    {item?.name}
                                 </Dropdown.Item>
                             ))}
                         </Dropdown.Menu>
@@ -268,7 +256,7 @@ function AdminProducts() {
                                     className="acc-checkbox checkbox-item"
                                     value={item?.id}
                                     name="productIds"
-                                    onChange={renderDeleteBtn}
+                                    onChange={(e) => renderDeleteBtn(e, item)}
                                 />
                                 <Images
                                     src={item.images[0]}
@@ -291,6 +279,7 @@ function AdminProducts() {
                         </Col>
                         <Col xs={1} className="d-flex align-items-center justify-content-end">
                             <Tippy
+                                trigger="click"
                                 delay={[0, 300]}
                                 placement="bottom-end"
                                 interactive
@@ -303,7 +292,7 @@ function AdminProducts() {
                                             </Link>
                                         </div>
                                         <div className="acc-menu-option">
-                                            <p className="my-2 mx-3" onClick={() => handleShowDeleteMember(item)}>
+                                            <p className="my-2 mx-3" onClick={() => handleShowDeleteProduct(item)}>
                                                 Xóa
                                             </p>
                                         </div>
@@ -335,24 +324,24 @@ function AdminProducts() {
                 </Row>
             </Row>
 
-            <Modal show={showDeleteMember} onHide={handleCloseDeleteMember} className="delete-member">
+            <Modal show={showDeleteMember} onHide={handleCloseDeleteProduct} className="delete-member">
                 <Modal.Body>Xác nhận xóa sản phẩm!</Modal.Body>
                 <Modal.Footer>
-                    <Buttons onClick={handleCloseDeleteMember} outline small>
+                    <Buttons onClick={handleCloseDeleteProduct} outline small>
                         Cancel
                     </Buttons>
-                    <Buttons onClick={handleDeleteMember} primary small>
+                    <Buttons onClick={handleDeleteProduct} primary small>
                         OK
                     </Buttons>
                 </Modal.Footer>
             </Modal>
-            <Modal show={showDeleteMembers} onHide={handleCloseDeleteMembers} className="delete-members">
+            <Modal show={showDeleteMembers} onHide={handleCloseDeleteProducts} className="delete-members">
                 <Modal.Body>Xác nhận xóa danh sách sản phẩm đã chọn!</Modal.Body>
                 <Modal.Footer>
-                    <Buttons onClick={handleCloseDeleteMembers} outline small>
+                    <Buttons onClick={handleCloseDeleteProducts} outline small>
                         Cancel
                     </Buttons>
-                    <Buttons onClick={handleDeleteMembers} primary small>
+                    <Buttons onClick={handleDeleteProducts} primary small>
                         OK
                     </Buttons>
                 </Modal.Footer>

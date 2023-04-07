@@ -15,6 +15,7 @@ import { cartApi } from '~/api';
 import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
 import CartItem from '../Cart/CartItem';
+import config from '~/config';
 
 function MainHeader({ menuItems, navList }) {
     const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ function MainHeader({ menuItems, navList }) {
 
                 setCartItems(res);
             } catch (err) {
-                toast.error(err);
+                toast.error('Error.');
             }
         };
         fetch();
@@ -140,7 +141,7 @@ function MainHeader({ menuItems, navList }) {
                             {cartItems && cartItems?.result?.map((item, idx) => <CartItem item={item} key={idx} />)}
                         </Stack>
                         <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>
-                            <Buttons primary>
+                            <Buttons primary to={config.routes.order} onClick={() => setShow(!show)}>
                                 {`Thanh toán ${cartItems?.result?.reduce((total, num) => {
                                     return total + num.product.price;
                                 }, 0)} đ`}

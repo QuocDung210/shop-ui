@@ -5,6 +5,7 @@ const images = {
     noDataImg: require('~/assets/images/no-data.png'),
     LoginImg: require('~/assets/images/login.png'),
     background: require('~/assets/images/04.jpg'),
+    noCart: require('~/assets/images/no-cart.png'),
 };
 
 export default images;

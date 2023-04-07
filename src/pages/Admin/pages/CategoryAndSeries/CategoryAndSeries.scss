@@ -1,3 +1,15 @@
+.category-series-manage-container {
+    h3,
+    h4 {
+        font-weight: 600;
+        color: var(--text-color-2);
+    }
+    p {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+}
+
 .category-item {
     border-radius: 10px;
     cursor: pointer;

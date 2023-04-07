@@ -6,6 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { seriesApi } from '~/api/seriesApi';
 import { toast } from 'react-toastify';
 import { useEffect, useRef, useState } from 'react';
+import useAuth from '~/hooks/useAuth';
 
 function Series() {
     const [seriesList, setSeriesList] = useState(null);
@@ -16,7 +17,10 @@ function Series() {
 
     const nameRef = useRef(null);
     const desRef = useRef(null);
-
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -38,7 +42,7 @@ function Series() {
             return;
         }
         try {
-            const res = await toast.promise(seriesApi.addSeries(data), {
+            const res = await toast.promise(seriesApi.addSeries(data, configHeader), {
                 pending: 'Đang thêm dòng máy.',
                 success: 'Thêm thành công.',
                 error: 'Thêm thất bại.',
@@ -70,24 +74,24 @@ function Series() {
                 name: data.name,
             };
         }
-        if (data === null || data?.description === '') {
-            dt = {
-                ...dt,
-                description: selectedSeries.description,
-            };
-        } else {
+        if (data?.description) {
             dt = {
                 ...dt,
                 description: data.description,
             };
+        } else {
+            dt = {
+                ...dt,
+                description: '',
+            };
         }
         try {
-            const res = await toast.promise(seriesApi.updateSeries(selectedSeries.id, dt), {
+            const res = await toast.promise(seriesApi.updateSeries(selectedSeries.id, dt, configHeader), {
                 pending: 'Đang cập nhật.',
                 success: 'Cập nhật thành công.',
                 error: 'Cập nhật thất bại.',
             });
-            setSeriesList([...seriesList.filter((item) => item.id !== selectedSeries.id), res.result]);
+            setSeriesList([...seriesList.filter((item) => item.id !== selectedSeries.id), res]);
             setSelectedSeries(res.result);
             setDefaultData();
             setSeriesType(null);
@@ -119,7 +123,7 @@ function Series() {
         }
         window.confirm(`Xóa dòng máy : ${selectedSeries?.name}`);
         try {
-            await seriesApi.deleteSeries(selectedSeries.id);
+            await seriesApi.deleteSeries(selectedSeries.id, configHeader);
             toast.success('Xóa thành công.');
             setSeriesList(seriesList.filter((item) => item.id !== selectedSeries.id));
             setSelectedSeries(seriesList[0]);
@@ -165,12 +169,12 @@ function Series() {
                                 seriesList.map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className={`category-item ${selectedSeries?.id === item.id && 'selected'}`}
+                                        className={`category-item ${selectedSeries?.id === item?.id && 'selected'}`}
                                         onClick={() => {
                                             setSelectedSeries(item);
                                         }}
                                     >
-                                        <p>{item.name}</p>
+                                        <p>{item?.name}</p>
                                     </div>
                                 ))
                             ) : (

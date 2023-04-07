@@ -7,6 +7,7 @@ const routes = {
     register: '/register',
     login: '/login',
     user: 'user',
+    order: 'order',
     userDetail: 'profile',
     changePassword: 'changepassword',
     history: 'history',

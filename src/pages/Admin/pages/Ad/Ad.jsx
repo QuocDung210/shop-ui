@@ -122,7 +122,7 @@ function Ad() {
     }, [urls]);
     return (
         <>
-            <Container fluid>
+            <Container fluid className="ad-manage-container">
                 <Row className="mb-4">
                     <h2>Quảng cáo</h2>
                 </Row>

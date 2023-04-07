@@ -12,6 +12,7 @@ import { BrandApi, ProductApi } from '~/api';
 import { seriesApi } from '~/api/seriesApi';
 import { categoryApi } from '~/api/categoryApi';
 import { FirebaseService } from '~/firebase/firebaseService';
+import useAuth from '~/hooks/useAuth';
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
     'RAM',
@@ -42,7 +43,7 @@ function AddProduct() {
     const [description, setDescription] = useState('');
     const [specificationInput, setSpecificationInput] = useState('');
     const [specificationsList, setSpecificationsList] = useState([]);
-    const [images, setImages] = useState(null);
+    const [images, setImages] = useState([]);
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -51,6 +52,10 @@ function AddProduct() {
     const [seriesList, setSeriesList] = useState(null);
     const [categoryList, setCategoryList] = useState(null);
     const dt = new DataTransfer();
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -75,7 +80,7 @@ function AddProduct() {
     //Add-Delete product images
     const handleAddImg = (e) => {
         let intersection = [];
-        if (images) {
+        if (images.length > 0) {
             for (let i = 0; i < [...e.target.files].length; i++) {
                 var check = false;
                 for (let j = 0; j < images.length; j++) {
@@ -88,7 +93,7 @@ function AddProduct() {
                 }
             }
         }
-        if (images) {
+        if (images.length > 0) {
             setImages([...images, ...intersection]);
             // setData({ ...data, images: [...images, ...intersection] });
         } else {
@@ -193,23 +198,27 @@ function AddProduct() {
         }
 
         try {
-            const urls = await FirebaseService.uploadImg(images, 'ProductImgs');
+            let urls;
+            if (images.length > 0) {
+                urls = await FirebaseService.uploadImg(images, 'ProductImgs');
+            } else {
+                urls = [''];
+            }
             const data = {
                 name: name,
-                brandId: brand,
-                categoryId: category,
-                seriesId: series,
-                price: price,
-                discount: discount,
+                brandId: parseInt(brand),
+                categoryId: parseInt(category),
+                seriesId: parseInt(series),
+                price: parseInt(price),
+                discount: parseInt(discount),
                 description: description,
                 tags: spList,
                 images: urls,
                 available: parseInt(quantity),
             };
 
-            const pdRes = await ProductApi.addProduct(data);
+            await ProductApi.addProduct(data, configHeader);
             toast.success('Success');
-            console.log(pdRes);
         } catch (err) {
             toast.error(err);
         }
@@ -286,7 +295,7 @@ function AddProduct() {
                                     </label>
                                 </div>
                                 <div className="pd-img-list d-flex">
-                                    {images &&
+                                    {images.length > 0 &&
                                         images.map((img, idx) => (
                                             <div key={idx} className="item-img me-4">
                                                 <FontAwesomeIcon

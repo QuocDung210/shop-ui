@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { categoryApi } from '~/api/categoryApi';
 import Buttons from '~/components/Buttons';
 import Check from './Check';
+import useAuth from '~/hooks/useAuth';
 
 function Category() {
     const [categoryList, setCategoryList] = useState(null);
@@ -15,7 +16,10 @@ function Category() {
 
     const nameRef = useRef(null);
     const desRef = useRef(null);
-
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -37,7 +41,7 @@ function Category() {
             return;
         }
         try {
-            const res = await toast.promise(categoryApi.addCategory(data), {
+            const res = await toast.promise(categoryApi.addCategory(data, configHeader), {
                 pending: 'Đang thêm danh mục.',
                 success: 'Thêm thành công.',
                 error: 'Thêm thất bại.',
@@ -69,24 +73,22 @@ function Category() {
                 name: data.name,
             };
         }
-        if (data === null || data?.description === '') {
-            dt = {
-                ...dt,
-                description: selectedCategory.description,
-            };
-        } else {
+        if (data?.description) {
             dt = {
                 ...dt,
                 description: data.description,
             };
+        } else {
+            dt = {
+                ...dt,
+                description: '',
+            };
         }
         try {
-            const res = await toast.promise(categoryApi.updateCategory(selectedCategory.id, dt), {
-                pending: 'Đang cập nhật.',
-                success: 'Cập nhật thành công.',
-                error: 'Cập nhật thất bại.',
-            });
-            setCategoryList([...categoryList.filter((item) => item.id !== selectedCategory.id), res.result]);
+            const res = await categoryApi.updateCategory(selectedCategory.id, dt, configHeader);
+            console.log(res);
+            toast.success('Cập nhật thành công.');
+            setCategoryList([...categoryList.filter((item) => item.id !== selectedCategory.id), res]);
             setSelectedCategory(res.result);
             setDefaultData();
             setCategoryType(null);
@@ -119,7 +121,7 @@ function Category() {
         }
         window.confirm(`Xóa danh mục : ${selectedCategory?.name}`);
         try {
-            await categoryApi.deleteCategory(selectedCategory.id);
+            await categoryApi.deleteCategory(selectedCategory.id, configHeader);
             toast.success('Xóa thành công.');
             setCategoryList(categoryList.filter((item) => item.id !== selectedCategory.id));
             setSelectedCategory(categoryList[0]);
@@ -165,12 +167,12 @@ function Category() {
                                 categoryList.map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className={`category-item ${selectedCategory?.id === item.id && 'selected'}`}
+                                        className={`category-item ${selectedCategory?.id === item?.id && 'selected'}`}
                                         onClick={() => {
                                             setSelectedCategory(item);
                                         }}
                                     >
-                                        <p>{item.name}</p>
+                                        <p>{item?.name}</p>
                                     </div>
                                 ))
                             ) : (

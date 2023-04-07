@@ -9,28 +9,35 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import { cartApi } from '~/api';
+import config from '~/config';
+import { splitNumber } from '~/numberSplit';
+import images from '~/assets/images';
 function Cart(props) {
     const { handleShow } = props;
-    const [cartItems, setCartItems] = useState({});
     const [rerender, setRerender] = useState(false);
+    const [cartItems, setCartItems] = useState({});
     const auth = useAuth();
 
     useEffect(() => {
         const fetch = async () => {
-            try {
-                const res = await cartApi.getCart({
-                    headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                });
+            if (auth) {
+                try {
+                    const res = await cartApi.getCart({
+                        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+                    });
 
-                setCartItems(res);
-            } catch (err) {
-                toast.error(err);
+                    setCartItems(res);
+                } catch (err) {
+                    toast.error('Error.');
+                }
             }
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+    }, [rerender]);
+    const reRenderCart = (id) => {
+        setCartItems(cartItems?.filter((item) => item?.productId !== id));
+    };
     return (
         <div className="cart-container">
             <div className="d-none d-lg-flex align-items-center cart-wrapper gap-2">
@@ -49,23 +56,36 @@ function Cart(props) {
                                 <FontAwesomeIcon icon={faBox} />
                                 <h3 className="m-0">Giỏ hàng</h3>
                             </div>
-
-                            <Stack gap={3} className="p-3">
-                                {cartItems && cartItems?.result?.map((item, idx) => <CartItem item={item} key={idx} />)}
-                            </Stack>
-                            <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>
-                                <Buttons primary>
-                                    {`Thanh toán ${cartItems?.result?.reduce((total, num) => {
-                                        return total + num.product.price;
-                                    }, 0)} đ`}
-                                </Buttons>
+                            <div>
+                                <div
+                                    className={`cart-background ${cartItems?.length === 0 ? 'd-block' : 'd-none'}`}
+                                    style={{ backgroundImage: `url("${images.noCart}")` }}
+                                ></div>
+                                <div className={`${cartItems?.length === 0 ? 'd-none' : 'd-block'}`}>
+                                    <Stack gap={3} className="p-3">
+                                        {cartItems?.length > 0 &&
+                                            cartItems?.map((item, idx) => (
+                                                <CartItem item={item} key={idx} reRenderCart={reRenderCart} />
+                                            ))}
+                                    </Stack>
+                                    <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>
+                                        <Buttons primary to={`/${config.routes.order}`}>
+                                            {`Thanh toán ${splitNumber(
+                                                cartItems?.length > 0 &&
+                                                    cartItems?.reduce((total, num) => {
+                                                        return total + num.product.price * num.quantity;
+                                                    }, 0),
+                                            )} đ`}
+                                        </Buttons>
+                                    </div>
+                                </div>
                             </div>
                         </Stack>
                     )}
                 >
                     <div onClick={() => setRerender(!rerender)}>
                         <div className="d-flex align-items-center justify-content-center cart-bottom">
-                            <span>{cartItems?.result?.length}</span>
+                            <span>{cartItems?.length || 0}</span>
                         </div>
                         <div className="cart-top"></div>
                     </div>
@@ -73,7 +93,7 @@ function Cart(props) {
             </div>
             <div className="d-block d-lg-none cart-wrapper" onClick={() => handleShow()}>
                 <div className="d-flex align-items-center justify-content-center cart-bottom">
-                    <span>{cartItems?.result?.length}</span>
+                    <span>{cartItems?.length || 0}</span>
                 </div>
                 <div className="cart-top"></div>
             </div>

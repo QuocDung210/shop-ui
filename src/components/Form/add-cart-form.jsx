@@ -5,7 +5,7 @@ import QuantityField from '../hook-form/QuantityField';
 import * as yup from 'yup';
 
 function AddCartForm(props) {
-    const { id, add } = props;
+    const { id, add, max } = props;
 
     const initialValues = {
         quantity: null,
@@ -16,8 +16,6 @@ function AddCartForm(props) {
     });
 
     const handleSubmitForm = (values) => {
-        console.log('check value :', values);
-        console.log('Check id: :', id);
         add(id, values.quantity);
     };
 
@@ -33,9 +31,10 @@ function AddCartForm(props) {
                     <Form>
                         <FastField
                             name="quantity"
-                            label="Quantity"
+                            label="Số lượng  "
                             component={QuantityField}
                             type={'number'}
+                            max={max}
                             placeholder="--"
                         />
                         <FormGroup>

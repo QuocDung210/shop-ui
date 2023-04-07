@@ -1,10 +1,11 @@
-import { faCartShopping, faClock, faKey, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faKey, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import config from '~/config';
 import { logoutSuccess } from '~/redux/slices/authSlice';
 import './User.scss';
+import { useState } from 'react';
 
 const { Container, Row, Col, Stack } = require('react-bootstrap');
 
@@ -32,6 +33,7 @@ const DASH_BOARD_MENU = [
 ];
 
 function User() {
+    const [selected, setSelected] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -47,7 +49,14 @@ function User() {
                     <Col md={3} className="content-box p-0">
                         <Stack>
                             {DASH_BOARD_MENU.map((item, idx) => (
-                                <Link to={item.link} className="d-flex align-items-center db-menu-item" key={idx}>
+                                <Link
+                                    to={item.link}
+                                    className={`d-flex align-items-center db-menu-item ${
+                                        selected === idx && 'user-sidebar-selected'
+                                    }`}
+                                    key={idx}
+                                    onClick={() => setSelected(idx)}
+                                >
                                     <div className="db-menu-item-icon">{item.icon}</div>
                                     <div className="db-menu-item-title">{item.title}</div>
                                 </Link>
@@ -60,7 +69,7 @@ function User() {
                             </div>
                         </Stack>
                     </Col>
-                    <Col className="content-box">
+                    <Col>
                         <div>
                             <Outlet />
                         </div>

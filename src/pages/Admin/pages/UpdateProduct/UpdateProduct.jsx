@@ -12,6 +12,7 @@ import { seriesApi } from '~/api/seriesApi';
 import { categoryApi } from '~/api/categoryApi';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { toast } from 'react-toastify';
+import useAuth from '~/hooks/useAuth';
 
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
@@ -59,13 +60,15 @@ function UpdateProduct() {
     const [brandSelected, setBrandSelected] = useState(0);
     const [seriesSelected, setSeriesSelected] = useState(0);
     const [currentProduct, setCurrentProduct] = useState({});
-
     const dt = new DataTransfer();
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
 
     useEffect(() => {
         const fetch = async () => {
             const resProduct = await ProductApi.getByIdProduct(params.id);
-            console.log(resProduct);
             setCurrentProduct(resProduct);
             const resBrand = await BrandApi.getAll();
             const resSeries = await seriesApi.getAll();
@@ -200,7 +203,7 @@ function UpdateProduct() {
             let newImgs = [];
             if (images?.length > 0) {
                 const urls = await FirebaseService.uploadImg(images, 'ProductImgs');
-                newImgs = [...urls];
+                newImgs = [...urls, ...currentImgs];
             }
             let spList = [];
             for (let key in specificationsList) {
@@ -225,8 +228,8 @@ function UpdateProduct() {
                 images: newImgs,
                 available: quantity || 0,
             };
-            console.log(data);
-            await ProductApi.updateProduct(data);
+
+            await ProductApi.updateProduct(data, configHeader);
             toast.success('Cập nhật thành công.');
             setImgsDel([]);
         } catch (err) {

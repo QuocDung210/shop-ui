@@ -12,7 +12,7 @@ import { faAnglesRight, faArrowLeft, faArrowRight } from '@fortawesome/free-soli
 
 function ProductsContainer(props) {
     const { products = null, title, isLoading } = props;
-    const lg = 4;
+    const lg = 5;
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },

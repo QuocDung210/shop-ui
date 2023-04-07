@@ -11,7 +11,7 @@ import images from '~/assets/images';
 import { useNavigate } from 'react-router-dom';
 import { splitNumber } from '~/numberSplit';
 function CartItem(props) {
-    const { item } = props;
+    const { item, reRenderCart } = props;
     const auth = useAuth();
     const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
@@ -25,9 +25,10 @@ function CartItem(props) {
             await cartApi.deleteCart(item?.productId, {
                 headers: { Authorization: `Bearer ${auth?.accessToken}` },
             });
+            reRenderCart(item?.productId);
             toast.success('Xóa thành công.');
         } catch (err) {
-            toast.error(err);
+            toast.error('Xóa thất bại.');
         }
     };
 
@@ -74,7 +75,6 @@ function CartItem(props) {
         }
     };
     const handleClickItem = () => {
-        console.log(item.productId);
         navigate(`product/${item.productId}`);
     };
     return (

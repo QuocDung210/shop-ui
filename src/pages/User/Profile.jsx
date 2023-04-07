@@ -51,7 +51,7 @@ function Profile() {
     }, []);
     return (
         <Container fluid>
-            <Stack>
+            <Stack className="content-box">
                 <div>
                     <h2>HỒ SƠ</h2>
                     <p>Quản lý thông tin</p>

@@ -11,13 +11,17 @@ export const ProductApi = {
     getByIdProduct(payload) {
         return axiosTest.get(`/Product/${payload}`);
     },
-    addProduct(payload) {
-        return axiosTest.post(`/Product`, payload);
+    addProduct(payload, config) {
+        console.log('check data:', payload, config);
+        return axiosTest.post(`/Product`, payload, config);
     },
-    updateProduct(payload) {
-        return axiosTest.put(`/Product`, payload);
+    updateProduct(payload, config) {
+        return axiosTest.put(`/Product`, payload, config);
     },
-    deleteProduct(id) {
-        return axiosTest.delete(`/Product/${id}`);
+    deleteProduct(id, config) {
+        return axiosTest.delete(`/Product/${id}`, config);
+    },
+    getProductBanner() {
+        return axiosTest.get('/Product/show');
     },
 };

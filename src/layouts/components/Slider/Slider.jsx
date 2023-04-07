@@ -3,6 +3,7 @@ import { Carousel, Col, Container, Row, Stack } from 'react-bootstrap';
 import { FirebaseService } from '~/firebase/firebaseService';
 import './Slider.scss';
 import { categoryApi } from '~/api/categoryApi';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const listSlider = [
     {
@@ -28,6 +29,7 @@ const listSlider = [
 function Slider() {
     const [currentAdImgs, setCurrentAddImgs] = useState([]);
     const [category, setCategory] = useState(null);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetch = async () => {
             const resAdImg = await FirebaseService.getImgs('AdImgs', 'img');
@@ -37,6 +39,11 @@ function Slider() {
         };
         fetch();
     }, []);
+
+    const handleClickHomeCategory = (item) => {
+        navigate(`/product?${createSearchParams({ c: `${item.name}%${item.id}` })}`);
+    };
+
     return (
         <Container fluid className="slider-container">
             <Row className="m-0 slider-wrapper">
@@ -45,7 +52,11 @@ function Slider() {
                         <Col md={2} className="content-box d-none d-lg-block">
                             <Stack gap={2}>
                                 {category?.map((item, idx) => (
-                                    <div key={idx} className="slider-category">
+                                    <div
+                                        key={idx}
+                                        className="slider-category"
+                                        onClick={() => handleClickHomeCategory(item)}
+                                    >
                                         <p>{item.name}</p>
                                     </div>
                                 ))}

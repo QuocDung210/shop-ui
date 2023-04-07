@@ -21,7 +21,6 @@ function Product() {
             try {
                 setLoading(true);
                 const res = await ProductApi.getByIdProduct(params.id);
-
                 setCurrentProduct(res);
                 setLoading(false);
             } catch (error) {
@@ -38,7 +37,7 @@ function Product() {
         }
 
         try {
-            const res = await cartApi.addCart(
+            await cartApi.addCart(
                 {
                     productId: id,
                     quantity: quantity,
@@ -47,7 +46,6 @@ function Product() {
                     headers: { Authorization: `Bearer ${currentUser?.accessToken}` },
                 },
             );
-            console.log(res);
             toast.success('Thêm thành công.');
         } catch (err) {
             toast.error(err);
@@ -60,7 +58,7 @@ function Product() {
                 <Row className="product-detail my-4 ">
                     <Col xs={12} lg={5} className="content-box mb-4">
                         <div className="w-100">
-                            {loading ? <ProductImgs.Loading /> : <ProductImgs images={currentProduct.images} />}
+                            {loading ? <ProductImgs.Loading /> : <ProductImgs imageList={currentProduct.images} />}
                         </div>
                     </Col>
                     <Col xs={12} lg={7} className="content-box mb-4">
@@ -82,10 +80,10 @@ function Product() {
                             <div className={`${currentProduct?.discount <= 0 && 'd-none'}`}>
                                 <h3 className="m-0">Giá KM :</h3>
                                 <p className="m-0">
-                                    {`${(
+                                    {`${splitNumber(
                                         currentProduct?.price -
-                                        (currentProduct?.price * currentProduct?.discount) / 100
-                                    ).toString()} đ`}
+                                            (currentProduct?.price * currentProduct?.discount) / 100,
+                                    )} đ`}
                                 </p>
                             </div>
                         </Stack>
@@ -100,8 +98,12 @@ function Product() {
                             <p className="m-0">{currentProduct?.available > 0 ? 'Còn hàng.' : 'Hết hàng.'}</p>
                         </div>
                         <hr />
+                        <div className="d-flex align-items-center gap-3 mb-3">
+                            <h3 className="m-0">Số lượng hiện tại :</h3>
+                            <p className="m-0">{currentProduct?.available}</p>
+                        </div>
                         <div>
-                            <AddCartForm id={currentProduct.id} add={handleAdd} />
+                            <AddCartForm id={currentProduct.id} add={handleAdd} max={currentProduct?.available} />
                         </div>
                     </Col>
                 </Row>

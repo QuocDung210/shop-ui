@@ -12,6 +12,8 @@ function Store() {
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('q');
+    const cate = searchParams.get('c')?.split('%');
+
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,7 @@ function Store() {
                     sort: 0,
                     products: [],
                     brandId: 0,
-                    categoryId: categorySelected,
+                    categoryId: cate ? cate[1] : categorySelected,
                     seriesId: 0,
                     minPrice: priceRange.min,
                     maxPrice: priceRange.max,
@@ -47,6 +49,7 @@ function Store() {
         };
 
         allProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query, currentPage, priceRange, categorySelected]);
 
     const handleNext = () => {
@@ -66,10 +69,9 @@ function Store() {
     };
 
     const handleFilter = (id) => {
-        if (id === 0) {
-            setSearchParams('');
-        }
+        setCurrentPage(1);
         setCategorySelected(id);
+        setSearchParams('');
     };
     const handleClose = () => {
         setShow(!show);

@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { ToastContainer, toast } from 'react-toastify';
+import images from '~/assets/images';
+import useAuth from '~/hooks/useAuth';
 function Brand() {
     const [brandList, setBrandList] = useState([]);
     const [render, setRender] = useState(false);
@@ -21,7 +23,10 @@ function Brand() {
     const updateNameIpRef = useRef(null);
     const updateLogoIpRef = useRef(null);
     const updateDescriptionIpRef = useRef(null);
-
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
     useEffect(() => {
         const fetchApi = async () => {
             try {
@@ -70,7 +75,7 @@ function Brand() {
         };
 
         try {
-            const resbrand = await toast.promise(BrandApi.addBrand(dt), {
+            const resbrand = await toast.promise(BrandApi.addBrand(dt, configHeader), {
                 pending: 'Đang thêm thương hiệu',
                 success: 'Thêm thành công',
                 error: 'Thêm thất bại',
@@ -88,7 +93,7 @@ function Brand() {
 
     const handleDeleteBrand = async () => {
         try {
-            await toast.promise(BrandApi.deleteBrand(selected.id), {
+            await toast.promise(BrandApi.deleteBrand(selected.id, configHeader), {
                 pending: 'Đang xóa thương hiệu',
                 success: 'Xóa thành công',
                 error: 'Xóa thất bại',
@@ -138,7 +143,7 @@ function Brand() {
         };
 
         try {
-            await toast.promise(BrandApi.updateBrand(selected.id, dt), {
+            await toast.promise(BrandApi.updateBrand(selected.id, dt, configHeader), {
                 pending: 'Đang thêm thương hiệu',
                 success: 'Thêm thành công',
                 error: 'Thêm thất bại',
@@ -158,13 +163,13 @@ function Brand() {
     return (
         <>
             <ToastContainer />
-            <Container fluid>
+            <Container fluid className="brand-manage-container">
                 <Row className="mb-4">
                     <h2>Thương hiệu</h2>
                 </Row>
 
                 <Row className="mb-4 gap-4">
-                    <Col className="content-box" sm={12} md={4}>
+                    <Col className="brand-list content-box" sm={12} md={4}>
                         <h3>Danh sách thương hiệu</h3>
                         <Row gap={3} direction="horizontal">
                             {brandList.length > 0 ? (
@@ -175,7 +180,7 @@ function Brand() {
                                             className={`brand-name ${selected?.id === item.id && 'brand-selected'}`}
                                             onClick={() => setSelected(item)}
                                         >
-                                            <h3>{item.name}</h3>
+                                            <p className="m-0">{item.name}</p>
                                         </div>
                                     );
                                 })
@@ -202,7 +207,7 @@ function Brand() {
                                     <h3>Logo</h3>
                                     <div className="d-flex">
                                         <div className="selected-brand-img  me-4">
-                                            <img src={selected?.logo} alt="img" />
+                                            <img src={selected?.logo || images.errorImg} alt="img" />
                                         </div>
                                     </div>
                                 </div>

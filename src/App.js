@@ -27,6 +27,8 @@ import Ad from './pages/Admin/pages/Ad';
 import Brand from './pages/Admin/pages/Brand';
 import CategoryAndSeries from './pages/Admin/pages/CategoryAndSeries/CategoryAndSeries';
 import { ToastContainer } from 'react-toastify';
+import Order from './pages/Order/Order';
+import AddNotify from './pages/Admin/pages/AddNotify/AddNotify';
 function App() {
     return (
         // <Router>
@@ -72,6 +74,7 @@ function App() {
                             <Route path={config.routes.changePassword} element={<ChangePassword />} />
                             <Route path={config.routes.history} element={<History />} />
                         </Route>
+                        <Route path={'order'} element={<Order />} />
                         {/* </Route> */}
                         <Route path="notify" element={<Notify />} />
                         <Route path={config.routes._404} element={<NotFound />} />
@@ -89,6 +92,7 @@ function App() {
                         <Route path="update-product/:id" element={<UpdateProduct />} />
                         <Route path="order" element={<AdminOrder />} />
                         <Route path="notify" element={<AdminNotify />} />
+                        <Route path="add-notify" element={<AddNotify />} />
                         <Route path="member-profile" element={<MemberProfile />} />
                         <Route path="advertising" element={<Ad />} />
                         <Route path="brand" element={<Brand />} />

@@ -4,19 +4,23 @@ export const categoryApi = {
     getAll() {
         return axiosTest.get('/Category');
     },
-    getById(id) {
-        return axiosTest.get(`/Category/${id}`);
+    getById(id, config) {
+        return axiosTest.get(`/Category/${id}`, config);
     },
-    addCategory(payload) {
-        return axiosTest.post('/Category', payload);
+    addCategory(payload, config) {
+        return axiosTest.post('/Category', payload, config);
     },
-    updateCategory(id, data) {
-        return axiosTest.put('/Category', {
-            ...data,
-            id: id,
-        });
+    updateCategory(id, data, config) {
+        return axiosTest.put(
+            '/Category',
+            {
+                ...data,
+                id: id,
+            },
+            config,
+        );
     },
-    deleteCategory(id) {
-        return axiosTest.delete(`/Category/${id}`);
+    deleteCategory(id, config) {
+        return axiosTest.delete(`/Category/${id}`, config);
     },
 };

@@ -50,7 +50,9 @@ function Sidebar(props) {
         } else {
             priceFilter(data);
         }
-        setClose();
+        if (setClose) {
+            setClose();
+        }
     };
 
     return (
@@ -66,7 +68,9 @@ function Sidebar(props) {
                             className="d-flex m-0 nav-item"
                             onClick={() => {
                                 categoryFilter(0);
-                                setClose();
+                                if (setClose) {
+                                    setClose();
+                                }
                             }}
                         >
                             <p className="m-0">Tất cả</p>
@@ -77,7 +81,9 @@ function Sidebar(props) {
                                 className="d-flex m-0 nav-item"
                                 key={idx}
                                 onClick={() => {
-                                    setClose();
+                                    if (setClose) {
+                                        setClose();
+                                    }
                                     categoryFilter(sidebarItem.id);
                                 }}
                             >
