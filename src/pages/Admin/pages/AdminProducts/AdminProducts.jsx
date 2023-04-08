@@ -18,7 +18,6 @@ import { BrandApi, ProductApi } from '~/api';
 import { toast } from 'react-toastify';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { splitNumber } from '~/numberSplit';
-import useAuth from '~/hooks/useAuth';
 
 function AdminProducts() {
     const [showDeleteMember, setShowDeleteMember] = useState(false);
@@ -33,10 +32,6 @@ function AdminProducts() {
     const [dataBrand, setDataBrand] = useState([]);
     const [type, setType] = useState({});
     const [render, setRender] = useState(false);
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -113,7 +108,7 @@ function AdminProducts() {
                     await FirebaseService.deleteImg(img);
                 }
             }
-            await ProductApi.deleteProduct(deleteTarget.id, configHeader);
+            await ProductApi.deleteProduct(deleteTarget.id);
             setRender(!render);
             toast.success('Xóa thành công.');
         } catch (err) {
@@ -136,7 +131,7 @@ function AdminProducts() {
                         await FirebaseService.deleteImg(img);
                     }
                 }
-                await ProductApi.deleteProduct(product.id, configHeader);
+                await ProductApi.deleteProduct(product.id);
             }
             const checked = document.querySelectorAll('input[name="productIds"]:checked');
 
@@ -165,6 +160,9 @@ function AdminProducts() {
         } else {
             setDeleteMultiTarget(deleteMultiTarget.filter((pd) => pd.id !== item.id));
         }
+    };
+    const handleFilterBrand = (item) => {
+        console.log(item);
     };
     return (
         <Container fluid className="acc-wrapper">
@@ -202,8 +200,11 @@ function AdminProducts() {
                         />
 
                         <Dropdown.Menu className="menu-filter-product">
+                            <Dropdown.Item key={0} onClick={() => setType(0)}>
+                                All
+                            </Dropdown.Item>
                             {dataBrand.map((item, idx) => (
-                                <Dropdown.Item key={idx} onClick={() => setType(item)}>
+                                <Dropdown.Item key={idx} onClick={() => handleFilterBrand(item)}>
                                     {item?.name}
                                 </Dropdown.Item>
                             ))}

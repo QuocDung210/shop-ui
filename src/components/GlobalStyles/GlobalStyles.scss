@@ -116,7 +116,7 @@ html *::-webkit-scrollbar-thumb:hover {
     background-color: rgba(159, 253, 159, 0.986);
     color: rgba(3, 179, 0, 0.986);
 }
-.status.status-comfirmrd {
+.status.status-comfirmed {
     border-color: rgba(255, 144, 255, 0.986);
     background-color: rgba(255, 144, 255, 0.986);
     color: rgba(192, 0, 192, 0.986);
@@ -132,6 +132,37 @@ html *::-webkit-scrollbar-thumb:hover {
     color: rgba(199, 106, 0, 0.986);
 }
 .status.status-cancel {
+    border-color: rgba(255, 127, 159, 0.986);
+    background-color: rgba(255, 127, 159, 0.986);
+    color: rgba(248, 0, 0, 0.986);
+}
+
+.status-waiting {
+    border-color: rgba(255, 224, 144, 0.986);
+    background-color: rgba(255, 224, 144, 0.986);
+    color: rgba(255, 136, 0, 0.986);
+}
+.status-success {
+    border-color: rgba(159, 253, 159, 0.986);
+    background-color: rgba(159, 253, 159, 0.986);
+    color: rgba(3, 179, 0, 0.986);
+}
+.status-comfirmed {
+    border-color: rgba(255, 144, 255, 0.986);
+    background-color: rgba(255, 144, 255, 0.986);
+    color: rgba(192, 0, 192, 0.986);
+}
+.status-shipping {
+    border-color: rgba(144, 196, 255, 0.986);
+    background-color: rgba(144, 196, 255, 0.986);
+    color: rgba(0, 119, 255, 0.986);
+}
+.status-waiting-cancel {
+    border-color: rgba(255, 205, 144, 0.986);
+    background-color: rgba(255, 205, 144, 0.986);
+    color: rgba(199, 106, 0, 0.986);
+}
+.status-cancel {
     border-color: rgba(255, 127, 159, 0.986);
     background-color: rgba(255, 127, 159, 0.986);
     color: rgba(248, 0, 0, 0.986);

@@ -33,11 +33,6 @@ function ProductsContainer(props) {
     };
 
     const CustomRightArrow = ({ onClick, ...rest }) => {
-        // const {
-        //     onMove,
-        //     carouselState: { currentSlide, deviceType },
-        // } = rest;
-        // onMove means if dragging or swiping in progress.
         return (
             <button onClick={() => onClick()} className="rightArrow">
                 <FontAwesomeIcon icon={faArrowRight} />
@@ -45,11 +40,6 @@ function ProductsContainer(props) {
         );
     };
     const CustomLeftArrow = ({ onClick, ...rest }) => {
-        // const {
-        //     onMove,
-        //     carouselState: { currentSlide, deviceType },
-        // } = rest;
-        // onMove means if dragging or swiping in progress.
         return (
             <button onClick={() => onClick()} className="leftArrow">
                 <FontAwesomeIcon icon={faArrowLeft} />
@@ -65,12 +55,8 @@ function ProductsContainer(props) {
                         <h2 className="m-0">{title}</h2>
                     </Col>
                     <Col className="text-end p-0">
-                        <Buttons
-                            // className={lg <= 4 && 'd-none'}
-                            primary
-                            rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}
-                        >
-                            See All
+                        <Buttons primary rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}>
+                            Xem thêm
                         </Buttons>
                     </Col>
                 </Row>

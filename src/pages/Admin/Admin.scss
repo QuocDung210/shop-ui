@@ -49,13 +49,12 @@
 }
 
 .admin-avatar-menu {
-    width: 200px;
+    min-width: 150px;
     .admin-avatar-menu-option {
         padding: 10px;
         font-size: 1.8rem;
         font-weight: 600;
         color: var(--text-color);
-        text-align: center;
         &:hover {
             background-color: var(--color-4);
             border-radius: 10px;

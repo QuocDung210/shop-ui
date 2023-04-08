@@ -1,132 +1,131 @@
 import {
     faBan,
     faCheck,
-    faChevronLeft,
-    faChevronRight,
+    faCheckDouble,
     faClock,
-    faEllipsisV,
     faLayerGroup,
     faTruck,
+    faUserClock,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Container, Row, Stack, Tab, Tabs } from 'react-bootstrap';
-import Tippy from '@tippyjs/react/headless';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+
 import './AdminOrder.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { orderApi } from '~/api';
+import useAuth from '~/hooks/useAuth';
+import { dateFormat } from '~/Date';
+import { splitNumber } from '~/numberSplit';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { STATUS_ARR } from '~/const/statusArr';
 
 const STATISTICAL_ITEM = [
     {
         name: 'Tống',
         color: 'total',
         icon: faLayerGroup,
-    },
-    {
-        name: 'Thành công',
-        color: 'success',
-        icon: faCheck,
-    },
-    {
-        name: 'Đang giao hàng',
-        color: 'delivery',
-        icon: faTruck,
+        id: 6,
     },
     {
         name: 'Chờ xác thực',
-        color: 'waiting',
+        color: 'status-waiting',
         icon: faClock,
+        id: 0,
+    },
+    {
+        name: 'Đã xác thực',
+        color: 'status-comfirmed',
+        icon: faCheck,
+        id: 1,
+    },
+    {
+        name: 'Đang giao hàng',
+        color: 'status-shipping',
+        icon: faTruck,
+        id: 2,
+    },
+    {
+        name: 'Thành công',
+        color: 'status-success',
+        icon: faCheckDouble,
+        id: 3,
+    },
+    {
+        name: 'Chờ hủy',
+        color: 'status-waiting-cancel',
+        icon: faUserClock,
+        id: 4,
     },
     {
         name: 'Đã hủy',
-        color: 'cancel',
+        color: 'status-cancel',
         icon: faBan,
-    },
-];
-
-const data = [
-    {
-        name: 'Asus',
-        uv: 31.47,
-        pv: 2400,
-        fill: '#8884d8',
-    },
-    {
-        name: 'Macbook',
-        uv: 26.69,
-        pv: 4567,
-        fill: '#83a6ed',
-    },
-    {
-        name: 'HP',
-        uv: 15.69,
-        pv: 1398,
-        fill: '#8dd1e1',
-    },
-    {
-        name: 'Dell',
-        uv: 8.22,
-        pv: 9800,
-        fill: '#82ca9d',
-    },
-    {
-        name: 'MSI',
-        uv: 8.63,
-        pv: 3908,
-        fill: '#a4de6c',
-    },
-    {
-        name: 'Lenovo',
-        uv: 2.63,
-        pv: 4800,
-        fill: '#d0ed57',
-    },
-    {
-        name: 'Acer',
-        uv: 6.67,
-        pv: 4800,
-        fill: '#ffc658',
+        id: 5,
     },
 ];
 
 function AdminOrder() {
-    const [currentType, setCurrentType] = useState(data[0].name);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [orders, setOrders] = useState([]);
+    const [orderList, setOrderList] = useState([]);
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const configHeader = {
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+    };
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await orderApi.getOrderAdmin(configHeader);
+
+                setOrders(res);
+                setOrderList(res);
+            } catch (err) {
+                toast.error('Đã xảy ra lỗi.');
+            }
+        };
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleSetType = (e) => {
-        setCurrentType(e);
-        setCurrentPage(1);
+        if (parseInt(e) === 6) {
+            setOrderList(orders);
+        } else {
+            setOrderList(orders.filter((item) => item?.status === parseInt(e)));
+        }
     };
 
-    const handleNext = () => {
-        if (currentPage < 10) {
-            setCurrentPage(currentPage + 1);
+    const setNumber = (status) => {
+        if (status === 6) {
+            return orders.length;
         }
-        console.log(currentType);
+        const a = orders.filter((item) => item?.status === status);
+        return a.length;
     };
 
-    const handlePrev = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+    const handleClickOrder = (item) => {
+        navigate(`/admin/order-detail?${createSearchParams({ d: `${item.id}` })}`);
     };
 
     return (
-        <Container fluid>
+        <Container fluid className="admin-manage-order-container">
             <Row>
                 <h2>Danh sách đơn hàng</h2>
             </Row>
             <Row className="mb-4">
                 <div className="content-box">
-                    <h2>Thống kê</h2>
+                    <h3>Thống kê</h3>
                     <Row className="g-4 mt-0" lg={5} md={4} sm={3} xs={1}>
                         {STATISTICAL_ITEM.map((item, idx) => (
                             <Col key={idx} className="statistical-wrapper">
-                                <div className={`statistical-icon bg-${item.color}`}>
+                                <div className={`statistical-icon   ${item.color}`}>
                                     <FontAwesomeIcon icon={item.icon} />
                                 </div>
                                 <div className="statistical-describe ms-4">
                                     <h4>{item.name}</h4>
                                     <p>
-                                        <strong style={{ color: '#000000' }}>X</strong> đơn hàng
+                                        <strong style={{ color: '#000000' }}>{setNumber(item.id)}</strong> đơn hàng
                                     </p>
                                 </div>
                             </Col>
@@ -136,79 +135,69 @@ function AdminOrder() {
             </Row>
             <Row>
                 <div className="content-box">
+                    <h3 className="mb-4">Danh sách</h3>
                     <Tabs
-                        defaultActiveKey={STATISTICAL_ITEM[0].name}
+                        defaultActiveKey={STATISTICAL_ITEM[0].id}
                         id="justify-tab-example"
                         className="statistical-tabs"
                         onSelect={handleSetType}
                     >
                         {STATISTICAL_ITEM.map((item, idx) => (
-                            <Tab key={idx} eventKey={item.name} title={item.name}>
-                                <Row className="admin-order-list px-5 py-3">
-                                    <Row className="mb-3 fw-bold">
-                                        <Col xs={3}>Mã đơn hàng</Col>
-                                        <Col xs={2}>Ngày mua hàng</Col>
-                                        <Col xs={2}>Người nhận hàng</Col>
-                                        <Col xs={2}>Trạng thái</Col>
-                                        <Col xs={2}>Tổng tiền</Col>
-                                        <Col xs={1}></Col>
+                            <Tab key={idx} eventKey={item.id} title={item.name}>
+                                <Row
+                                    className={`admin-order-list px-5 py-3 ${
+                                        orderList.length <= 0 ? 'd-none' : 'd-block'
+                                    }`}
+                                >
+                                    <Row className="mb-3 admin-order-list-title">
+                                        <Col className="d-none d-md-block" xs={3}>
+                                            Người nhận hàng
+                                        </Col>
+                                        <Col className="d-none d-md-block" xs={2}>
+                                            Sđt mua hàng
+                                        </Col>
+                                        <Col xs={5} md={3}>
+                                            Ngày mua hàng
+                                        </Col>
+                                        <Col xs={3} md={2}>
+                                            Trạng thái
+                                        </Col>
+                                        <Col xs={4} md={2}>
+                                            Tổng tiền
+                                        </Col>
                                     </Row>
                                     <hr />
-                                    {data.map((member, idx) => (
-                                        <Row key={idx} className="py-3 order-list-item">
-                                            <Col xs={3} className="d-flex align-items-center">
-                                                {member.name}
-                                            </Col>
-                                            <Col xs={2} className="d-flex align-items-center">
-                                                {idx + 1}
-                                            </Col>
-                                            <Col xs={2} className="d-flex align-items-center">
-                                                {member.uv}
-                                            </Col>
-                                            <Col xs={2} className="d-flex align-items-center">
-                                                {member.pv}
-                                            </Col>
-                                            <Col xs={2} className="d-flex align-items-center">
-                                                {member.pv}
-                                            </Col>
-                                            <Col xs={1} className="d-flex align-items-center justify-content-end">
-                                                <Tippy
-                                                    delay={[0, 200]}
-                                                    placement="bottom-end"
-                                                    interactive
-                                                    arrow
-                                                    render={(attrs) => (
-                                                        <Stack className="order-menu content-box p-3" {...attrs}>
-                                                            <div className="order-menu-option">option 1</div>
-                                                            <div className="order-menu-option">option 2</div>
-                                                            <div className="order-menu-option">option 3</div>
-                                                            <div className="order-menu-option">option 4</div>
-                                                        </Stack>
+                                    {orderList.length > 0 &&
+                                        orderList.map((order, idx) => (
+                                            <Row
+                                                key={idx}
+                                                className="py-3 order-list-item"
+                                                onClick={() => handleClickOrder(order)}
+                                            >
+                                                <Col xs={3} className="d-none d-md-flex align-items-center">
+                                                    {order?.shipName}
+                                                </Col>
+                                                <Col xs={2} className="d-none d-md-flex align-items-center">
+                                                    {order?.shipPhone}
+                                                </Col>
+                                                <Col xs={5} md={3} className="d-flex align-items-center">
+                                                    {dateFormat(order?.orderDate)}
+                                                </Col>
+                                                <Col xs={3} md={2} className="d-flex align-items-center">
+                                                    {STATUS_ARR.map(
+                                                        (item, idx) =>
+                                                            idx === order?.status && (
+                                                                <p key={idx} className={`${item.type}`}>
+                                                                    {item.name}
+                                                                </p>
+                                                            ),
                                                     )}
-                                                >
-                                                    <FontAwesomeIcon icon={faEllipsisV} className="order-menu-icon" />
-                                                </Tippy>
-                                            </Col>
-                                        </Row>
-                                    ))}
-                                </Row>
-                                <Row>
-                                    <div className="page-pagination d-flex justify-content-end pt-4">
-                                        <p className="mb-0 me-5">{`${currentPage}/${10} trang`}</p>
-                                        <div className="page-pagination-btn d-flex align-items-center  ">
-                                            <FontAwesomeIcon
-                                                icon={faChevronLeft}
-                                                className="pagination-btn-prev"
-                                                onClick={handlePrev}
-                                            />
-
-                                            <FontAwesomeIcon
-                                                icon={faChevronRight}
-                                                className="pagination-btn-next"
-                                                onClick={handleNext}
-                                            />
-                                        </div>
-                                    </div>
+                                                </Col>
+                                                <Col xs={4} md={2} className="d-flex align-items-center">
+                                                    {`${splitNumber(order?.orderValue)} đ`}
+                                                </Col>
+                                            </Row>
+                                        ))}
                                 </Row>
                             </Tab>
                         ))}

@@ -2,16 +2,14 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Col, Container, Modal, Row, Stack } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { AuthApi } from '~/api';
 import Buttons from '~/components/Buttons';
 import ProfileForm from '~/components/Form/profile-form';
 import Images from '~/components/Images';
-import useAuth from '~/hooks/useAuth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '~/firebase/configFirebase';
+import { FirebaseService } from '~/firebase/firebaseService';
 
 function Profile() {
-    const userProfile = useAuth();
     const [show, setShow] = useState(false);
     const [profile, setProfile] = useState({});
     const [img, setImg] = useState('');
@@ -20,27 +18,10 @@ function Profile() {
     };
 
     useEffect(() => {
-        const getImgs = async () => {
-            const docRef = doc(db, 'a', 'Nguyen Hoang Quoc Dung');
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                let dt = docSnap.data();
-                setImg(dt.productImages[0]);
-            } else {
-                // doc.data() will be undefined in this case
-                console.log('No such document!');
-            }
-        };
-        getImgs();
-    }, []);
-
-    useEffect(() => {
         const fetchApi = async () => {
             try {
-                const res = await AuthApi.getProfile({
-                    headers: { Authorization: `Bearer ${userProfile?.accessToken}` },
-                });
+                const res = await AuthApi.getProfile();
+
                 setProfile(res);
             } catch (err) {
                 console.log(err);
@@ -49,6 +30,19 @@ function Profile() {
         fetchApi();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleChangeAvatar = async (e) => {
+        setImg(URL.createObjectURL(e.target.files[0]));
+        try {
+            const url = await FirebaseService.uploadImg([e.target.files[0]], 'UserAvatar');
+            console.log(typeof url[0]);
+            const res = await AuthApi.updateAvatar(url[0]);
+            console.log(res);
+            toast.success('Thay đổi ảnh thành công.');
+        } catch (err) {
+            toast.error('Có lỗi xảy ra.');
+        }
+    };
     return (
         <Container fluid>
             <Stack className="content-box">
@@ -58,7 +52,7 @@ function Profile() {
                 </div>
                 <hr />
                 <Row className="g-4">
-                    <Col className="text-center">
+                    <Col className="text-center" style={{ position: 'relative' }}>
                         <Images
                             src={img}
                             alt="user"
@@ -66,7 +60,21 @@ function Profile() {
                             fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                             style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                         />
+                        <div className="user-avatar-change">
+                            <label htmlFor="logo">
+                                <FontAwesomeIcon icon={faPen} />
+                            </label>
+
+                            <input
+                                type="file"
+                                id="logo"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={handleChangeAvatar}
+                            />
+                        </div>
                     </Col>
+
                     <Col>
                         <Stack gap={3}>
                             <div>

@@ -1,33 +1,39 @@
 import axiosTest from './apiTest';
 
 export const orderApi = {
-    createOrder(payload, config) {
-        return axiosTest.post('/Order', payload, config);
+    createOrder(payload) {
+        return axiosTest.post('/Order', payload);
     },
-    getOrderUser(config) {
-        return axiosTest.get('/Order', config);
+    getOrderUser() {
+        return axiosTest.get('/Order');
     },
-    getOrderAdmin(config) {
-        return axiosTest.get(`/Order/all`, config);
+    getOrderAdmin() {
+        return axiosTest.get(`/Order/all`);
     },
-    getOrderDetailById(id, config) {
-        return axiosTest.get(`/Order/Detail/${id}`, config);
+    getOrderDetailById(id) {
+        return axiosTest.get(`/Order/Detail/${id}`);
     },
-    getOrderIncomeYear(year, config) {
-        return axiosTest.get(`/Order/income/${year}`, config);
+    getOrderIncomeYear(year) {
+        return axiosTest.get(`/Order/income/${year}`);
     },
-    getOrderSoleYear(year, config) {
-        return axiosTest.get(`/Order/sole/${year}`, config);
+    getOrderSoleYear(year) {
+        return axiosTest.get(`/Order/sole/${year}`);
     },
-    getOrderBrandChartYear(year, config) {
-        return axiosTest.get(`/Order/brandchart/${year}`, config);
+    getOrderBrandChartYear(year) {
+        return axiosTest.get(`/Order/brandchart/${year}`);
     },
-    getOrderBrandChartMonthOrYear(payload, config) {
+    getOrderBrandChartMonthOrYear(payload) {
         return axiosTest.get(`/Order/brandchart`, {
             params: payload,
         });
     },
-    cancelOrder(id, config) {
-        return axiosTest.put(`/Order/cancel/${id}`, config);
+    cancelOrderAdmin(id) {
+        return axiosTest.post(`/Order/cancel/${id}`);
+    },
+    updateOrder(id) {
+        return axiosTest.post(`/Order/Process/${id}`);
+    },
+    cancelOrder(id) {
+        return axiosTest.post(`/Order/${id}`);
     },
 };

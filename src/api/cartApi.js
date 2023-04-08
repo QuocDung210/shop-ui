@@ -1,16 +1,16 @@
 import axiosTest from './apiTest';
 
 export const cartApi = {
-    getCart(payload) {
-        return axiosTest.get('/Cart', payload);
+    getCart() {
+        return axiosTest.get('/Cart');
     },
-    updateCart(payload, config) {
-        return axiosTest.put('/Cart', payload, config);
+    updateCart(payload) {
+        return axiosTest.put('/Cart', payload);
     },
-    addCart(data, config) {
-        return axiosTest.post('/Cart', data, config);
+    addCart(data) {
+        return axiosTest.post('/Cart', data);
     },
-    deleteCart(id, config) {
-        return axiosTest.delete(`/Cart/${id}`, config);
+    deleteCart(id) {
+        return axiosTest.delete(`/Cart/${id}`);
     },
 };

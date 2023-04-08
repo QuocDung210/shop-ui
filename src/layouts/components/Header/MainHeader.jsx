@@ -25,14 +25,16 @@ function MainHeader({ menuItems, navList }) {
 
     useEffect(() => {
         const fetch = async () => {
-            try {
-                const res = await cartApi.getCart({
-                    headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                });
+            if (auth) {
+                try {
+                    const res = await cartApi.getCart({
+                        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+                    });
 
-                setCartItems(res);
-            } catch (err) {
-                toast.error('Error.');
+                    setCartItems(res);
+                } catch (err) {
+                    toast.error('Error.');
+                }
             }
         };
         fetch();

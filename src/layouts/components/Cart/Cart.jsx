@@ -15,16 +15,14 @@ import images from '~/assets/images';
 function Cart(props) {
     const { handleShow } = props;
     const [rerender, setRerender] = useState(false);
-    const [cartItems, setCartItems] = useState({});
+    const [cartItems, setCartItems] = useState([]);
     const auth = useAuth();
 
     useEffect(() => {
         const fetch = async () => {
             if (auth) {
                 try {
-                    const res = await cartApi.getCart({
-                        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                    });
+                    const res = await cartApi.getCart();
 
                     setCartItems(res);
                 } catch (err) {
@@ -38,6 +36,7 @@ function Cart(props) {
     const reRenderCart = (id) => {
         setCartItems(cartItems?.filter((item) => item?.productId !== id));
     };
+
     return (
         <div className="cart-container">
             <div className="d-none d-lg-flex align-items-center cart-wrapper gap-2">

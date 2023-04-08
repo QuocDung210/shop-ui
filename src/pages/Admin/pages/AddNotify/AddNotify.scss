@@ -1,0 +1,53 @@
+.add-notice-container {
+    h3,
+    h4 {
+        font-weight: 600;
+        color: var(--text-color-2);
+    }
+}
+
+.notice-user-list {
+    max-height: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: overlay;
+    .notice-user {
+        height: 80px;
+        padding: 10px;
+        transition: all ease 0.3s;
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--color-4);
+        }
+    }
+    .notice-user.selected {
+        border: 1px solid var(--color-5);
+        background-color: var(--color-4);
+    }
+    .notice-user-avatar {
+        max-width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 9999px;
+    }
+}
+
+.notice-target-user-avatar {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.notice-selected-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-6);
+}
+
+.noticep-selected-role {
+    color: var(--text-color-2);
+    font-weight: 500;
+}

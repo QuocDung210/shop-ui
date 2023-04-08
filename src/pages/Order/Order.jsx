@@ -18,6 +18,7 @@ function Order() {
         shipPhone: '',
         shipAddress: '',
         note: '',
+        shipMethod: 0,
     });
     const [deliverType, setDeliverType] = useState(0);
     const [payType, setPayType] = useState(true);
@@ -73,7 +74,7 @@ function Order() {
                 }
             }
             const payload = { ...data, orderDetails: [] };
-
+            console.log(payload);
             const res = await orderApi.createOrder(payload, configHeader);
             console.log(res);
             toast.success('Đặt hàng thành công.');
@@ -225,7 +226,10 @@ function Order() {
                                 <Buttons
                                     outline={deliverType === 100000}
                                     primary={deliverType === 0}
-                                    onClick={() => setDeliverType(0)}
+                                    onClick={() => {
+                                        setData({ ...data, shipMethod: 0 });
+                                        setDeliverType(0);
+                                    }}
                                 >
                                     Tiêu chuẩn (Miễn phí)
                                 </Buttons>
@@ -235,7 +239,10 @@ function Order() {
                                 <Buttons
                                     outline={deliverType === 0}
                                     primary={deliverType === 100000}
-                                    onClick={() => setDeliverType(100000)}
+                                    onClick={() => {
+                                        setData({ ...data, shipMethod: 1 });
+                                        setDeliverType(100000);
+                                    }}
                                 >
                                     Siêu tốc (100.000đ/đơn)
                                 </Buttons>

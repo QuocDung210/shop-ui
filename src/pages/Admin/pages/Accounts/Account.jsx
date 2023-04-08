@@ -1,11 +1,12 @@
 import { faChevronLeft, faChevronRight, faEllipsisV, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Modal, Row, Stack } from 'react-bootstrap';
 import Buttons from '~/components/Buttons';
 import Tippy from '@tippyjs/react/headless';
 import './Account.scss';
 import Images from '~/components/Images';
+import { userApi } from '~/api';
 
 const data = [
     {
@@ -61,6 +62,14 @@ function Account() {
     const [curentMember, setCurrentMember] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await userApi.getAll();
+            console.log(res);
+        };
+        fetch();
+    }, []);
 
     const handleCheckAll = (e) => {
         const checkboxItem = document.querySelectorAll('.checkbox-item');

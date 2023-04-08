@@ -6,6 +6,7 @@ import { Col, Container, Row, Stack } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { dateFormat } from '~/Date';
 import { orderApi } from '~/api';
+import { STATUS_ARR } from '~/const/statusArr';
 import useAuth from '~/hooks/useAuth';
 import { splitNumber } from '~/numberSplit';
 
@@ -51,7 +52,14 @@ function History() {
     }, [selectedOrder]);
 
     const handleCancel = async (item) => {
-        console.log(item);
+        try {
+            const res = await orderApi.cancelOrder(item.id);
+            console.log(res);
+            toast.success('Đã gửi yêu cầu.');
+        } catch (err) {
+            console.log(err);
+            toast.error('Có lỗi xảy ra.');
+        }
     };
     return (
         <Container fluid>
@@ -63,8 +71,8 @@ function History() {
                     </div>
                     <div className="content-box">
                         <Row className="history-order-header">
-                            <Col xs={6}>Ngày đặt hàng</Col>
-                            <Col xs={2}>Trạng thái</Col>
+                            <Col xs={5}>Ngày đặt hàng</Col>
+                            <Col xs={3}>Trạng thái</Col>
                             <Col xs={3}>Tổng tiền</Col>
                             <Col xs={1}>Hủy</Col>
                         </Row>
@@ -76,14 +84,21 @@ function History() {
                                         className={`history-order-item ${selectedOrder === item?.id && 'selected'}`}
                                     >
                                         <Col
-                                            xs={6}
+                                            xs={5}
                                             className="history-order-item-date d-flex align-items-center"
                                             onClick={() => setSelectedOrder(item.id)}
                                         >
                                             <p className="text-split m-0">{dateFormat(item?.orderDate)}</p>
                                         </Col>
-                                        <Col xs={2} className=" d-flex align-items-center">
-                                            <p className="status status-success">Trạng thái</p>
+                                        <Col xs={3} className="d-flex align-items-center">
+                                            {STATUS_ARR.map(
+                                                (color, index) =>
+                                                    index === item?.status && (
+                                                        <p key={index} className={`${color.type}`}>
+                                                            {color.name}
+                                                        </p>
+                                                    ),
+                                            )}
                                         </Col>
                                         <Col xs={3} className="d-flex align-items-center">
                                             <p className="m-0">{`${splitNumber(item?.orderValue)} đ`}</p>

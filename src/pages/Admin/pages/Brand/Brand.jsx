@@ -67,19 +67,20 @@ function Brand() {
         if (!data?.name) {
             return;
         }
-
-        const url = await FirebaseService.uploadImg([logoFile], 'Logo');
+        let url = [];
+        if (logoFile) {
+            url = await FirebaseService.uploadImg([logoFile], 'Logo');
+        } else {
+            url = [''];
+        }
         const dt = {
             ...data,
             logo: url[0],
         };
 
         try {
-            const resbrand = await toast.promise(BrandApi.addBrand(dt, configHeader), {
-                pending: 'Đang thêm thương hiệu',
-                success: 'Thêm thành công',
-                error: 'Thêm thất bại',
-            });
+            const resbrand = await BrandApi.addBrand(dt, configHeader);
+            toast.success('Thêm thành công.');
             setBrandList([...brandList, resbrand]);
             nameIpRef.current.value = null;
             descriptionIpRef.current.value = null;
@@ -88,20 +89,19 @@ function Brand() {
             setData(null);
         } catch (error) {
             console.log(error);
+            toast.error('Đã xảy ra lỗi.');
         }
     };
 
     const handleDeleteBrand = async () => {
         try {
-            await toast.promise(BrandApi.deleteBrand(selected.id, configHeader), {
-                pending: 'Đang xóa thương hiệu',
-                success: 'Xóa thành công',
-                error: 'Xóa thất bại',
-            });
+            await BrandApi.deleteBrand(selected.id, configHeader);
             await FirebaseService.deleteImg(selected.logo);
             setBrandList(brandList.filter((item) => item.id !== selected.id));
+            toast.success('Xóa thành công.');
         } catch (err) {
             console.log(err);
+            toast.error('Xóa thất bại.');
         }
     };
 
@@ -143,11 +143,7 @@ function Brand() {
         };
 
         try {
-            await toast.promise(BrandApi.updateBrand(selected.id, dt, configHeader), {
-                pending: 'Đang thêm thương hiệu',
-                success: 'Thêm thành công',
-                error: 'Thêm thất bại',
-            });
+            await BrandApi.updateBrand(selected.id, dt, configHeader);
             updateNameIpRef.current.value = null;
             updateDescriptionIpRef.current.value = null;
             updateLogoIpRef.current.value = null;
@@ -155,8 +151,10 @@ function Brand() {
             setData(null);
             setLogoFile(null);
             setRender(!render);
+            toast.success('Cập nhật thành công.');
         } catch (error) {
             console.log(error);
+            toast.error('Cập nhật thất bại.');
         }
     };
 

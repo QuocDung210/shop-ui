@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthApi } from '~/api';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, startLogin, loginFailed } from '~/redux/slices/authSlice';
+import config from '~/config';
 function LoginForm(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -61,7 +62,7 @@ function LoginForm(props) {
                                 <FormCheck type="checkbox" label="Nhớ tài khoản" />
                             </FormGroup>
                             <div>
-                                <Link to={'/'}>
+                                <Link to={config.routes.forgot_pw}>
                                     <span style={{ color: 'var(--color-6)' }}>Quên mật khẩu ?</span>
                                 </Link>
                             </div>

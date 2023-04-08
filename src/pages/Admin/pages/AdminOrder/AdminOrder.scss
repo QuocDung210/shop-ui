@@ -1,3 +1,11 @@
+.admin-manage-order-container {
+    h3,
+    h4 {
+        color: var(--text-color-2);
+        font-weight: 600;
+    }
+}
+
 .bg-total {
     background-color: #5ddff9 !important;
 }
@@ -26,9 +34,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--white);
         font-size: 3rem;
-        background-color: #5ddff9;
     }
     .statistical-describe {
         flex: 1;
@@ -58,42 +64,16 @@
 .admin-order-list {
     border-bottom: 2px solid #ccc;
     .order-list-item {
+        font-weight: 500;
+        cursor: pointer;
         &:hover {
             border-radius: 10px;
             background-color: var(--color-4);
         }
-        .order-menu {
-            .order-menu-option {
-                padding: 5px 20px;
-                cursor: pointer;
-                &:hover {
-                    border-radius: 10px;
-                    background-color: var(--color-4);
-                }
-            }
-        }
-        .order-menu-icon {
-            cursor: pointer;
-            padding: 5px;
-        }
     }
 }
 
-.page-pagination {
-    p {
-        color: #ccc;
-        font-weight: 600;
-        user-select: none;
-    }
-    .page-pagination-btn {
-        .pagination-btn-prev,
-        .pagination-btn-next {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .pagination-btn-prev:hover,
-        .pagination-btn-next:hover {
-            color: var(--color-1);
-        }
-    }
+.admin-order-list-title {
+    font-weight: 600;
+    color: var(--text-color-2);
 }

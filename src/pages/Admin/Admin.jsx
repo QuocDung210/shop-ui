@@ -11,13 +11,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
 import { Col, Container, Navbar, Offcanvas, Row, Stack } from 'react-bootstrap';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Images from '~/components/Images';
 import AdminSidebar from './components/AdminSidebar';
 import Tippy from '@tippyjs/react/headless';
 
 import './Admin.scss';
 import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch } from 'react-redux';
+import { logoutSuccess } from '~/redux/slices/authSlice';
 const ADMIN_SIDEBAR_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faGauge} />,
@@ -62,6 +64,8 @@ const ADMIN_SIDEBAR_ITEMS = [
 ];
 
 function AdminMainPage() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [enable, setEnable] = useState(false);
     const contentBox = useRef(null);
@@ -85,6 +89,11 @@ function AdminMainPage() {
 
     const handleScrollTop = () => {
         top.current.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleLogOut = () => {
+        dispatch(logoutSuccess());
+        navigate('/');
     };
 
     return (
@@ -153,7 +162,9 @@ function AdminMainPage() {
                                                 <Link to={'/admin/member-profile'}>
                                                     <div className="admin-avatar-menu-option">Người dùng</div>
                                                 </Link>
-                                                <div className="admin-avatar-menu-option">Đăng xuất</div>
+                                                <div className="admin-avatar-menu-option" onClick={handleLogOut}>
+                                                    Đăng xuất
+                                                </div>
                                             </Stack>
                                         )}
                                     >

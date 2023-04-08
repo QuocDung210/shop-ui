@@ -29,6 +29,8 @@ import CategoryAndSeries from './pages/Admin/pages/CategoryAndSeries/CategoryAnd
 import { ToastContainer } from 'react-toastify';
 import Order from './pages/Order/Order';
 import AddNotify from './pages/Admin/pages/AddNotify/AddNotify';
+import AdminOrderDetail from './pages/Admin/pages/AdminOrderDetail/AdminOrderDetail';
+import ForgetPw from './pages/ForgetPassword/ForgetPw';
 function App() {
     return (
         // <Router>
@@ -81,6 +83,7 @@ function App() {
                     </Route>
                     <Route path={config.routes.login} element={<Login />} />
                     <Route path={config.routes.register} element={<Register />} />
+                    <Route path={config.routes.forgot_pw} element={<ForgetPw />} />
                     {/* <Route element={<ProtectedRoutes roles={['admin', 'employee']} />}> */}
                     <Route path="/admin" element={<Admin />}>
                         <Route index element={<Dashboard />} />
@@ -91,6 +94,7 @@ function App() {
                         <Route path="add-product" element={<AddProduct />} />
                         <Route path="update-product/:id" element={<UpdateProduct />} />
                         <Route path="order" element={<AdminOrder />} />
+                        <Route path="order-detail" element={<AdminOrderDetail />} />
                         <Route path="notify" element={<AdminNotify />} />
                         <Route path="add-notify" element={<AddNotify />} />
                         <Route path="member-profile" element={<MemberProfile />} />

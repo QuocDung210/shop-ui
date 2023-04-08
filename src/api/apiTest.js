@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { store } from '~/redux/store';
 
 const axiosTest = axios.create({
     baseURL: 'https://localhost:7296/api/',
@@ -7,7 +8,21 @@ const axiosTest = axios.create({
     },
 });
 
-// Add a response interceptor
+axiosTest.interceptors.request.use(
+    (config) => {
+        const auth = store.getState();
+        const accessToken = auth.auth.login.currentUser?.accessToken;
+        const { headers } = config;
+        const common = headers.common || {};
+        common['Access-Control-Allow-Origin'] = '*';
+        headers.Authorization = `Bearer ${accessToken}`;
+        return config;
+    },
+    (err) => {
+        return Promise.reject(err);
+    },
+);
+
 axiosTest.interceptors.response.use(
     function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger

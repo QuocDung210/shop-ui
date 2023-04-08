@@ -3,12 +3,13 @@ import { FormGroup } from 'react-bootstrap';
 import * as yup from 'yup';
 import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
+import { toast } from 'react-toastify';
+import { userApi } from '~/api';
 function AddAccountForm(props) {
     const initialValues = {
         name: '',
         email: '',
         phoneNum: '',
-        address: '',
         password: '',
         confirmPassword: '',
     };
@@ -23,7 +24,7 @@ function AddAccountForm(props) {
             .string()
             .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
             .required('Vui lòng nhập số điện thoại'),
-        address: yup.string().required('Vui lòng nhập địa chỉ'),
+
         password: yup.string().required('Vui lòng nhập mật khẩu'),
         confirmPassword: yup
             .string()
@@ -32,6 +33,12 @@ function AddAccountForm(props) {
     });
 
     const handleSubmitForm = (values) => {
+        const { name, email, phone, password } = values;
+        try {
+            const res = userApi.addUser({});
+        } catch (err) {
+            toast.error('Co lỗi xảy ra.');
+        }
         console.log('Submkt: ', values);
     };
     return (
@@ -48,7 +55,7 @@ function AddAccountForm(props) {
                         <FastField name="name" component={InputField} type="text" placeholder="Name..." />
                         <FastField name="email" component={InputField} type="email" placeholder="Email..." />
                         <FastField name="phoneNum" component={InputField} type="text" placeholder="Phone number..." />
-                        <FastField name="address" component={InputField} type="text" placeholder="Address..." />
+
                         <FastField name="password" component={InputField} type="password" placeholder="Password..." />
                         <FastField
                             name="confirmPassword"

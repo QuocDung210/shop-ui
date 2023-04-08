@@ -6,6 +6,7 @@ const routes = {
     product_detail: 'product/:id',
     register: '/register',
     login: '/login',
+    forgot_pw: '/forget-password',
     user: 'user',
     order: 'order',
     userDetail: 'profile',

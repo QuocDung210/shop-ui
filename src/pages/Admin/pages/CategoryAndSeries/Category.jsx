@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { categoryApi } from '~/api/categoryApi';
 import Buttons from '~/components/Buttons';
 import Check from './Check';
-import useAuth from '~/hooks/useAuth';
 
 function Category() {
     const [categoryList, setCategoryList] = useState(null);
@@ -16,10 +15,7 @@ function Category() {
 
     const nameRef = useRef(null);
     const desRef = useRef(null);
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -41,16 +37,13 @@ function Category() {
             return;
         }
         try {
-            const res = await toast.promise(categoryApi.addCategory(data, configHeader), {
-                pending: 'Đang thêm danh mục.',
-                success: 'Thêm thành công.',
-                error: 'Thêm thất bại.',
-            });
+            const res = await categoryApi.addCategory(data);
             setCategoryList([...categoryList, res]);
             nameRef.current.value = null;
             desRef.current.value = null;
             setData(null);
             setCategoryType(null);
+            toast.success('Thêm thành công.');
         } catch (err) {
             toast.error(err);
         }
@@ -85,8 +78,8 @@ function Category() {
             };
         }
         try {
-            const res = await categoryApi.updateCategory(selectedCategory.id, dt, configHeader);
-            console.log(res);
+            const res = await categoryApi.updateCategory(selectedCategory.id, dt);
+
             toast.success('Cập nhật thành công.');
             setCategoryList([...categoryList.filter((item) => item.id !== selectedCategory.id), res]);
             setSelectedCategory(res.result);
@@ -121,7 +114,7 @@ function Category() {
         }
         window.confirm(`Xóa danh mục : ${selectedCategory?.name}`);
         try {
-            await categoryApi.deleteCategory(selectedCategory.id, configHeader);
+            await categoryApi.deleteCategory(selectedCategory.id);
             toast.success('Xóa thành công.');
             setCategoryList(categoryList.filter((item) => item.id !== selectedCategory.id));
             setSelectedCategory(categoryList[0]);

@@ -4,23 +4,19 @@ export const seriesApi = {
     getAll() {
         return axiosTest.get('/Series');
     },
-    getById(id, config) {
-        return axiosTest.get(`/Series/${id}`, config);
+    getById(id) {
+        return axiosTest.get(`/Series/${id}`);
     },
-    addSeries(payload, config) {
-        return axiosTest.post('/Series', payload, config);
+    addSeries(payload) {
+        return axiosTest.post('/Series', payload);
     },
-    updateSeries(id, data, config) {
-        return axiosTest.put(
-            '/Series',
-            {
-                ...data,
-                id: id,
-            },
-            config,
-        );
+    updateSeries(id, data) {
+        return axiosTest.put('/Series', {
+            ...data,
+            id: id,
+        });
     },
-    deleteSeries(id, config) {
-        return axiosTest.delete(`/Series/${id}`, config);
+    deleteSeries(id) {
+        return axiosTest.delete(`/Series/${id}`);
     },
 };

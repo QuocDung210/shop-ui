@@ -6,7 +6,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { seriesApi } from '~/api/seriesApi';
 import { toast } from 'react-toastify';
 import { useEffect, useRef, useState } from 'react';
-import useAuth from '~/hooks/useAuth';
 
 function Series() {
     const [seriesList, setSeriesList] = useState(null);
@@ -17,10 +16,7 @@ function Series() {
 
     const nameRef = useRef(null);
     const desRef = useRef(null);
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -42,7 +38,7 @@ function Series() {
             return;
         }
         try {
-            const res = await toast.promise(seriesApi.addSeries(data, configHeader), {
+            const res = await toast.promise(seriesApi.addSeries(data), {
                 pending: 'Đang thêm dòng máy.',
                 success: 'Thêm thành công.',
                 error: 'Thêm thất bại.',
@@ -86,15 +82,12 @@ function Series() {
             };
         }
         try {
-            const res = await toast.promise(seriesApi.updateSeries(selectedSeries.id, dt, configHeader), {
-                pending: 'Đang cập nhật.',
-                success: 'Cập nhật thành công.',
-                error: 'Cập nhật thất bại.',
-            });
+            const res = await seriesApi.updateSeries(selectedSeries.id, dt);
             setSeriesList([...seriesList.filter((item) => item.id !== selectedSeries.id), res]);
             setSelectedSeries(res.result);
             setDefaultData();
             setSeriesType(null);
+            toast.success('Cập nhật thành công.');
         } catch (err) {
             toast.error(err);
         }
@@ -123,7 +116,7 @@ function Series() {
         }
         window.confirm(`Xóa dòng máy : ${selectedSeries?.name}`);
         try {
-            await seriesApi.deleteSeries(selectedSeries.id, configHeader);
+            await seriesApi.deleteSeries(selectedSeries.id);
             toast.success('Xóa thành công.');
             setSeriesList(seriesList.filter((item) => item.id !== selectedSeries.id));
             setSelectedSeries(seriesList[0]);

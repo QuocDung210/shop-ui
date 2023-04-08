@@ -52,10 +52,6 @@ function AddProduct() {
     const [seriesList, setSeriesList] = useState(null);
     const [categoryList, setCategoryList] = useState(null);
     const dt = new DataTransfer();
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -217,7 +213,7 @@ function AddProduct() {
                 available: parseInt(quantity),
             };
 
-            await ProductApi.addProduct(data, configHeader);
+            await ProductApi.addProduct(data);
             toast.success('Success');
         } catch (err) {
             toast.error(err);

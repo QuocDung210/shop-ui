@@ -4,7 +4,7 @@ export const AuthApi = {
     login(payload) {
         return axiosTest.post('Auth/log-in', payload);
     },
-    logout() {},
+
     register(payload) {
         return axiosTest.post('Auth/register', payload);
     },
@@ -15,5 +15,22 @@ export const AuthApi = {
     },
     getProfile(payload) {
         return axiosTest.get('/Auth/profile', payload);
+    },
+    checkAcc(payload) {
+        return axiosTest.post('/Auth/check-user', null, {
+            params: {
+                phone: payload,
+            },
+        });
+    },
+    forgotPassword(paload) {
+        return axiosTest.put('/Auth/get-password', paload);
+    },
+    updateAvatar(payload) {
+        return axiosTest.post('/Auth/update-image', null, {
+            params: {
+                img: payload,
+            },
+        });
     },
 };

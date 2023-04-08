@@ -34,7 +34,6 @@ export const splitNumber = (num) => {
                     newString = numString.slice(0, numString.length - newString.length + count - 2) + ',' + newString;
                 }
                 if (numString.length > 6) {
-                    console.log(numString.slice(0, numString.length - newString.length + count - 1));
                     newString = numString.slice(0, numString.length - newString.length + count - 1) + ',' + newString;
                 }
                 if (numString.length === 6) {
