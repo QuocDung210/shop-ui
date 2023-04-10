@@ -40,6 +40,21 @@
 }
 
 //Main header
+.notice-quantity-user {
+    position: absolute;
+    right: -3px;
+    bottom: -4px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--black);
+    border-radius: 9999px;
+    background-color: var(--white);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
 .main-header {
     min-height: 30px;
     padding: 10px 0;

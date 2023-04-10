@@ -9,17 +9,20 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Col, Container, Navbar, Offcanvas, Row, Stack } from 'react-bootstrap';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Images from '~/components/Images';
 import AdminSidebar from './components/AdminSidebar';
 import Tippy from '@tippyjs/react/headless';
-
+import parse from 'html-react-parser';
 import './Admin.scss';
 import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import { logoutSuccess } from '~/redux/slices/authSlice';
+import { toast } from 'react-toastify';
+import { noticeApi } from '~/api/noticeApi';
+import Buttons from '~/components/Buttons';
 const ADMIN_SIDEBAR_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faGauge} />,
@@ -68,8 +71,23 @@ function AdminMainPage() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [enable, setEnable] = useState(false);
+    const [noticeList, setNoticeList] = useState([]);
     const contentBox = useRef(null);
+    const [render, setRender] = useState(false);
     const top = useRef(null);
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await noticeApi.getNoticeUser();
+                setNoticeList(res.reverse());
+            } catch (err) {
+                console.log(err);
+                toast.error('Đã xảy ra lỗi.');
+            }
+        };
+        fetch();
+    }, [render]);
 
     const handleToggleMenu = () => {
         setOpen(!open);
@@ -139,15 +157,38 @@ function AdminMainPage() {
                                         zIndex={9999}
                                         trigger="click"
                                         render={(attrs) => (
-                                            <Stack className="admin-menu-wrapper content-box p-3" {...attrs}>
-                                                <div className="admin-menu-option">option 1</div>
-                                                <div className="admin-menu-option">option 2</div>
-                                                <div className="admin-menu-option">option 3</div>
-                                                <div className="admin-menu-option">option 4</div>
+                                            <Stack gap={4} className="admin-notice-wrapper content-box p-3" {...attrs}>
+                                                {noticeList.length > 0 ? (
+                                                    noticeList?.map((notice, idx) => (
+                                                        <div key={idx} className="admin-notice-option">
+                                                            <h3 className="m-0">{notice?.title}</h3>
+                                                            <div>{parse(notice?.message)}</div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <h3 className="m-0">Không có thông báo</h3>
+                                                )}
+                                                <Buttons
+                                                    disabled={noticeList.length > 0 ? false : true}
+                                                    outline
+                                                    small
+                                                    to={'/admin/notify'}
+                                                >
+                                                    Xem tất cả
+                                                </Buttons>
                                             </Stack>
                                         )}
                                     >
-                                        <FontAwesomeIcon icon={faBell} className="admin-menu-icon" />
+                                        <div
+                                            className="d-flex align-items-center"
+                                            style={{ position: 'relative' }}
+                                            onClick={() => setRender(!render)}
+                                        >
+                                            <FontAwesomeIcon icon={faBell} className="admin-menu-icon" />
+                                            <div className={`notice-quantity ${noticeList.length === 0 && 'd-none'}`}>
+                                                {noticeList.length}
+                                            </div>
+                                        </div>
                                     </Tippy>
                                 </div>
                                 <div>

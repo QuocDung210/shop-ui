@@ -9,28 +9,23 @@ export const AuthApi = {
         return axiosTest.post('Auth/register', payload);
     },
 
-    changePassword(data, config) {
-        console.log('check paload', data, config);
-        return axiosTest.put('/Auth/change-password', data, config);
+    changePassword(data) {
+        return axiosTest.put('/Auth/change-password', data);
     },
     getProfile(payload) {
         return axiosTest.get('/Auth/profile', payload);
     },
     checkAcc(payload) {
-        return axiosTest.post('/Auth/check-user', null, {
-            params: {
-                phone: payload,
-            },
+        return axiosTest.post('/Auth/check-user', {
+            phone: payload,
         });
     },
     forgotPassword(paload) {
         return axiosTest.put('/Auth/get-password', paload);
     },
     updateAvatar(payload) {
-        return axiosTest.post('/Auth/update-image', null, {
-            params: {
-                img: payload,
-            },
+        return axiosTest.put('/Auth/update-image', {
+            image: payload,
         });
     },
 };

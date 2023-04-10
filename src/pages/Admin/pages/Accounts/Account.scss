@@ -17,6 +17,7 @@
     }
 }
 .acc-list-item {
+    font-weight: 500;
     &:hover {
         border-radius: 10px;
         background-color: var(--color-4);
@@ -25,6 +26,10 @@
 
 .admin-acc-list {
     border-bottom: 2px solid #ccc;
+    .admin-acc-list-header {
+        font-weight: 500;
+        color: var(--text-color-2);
+    }
     .acc-menu-icon {
         padding: 5px;
     }
@@ -52,4 +57,8 @@
     .menu-filter-role {
         font-size: 1.5rem;
     }
+}
+
+.current-user {
+    flex-shrink: 1;
 }

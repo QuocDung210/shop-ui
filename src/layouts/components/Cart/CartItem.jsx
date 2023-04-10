@@ -22,9 +22,7 @@ function CartItem(props) {
 
     const handleRemoveFromCart = async () => {
         try {
-            await cartApi.deleteCart(item?.productId, {
-                headers: { Authorization: `Bearer ${auth?.accessToken}` },
-            });
+            await cartApi.deleteCart(item?.productId);
             reRenderCart(item?.productId);
             toast.success('Xóa thành công.');
         } catch (err) {

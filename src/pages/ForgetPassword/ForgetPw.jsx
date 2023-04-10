@@ -11,9 +11,13 @@ function ForgetPw() {
     const [data, setData] = useState({ phone: '', newPassword: '', otp: '' });
     const handleCheck = async () => {
         try {
-            await AuthApi.checkAcc(phone);
-            toast.success('Nhập mã OTP để đổi mật khẩu.');
-            setCheck(true);
+            const res = await AuthApi.checkAcc(phone);
+            if (res) {
+                toast.success('Nhập mã OTP để đổi mật khẩu.');
+                setCheck(true);
+            } else {
+                toast.warning('Tài khoản không tồn tại.');
+            }
         } catch (err) {
             console.log(err);
             toast.error('Có lỗi xảy ra.');

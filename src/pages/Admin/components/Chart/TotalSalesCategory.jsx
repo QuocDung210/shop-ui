@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useDebounce } from '~/hooks';
 import { randomColor } from '~/color';
 
-function TotalSale() {
+function TotalSalesCategory() {
     let d = new Date();
     const [month, setMonth] = useState(d.getMonth() + 1);
     const [year, setYear] = useState(d.getFullYear());
@@ -23,7 +23,7 @@ function TotalSale() {
                 } else {
                     y = parseInt(debounced);
                 }
-                const res = await orderApi.getBrandChart(month, y);
+                const res = await orderApi.getCategoryChart(month, y);
                 setData(res);
             } catch (err) {
                 console.log(err);
@@ -36,7 +36,7 @@ function TotalSale() {
     return (
         <Container fluid className="total-sale-container">
             <div className="d-flex flex-wrap justify-content-between align-items-center">
-                <h2 className="ms-4 mb-0">Total Product Sold</h2>
+                <h2 className="ms-4 mb-0">Total Sold by Category</h2>
                 <div className="d-flex gap-4">
                     <DropdownButton className="thu" id="dropdown-basic-button" title={`month ${month}`}>
                         {Array.from({ length: 12 }).map((_, idx) => (
@@ -62,7 +62,7 @@ function TotalSale() {
                             data={data}
                             innerRadius={50}
                             outerRadius={100}
-                            fill="#82ca9d"
+                            fill={randomColor()}
                             paddingAngle={5}
                             dataKey="value"
                             label
@@ -85,4 +85,4 @@ function TotalSale() {
     );
 }
 
-export default TotalSale;
+export default TotalSalesCategory;

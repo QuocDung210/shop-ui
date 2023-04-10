@@ -1,7 +1,7 @@
 import { Col, Container, Row, Stack } from 'react-bootstrap';
 import './Order.scss';
 import { useEffect, useState } from 'react';
-import useAuth from '~/hooks/useAuth';
+
 import { cartApi, orderApi } from '~/api';
 import { toast } from 'react-toastify';
 import Images from '~/components/Images';
@@ -22,16 +22,13 @@ function Order() {
     });
     const [deliverType, setDeliverType] = useState(0);
     const [payType, setPayType] = useState(true);
-    const auth = useAuth();
+
     const navigate = useNavigate();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await cartApi.getCart(configHeader);
-
+                const res = await cartApi.getCart();
                 setCartItems(res);
             } catch (err) {
                 toast.error('Error.');
@@ -43,7 +40,14 @@ function Order() {
 
     const handleDelete = async (pd) => {
         try {
+            await cartApi.deleteCart(pd?.productId);
             setCartItems(cartItems?.filter((item) => item?.productId !== pd?.productId));
+            if (cartItems?.filter((item) => item?.productId !== pd?.productId).length <= 0) {
+                toast.warning('Không còn sản phẩm trong giở hàng. Đang điều hướng về cửa hàng.');
+                setTimeout(() => {
+                    navigate('/product');
+                }, 5000);
+            }
             toast.success('Xóa sản phẩm thành công.');
         } catch (err) {
             toast.error('Xóa sản phẩm thất bại.');
@@ -74,9 +78,8 @@ function Order() {
                 }
             }
             const payload = { ...data, orderDetails: [] };
-            console.log(payload);
-            const res = await orderApi.createOrder(payload, configHeader);
-            console.log(res);
+            await orderApi.createOrder(payload);
+
             toast.success('Đặt hàng thành công.');
             setTimeout(() => {
                 navigate('/product');

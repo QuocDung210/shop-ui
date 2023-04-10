@@ -4,4 +4,19 @@
     border-radius: 5px;
     box-shadow: 0px 1px 3px rgb(3 0 71 / 12%);
     background-color: var(--white);
+    input {
+        max-width: 70px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    .recharts-surface {
+        overflow: visible !important;
+    }
+}
+
+.check-cai-nay {
+    margin: 0 !important;
+    width: 80%;
 }

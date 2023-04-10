@@ -82,3 +82,28 @@
         opacity: 0.8;
     }
 }
+
+.admin-notice-wrapper {
+    min-width: 300px;
+}
+
+.admin-notice-option {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.notice-quantity {
+    position: absolute;
+    right: 11px;
+    bottom: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background-color: var(--color-2);
+    color: var(--color-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}

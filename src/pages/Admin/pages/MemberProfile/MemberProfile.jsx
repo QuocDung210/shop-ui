@@ -8,10 +8,15 @@ import ProfileForm from '~/components/Form/profile-form';
 import Images from '~/components/Images';
 import useAuth from '~/hooks/useAuth';
 import './MemberProfile.scss';
+import { toast } from 'react-toastify';
+import { FirebaseService } from '~/firebase/firebaseService';
+import ChangePasswordForm from '~/components/Form/change-password-form';
 function Profile() {
     const userProfile = useAuth();
     const [show, setShow] = useState(false);
+    const [changePwShow, setChangePwShow] = useState(false);
     const [profile, setProfile] = useState({});
+    const [img, setImg] = useState('');
     const handleUpdate = () => {
         setShow(false);
     };
@@ -30,6 +35,20 @@ function Profile() {
         fetchApi();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleChangeAvatar = async (e) => {
+        setImg(URL.createObjectURL(e.target.files[0]));
+        try {
+            const url = await FirebaseService.uploadImg([e.target.files[0]], 'UserAvatar');
+
+            await AuthApi.updateAvatar(url[0]);
+
+            toast.success('Thay đổi ảnh thành công.');
+        } catch (err) {
+            toast.error('Có lỗi xảy ra.');
+        }
+    };
+
     return (
         <Container fluid className="content-box">
             <Stack>
@@ -39,14 +58,27 @@ function Profile() {
                 </div>
                 <hr />
                 <Row className="g-4">
-                    <Col className="text-center">
+                    <Col className="text-center" style={{ position: 'relative' }}>
                         <Images
-                            src=""
+                            src={img || profile?.img}
                             alt="user"
                             className="user-avatar"
                             fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                             style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                         />
+                        <div className="member-avatar-change">
+                            <label htmlFor="logo">
+                                <FontAwesomeIcon icon={faPen} />
+                            </label>
+
+                            <input
+                                type="file"
+                                id="logo"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={handleChangeAvatar}
+                            />
+                        </div>
                     </Col>
                     <Col>
                         <Stack gap={3}>
@@ -70,10 +102,21 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row className="justify-content-end">
-                    <Col xs={6}>
-                        <Buttons primary leftIcon={<FontAwesomeIcon icon={faPen} />} onClick={() => setShow(true)}>
-                            Chỉnh sửa
-                        </Buttons>
+                    <Col xs={6} className="d-flex gap-3">
+                        <div>
+                            <Buttons primary leftIcon={<FontAwesomeIcon icon={faPen} />} onClick={() => setShow(true)}>
+                                Chỉnh sửa
+                            </Buttons>
+                        </div>
+                        <div>
+                            <Buttons
+                                primary
+                                leftIcon={<FontAwesomeIcon icon={faPen} />}
+                                onClick={() => setChangePwShow(true)}
+                            >
+                                Đổi mật khẩu
+                            </Buttons>
+                        </div>
                     </Col>
                 </Row>
             </Stack>
@@ -83,6 +126,14 @@ function Profile() {
                 </Modal.Header>
                 <Modal.Body>
                     <ProfileForm handleClose={handleUpdate} />
+                </Modal.Body>
+            </Modal>
+            <Modal show={changePwShow} onHide={() => setChangePwShow(false)} className="update-profile">
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">Thay đổi mật khẩu</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ChangePasswordForm handleClose={() => setChangePwShow(false)} />
                 </Modal.Body>
             </Modal>
         </Container>

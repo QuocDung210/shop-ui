@@ -1,11 +1,4 @@
-import {
-    faChevronLeft,
-    faChevronRight,
-    faEllipsisV,
-    faMinus,
-    faPlus,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faEllipsisV, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState } from 'react';
@@ -24,13 +17,12 @@ function AdminProducts() {
     const [showDeleteMembers, setShowDeleteMembers] = useState(false);
     const [productList, setProductList] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const [deleteTarget, setDeleteTarget] = useState({});
     const [deleteMultiTarget, setDeleteMultiTarget] = useState([]);
     const [dataBrand, setDataBrand] = useState([]);
-    const [type, setType] = useState({});
+    const [type, setType] = useState(0);
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -42,19 +34,20 @@ function AdminProducts() {
                 totalRow: 0,
                 sort: 0,
                 products: [],
-                brandId: 0,
+                brandId: type,
                 categoryId: 0,
                 seriesId: 0,
                 minPrice: 0,
                 maxPrice: 0,
             });
+
             const resCate = await BrandApi.getAll();
             setDataBrand(resCate);
             setProductList(res.products);
             setTotalPage(res.totalRow);
         };
         fetch();
-    }, [currentPage, render]);
+    }, [currentPage, type, render]);
     const handleNext = () => {
         if (currentPage < totalPage) {
             setCurrentPage(currentPage + 1);
@@ -64,17 +57,6 @@ function AdminProducts() {
     const handlePrev = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleSetInput = (e) => {
-        setSearchValue(e.target.value);
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchValue.trim() !== '') {
-            console.log(searchValue);
         }
     };
 
@@ -162,7 +144,7 @@ function AdminProducts() {
         }
     };
     const handleFilterBrand = (item) => {
-        console.log(item);
+        setType(item.id);
     };
     return (
         <Container fluid className="acc-wrapper">
@@ -211,21 +193,6 @@ function AdminProducts() {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
-                <Col>
-                    <form className="admin-pd-search">
-                        <input
-                            className="admin-pd-search-input"
-                            value={searchValue}
-                            placeholder="Search name, id"
-                            onChange={handleSetInput}
-                            spellCheck={false}
-                            name="searchInput"
-                        />
-                        <button className="admin-pd-search-btn" type="submit" onClick={handleSearch}>
-                            <FontAwesomeIcon icon={faSearch} />
-                        </button>
-                    </form>
-                </Col>
             </Row>
             <Row className="admin-acc-list content-box">
                 <Row className="mb-3 fw-bold">
@@ -236,7 +203,6 @@ function AdminProducts() {
                                 size={60}
                                 className="acc-checkbox checkbox-all"
                                 onChange={handleCheckAll}
-                                value={searchValue}
                             />
                             <span className="ms-3">Tên sản phẩm</span>
                         </div>
@@ -260,7 +226,7 @@ function AdminProducts() {
                                     onChange={(e) => renderDeleteBtn(e, item)}
                                 />
                                 <Images
-                                    src={item.images[0]}
+                                    src={item.images[0] !== 'string' ? item.images[0] : ''}
                                     alt="user"
                                     className="current-user"
                                     fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"

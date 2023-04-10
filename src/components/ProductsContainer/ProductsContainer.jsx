@@ -47,6 +47,8 @@ function ProductsContainer(props) {
         );
     };
 
+    const handleSeeMore = () => {};
+
     return (
         <Container fluid>
             <Container className="product-slider ">
@@ -55,7 +57,7 @@ function ProductsContainer(props) {
                         <h2 className="m-0">{title}</h2>
                     </Col>
                     <Col className="text-end p-0">
-                        <Buttons primary rightIcon={<FontAwesomeIcon icon={faAnglesRight} />}>
+                        <Buttons primary rightIcon={<FontAwesomeIcon icon={faAnglesRight} />} onClick={handleSeeMore}>
                             Xem thêm
                         </Buttons>
                     </Col>

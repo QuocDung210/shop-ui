@@ -6,6 +6,7 @@ import InputField from '../hook-form/InputField';
 import { toast } from 'react-toastify';
 import { userApi } from '~/api';
 function AddAccountForm(props) {
+    const { roleid } = props;
     const initialValues = {
         name: '',
         email: '',
@@ -32,14 +33,24 @@ function AddAccountForm(props) {
             .required('Vui lòng nhập mật khẩu'),
     });
 
-    const handleSubmitForm = (values) => {
-        const { name, email, phone, password } = values;
+    const handleSubmitForm = async (values) => {
+        const { name, email, phoneNum, password } = values;
+
         try {
-            const res = userApi.addUser({});
+            await userApi.addUser({
+                id: '',
+                name: name,
+                email: email,
+                phone: phoneNum,
+                password: password,
+                img: '',
+                roleId: roleid,
+            });
+
+            toast.success('Tạo tài khoản thành công.');
         } catch (err) {
-            toast.error('Co lỗi xảy ra.');
+            toast.error('Có lỗi xảy ra.');
         }
-        console.log('Submkt: ', values);
     };
     return (
         <Formik

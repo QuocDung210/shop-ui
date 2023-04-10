@@ -8,12 +8,15 @@ import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
 import './AddNotify.scss';
 import images from '~/assets/images';
+import { noticeApi } from '~/api/noticeApi';
 function AddNotify() {
     const [descriptionUser, setDescriptionUser] = useState('');
     const [descriptionRole, setDescriptionRole] = useState('');
-    const [targetRole, setTargetRole] = useState(0);
+    const [targetRole, setTargetRole] = useState(1);
     const [userList, setUserList] = useState([]);
     const [selected, setSelected] = useState(null);
+    const [title, setTitle] = useState('');
+    const [titleUser, setTitleUser] = useState('');
     const auth = useAuth();
     const configHeader = {
         headers: { Authorization: `Bearer ${auth?.accessToken}` },
@@ -32,12 +35,61 @@ function AddNotify() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleCreactNoticeRole = () => {
-        console.log(descriptionRole);
+    const handleCreactNoticeRole = async () => {
+        try {
+            if (descriptionRole === '') {
+                toast.warning('Bạn chưa nhập nội dung.');
+                return;
+            } else {
+                let checkTitle;
+                if (title === '') {
+                    checkTitle = 'Không có tiêu đề.';
+                } else {
+                    checkTitle = title;
+                }
+                const res = await noticeApi.createNotice({
+                    id: 0,
+                    phone: '',
+                    roleId: targetRole,
+                    title: checkTitle,
+                    message: descriptionRole,
+                });
+                console.log(res);
+                toast.success('Tạo thông báo thành công.');
+            }
+        } catch (err) {
+            toast.error('Tạo thông báo thất bại.');
+        }
     };
-    const handleCreactNoticeUser = () => {
-        console.log(descriptionUser);
+    const handleCreactNoticeUser = async () => {
+        try {
+            if (descriptionUser === '' || selected === null) {
+                toast.warning('Bạn chưa nhập đủ thông tin.');
+                return;
+            } else {
+                let checkTitle;
+
+                if (titleUser === '') {
+                    console.log('tieu de rong');
+                    checkTitle = 'Không có tiêu đề.';
+                } else {
+                    checkTitle = titleUser;
+                }
+                await noticeApi.createNotice({
+                    id: 0,
+                    phone: selected.phone,
+                    roleId: 0,
+                    title: checkTitle,
+                    message: descriptionUser,
+                });
+
+                toast.success('Tạo thông báo thành công.');
+            }
+        } catch (err) {
+            toast.error('Có Lỗi xảy ra.');
+        }
     };
+
     return (
         <Container fluid className="add-notice-container">
             <h2>Tạo thông báo</h2>
@@ -49,20 +101,11 @@ function AddNotify() {
                         <div className="d-flex flex-wrap gap-3">
                             <div>
                                 <Buttons
-                                    outline={targetRole !== 0}
-                                    primary={targetRole === 0}
-                                    onClick={() => setTargetRole(0)}
-                                >
-                                    Khách hàng
-                                </Buttons>
-                            </div>
-                            <div>
-                                <Buttons
                                     outline={targetRole !== 1}
                                     primary={targetRole === 1}
                                     onClick={() => setTargetRole(1)}
                                 >
-                                    Nhân viên
+                                    Khách hàng
                                 </Buttons>
                             </div>
                             <div>
@@ -71,10 +114,29 @@ function AddNotify() {
                                     primary={targetRole === 2}
                                     onClick={() => setTargetRole(2)}
                                 >
+                                    Nhân viên
+                                </Buttons>
+                            </div>
+                            <div>
+                                <Buttons
+                                    outline={targetRole !== 3}
+                                    primary={targetRole === 3}
+                                    onClick={() => setTargetRole(3)}
+                                >
                                     Quản trị viên
                                 </Buttons>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <h4>Tiêu đề</h4>
+                        <input
+                            className="notify-title-ip"
+                            value={title}
+                            type="text"
+                            placeholder="Title..."
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
                     </div>
                     <div>
                         <h4>Nội dung</h4>
@@ -105,6 +167,7 @@ function AddNotify() {
             <Row>
                 <Stack gap={4} className="content-box">
                     <h3>Tạo thông báo cho cá nhân</h3>
+
                     <div>
                         <h4>Danh sách người dùng</h4>
                         <Stack gap={3} className="notice-user-list">
@@ -112,11 +175,11 @@ function AddNotify() {
                                 <div
                                     key={idx}
                                     className={`notice-user d-flex align-items-center ${
-                                        selected?.phone === user.phone && 'selected'
+                                        selected?.phone === user?.phone && 'selected'
                                     }`}
                                     onClick={() => setSelected(user)}
                                 >
-                                    <img className="notice-user-avatar" src={images.errorImg} alt="img" />
+                                    <img className="notice-user-avatar" src={user?.img || images.errorImg} alt="img" />
                                     <div className="ms-4 flex-fill d-flex flex-column gap-3">
                                         <p className="m-0 notice-user-name">{user?.name}</p>
                                         <div className="d-flex flex-wrap gap-5">
@@ -134,8 +197,12 @@ function AddNotify() {
                     </div>
                     <Stack gap={3}>
                         <h4>Người nhận</h4>
-                        <div className={`${selected ? 'd-flex' : 'd-none'} align-items-center `}>
-                            <img className="notice-target-user-avatar" src={images.errorImg} alt="img" />
+                        <div className={`${selected ? 'd-flex' : 'd-none'} align-items-center`}>
+                            <img
+                                className="notice-target-user-avatar"
+                                src={selected?.img || images.errorImg}
+                                alt="img"
+                            />
                             <div className="ms-4 flex-fill d-flex flex-column gap-3">
                                 <p className="notice-selected-name m-0">{selected?.name}</p>
                                 <div className="d-flex flex-wrap gap-5">
@@ -148,6 +215,16 @@ function AddNotify() {
                                 </div>
                                 <p className="noticep-selected-role m-0">{selected?.role}</p>
                             </div>
+                        </div>
+                        <div>
+                            <h4>Tiêu đề</h4>
+                            <input
+                                className="notify-title-ip"
+                                value={titleUser}
+                                type="text"
+                                placeholder="Title..."
+                                onChange={(e) => setTitleUser(e.target.value)}
+                            />
                         </div>
                         <h4>Nội dung</h4>
                         <CKEditor

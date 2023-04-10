@@ -13,20 +13,7 @@ export const orderApi = {
     getOrderDetailById(id) {
         return axiosTest.get(`/Order/Detail/${id}`);
     },
-    getOrderIncomeYear(year) {
-        return axiosTest.get(`/Order/income/${year}`);
-    },
-    getOrderSoleYear(year) {
-        return axiosTest.get(`/Order/sole/${year}`);
-    },
-    getOrderBrandChartYear(year) {
-        return axiosTest.get(`/Order/brandchart/${year}`);
-    },
-    getOrderBrandChartMonthOrYear(payload) {
-        return axiosTest.get(`/Order/brandchart`, {
-            params: payload,
-        });
-    },
+
     cancelOrderAdmin(id) {
         return axiosTest.post(`/Order/cancel/${id}`);
     },
@@ -35,5 +22,42 @@ export const orderApi = {
     },
     cancelOrder(id) {
         return axiosTest.post(`/Order/${id}`);
+    },
+    getIncomeYear(year) {
+        return axiosTest.get(`/Order/income/${year}`);
+    },
+    getSoldYear(year) {
+        return axiosTest.get(`/Order/sold/${year}`);
+    },
+    getDataColumnChart(year) {
+        return axiosTest.get('/Order/column-chart', {
+            params: {
+                year: year,
+            },
+        });
+    },
+    getBrandChart(month, year) {
+        return axiosTest.get('/Order/brandcirclechart', {
+            params: {
+                month: month,
+                year: year,
+            },
+        });
+    },
+    getCategoryChart(month, year) {
+        return axiosTest.get('/Order/categoycirclechart', {
+            params: {
+                month: month,
+                year: year,
+            },
+        });
+    },
+    getSeriesChart(month, year) {
+        return axiosTest.get('/Order/seriescirclechart', {
+            params: {
+                month: month,
+                year: year,
+            },
+        });
     },
 };

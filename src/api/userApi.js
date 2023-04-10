@@ -10,7 +10,7 @@ export const userApi = {
     setRole(data) {
         return axiosTest.put('/User', data);
     },
-    deleteUser(data) {
-        return axiosTest.delete('/User', data);
+    deleteUser(payload) {
+        return axiosTest.delete('/User', { data: payload });
     },
 };

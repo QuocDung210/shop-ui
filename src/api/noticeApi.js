@@ -1,19 +1,19 @@
 import axiosTest from './apiTest';
 
 export const noticeApi = {
-    getNoticeAdmin(config) {
-        return axiosTest.get('/Notice', config);
+    getNoticeAdmin() {
+        return axiosTest.get('/Notice');
     },
-    createNotice(config) {
-        return axiosTest.post('/Notice', config);
+    createNotice(payload) {
+        return axiosTest.post('/Notice', payload);
     },
-    getNoticeUser(config) {
-        return axiosTest.get('/Notice/Show', config);
+    getNoticeUser() {
+        return axiosTest.get('/Notice/Show');
     },
     getNoticeById(id, config) {
         return axiosTest.get(`/Notice/${id}`, config);
     },
-    deleteNotice(id, config) {
-        return axiosTest.delete(`/Notice/${id}`, config);
+    deleteNotice(id) {
+        return axiosTest.delete(`/Notice/${id}`);
     },
 };

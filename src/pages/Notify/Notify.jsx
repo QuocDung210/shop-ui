@@ -1,7 +1,27 @@
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Stack } from 'react-bootstrap';
 import './Notify.scss';
 import NotifyItem from './NotifyItem';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { noticeApi } from '~/api/noticeApi';
+import parse from 'html-react-parser';
 function AdminNotify() {
+    const [noticeList, setNoticeList] = useState([]);
+    const [selected, setSelected] = useState({});
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await noticeApi.getNoticeUser();
+                setNoticeList(res.reverse());
+                setSelected(res[res.length - 1]);
+            } catch (err) {
+                console.log(err);
+                toast.error('Có lỗi xảy ra.');
+            }
+        };
+        fetch();
+    }, []);
+
     return (
         <Container fluid>
             <Container>
@@ -13,23 +33,25 @@ function AdminNotify() {
                         <div className="content-box">
                             <h3>Tất cả thông báo</h3>
                             <div className="all-notify">
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
-                                <NotifyItem />
+                                <Stack gap={3}>
+                                    {noticeList.length > 0 &&
+                                        noticeList.map((notice, idx) => (
+                                            <div
+                                                className={`${selected?.id === notice?.id && 'selected'}`}
+                                                key={idx}
+                                                onClick={() => setSelected(notice)}
+                                            >
+                                                <NotifyItem notice={notice} />
+                                            </div>
+                                        ))}
+                                </Stack>
                             </div>
                         </div>
                     </Col>
                     <Col>
                         <div className="content-box">
-                            <h3>#tên thông báo</h3>
-                            <div className="notify-detail">hahaha</div>
+                            <h3>{selected?.title}</h3>
+                            <div className="notify-detail">{parse(`${selected?.message}`)}</div>
                         </div>
                     </Col>
                 </Row>

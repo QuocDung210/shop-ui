@@ -35,9 +35,9 @@ function Profile() {
         setImg(URL.createObjectURL(e.target.files[0]));
         try {
             const url = await FirebaseService.uploadImg([e.target.files[0]], 'UserAvatar');
-            console.log(typeof url[0]);
-            const res = await AuthApi.updateAvatar(url[0]);
-            console.log(res);
+
+            await AuthApi.updateAvatar(url[0]);
+
             toast.success('Thay đổi ảnh thành công.');
         } catch (err) {
             toast.error('Có lỗi xảy ra.');
@@ -54,7 +54,7 @@ function Profile() {
                 <Row className="g-4">
                     <Col className="text-center" style={{ position: 'relative' }}>
                         <Images
-                            src={img}
+                            src={img || profile?.img}
                             alt="user"
                             className="user-avatar"
                             fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"

@@ -97,7 +97,8 @@ html *::-webkit-scrollbar-thumb:hover {
     word-break: normal;
 }
 
-.status {
+.status,
+.role {
     margin: 0;
     padding: 5px;
     font-size: 1.6rem;
@@ -163,8 +164,26 @@ html *::-webkit-scrollbar-thumb:hover {
     color: rgba(199, 106, 0, 0.986);
 }
 .status-cancel {
-    border-color: rgba(255, 127, 159, 0.986);
-    background-color: rgba(255, 127, 159, 0.986);
+    border-color: rgba(255, 155, 180, 0.986);
+    background-color: rgba(255, 155, 180, 0.986);
+    color: rgba(248, 0, 0, 0.986);
+}
+
+.role.customer {
+    border-color: rgba(159, 253, 159, 0.986);
+    background-color: rgba(159, 253, 159, 0.986);
+    color: rgba(3, 179, 0, 0.986);
+}
+
+.role.employee {
+    border-color: rgba(255, 205, 144, 0.986);
+    background-color: rgba(255, 205, 144, 0.986);
+    color: rgba(199, 106, 0, 0.986);
+}
+
+.role.admin {
+    border-color: rgba(255, 155, 180, 0.986);
+    background-color: rgba(255, 155, 180, 0.986);
     color: rgba(248, 0, 0, 0.986);
 }
 

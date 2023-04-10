@@ -29,28 +29,40 @@ function ProductImgs({ imageList = [] }) {
         <Container fluid>
             <Row className="img-slide">
                 <Carousel interval={null} activeIndex={currentImg} onSelect={handleClick}>
-                    {imgList().map((img, idx) => (
-                        <Carousel.Item key={idx}>
-                            <img className="pd-slider-img" src={img.value || images.errorImg} alt="slide" />
+                    {imageList[0] !== 'string' ? (
+                        imgList().map((img, idx) => (
+                            <Carousel.Item key={idx}>
+                                <img className="pd-slider-img" src={img?.value || images.errorImg} alt="slide" />
+                            </Carousel.Item>
+                        ))
+                    ) : (
+                        <Carousel.Item>
+                            <img className="pd-slider-img" src={images.errorImg} alt="slide" />
                         </Carousel.Item>
-                    ))}
+                    )}
                 </Carousel>
                 <div className="full-green" onClick={() => setopenModal(true)}>
                     <FontAwesomeIcon icon={faEye} />
                 </div>
                 <div className="d-flex pt-4 imgs-pd">
-                    {imgList().map((data, i) => (
-                        <div className="thumbnail" key={i}>
-                            <img
-                                className={img.id === i ? 'clicked' : ''}
-                                src={data.value || images.errorImg}
-                                onClick={() => handleClick(i)}
-                                height="70"
-                                width="100"
-                                alt={`img-${i}`}
-                            />
+                    {imageList[0] !== 'string' ? (
+                        imgList().map((data, i) => (
+                            <div className="thumbnail" key={i}>
+                                <img
+                                    className={img.id === i ? 'clicked' : ''}
+                                    src={data.value || images.errorImg}
+                                    onClick={() => handleClick(i)}
+                                    height="70"
+                                    width="100"
+                                    alt={`img-${i}`}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="thumbnail">
+                            <img src={images.errorImg} height="70" width="100" alt={`img-err`} />
                         </div>
-                    ))}
+                    )}
                 </div>
             </Row>
             <Modal

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Stack } from 'react-bootstrap';
 import './Widget.scss';
 function Widget(props) {
-    const { type } = props;
+    const { type, dt = 0 } = props;
     let data;
     switch (type) {
         case 'users':
@@ -48,7 +48,7 @@ function Widget(props) {
                 <div className="info-icon" style={{ backgroundColor: data.color }}>
                     {data.icon}
                 </div>
-                <span>{data.couter}</span>
+                <span>{dt}</span>
                 <p>{data.title}</p>
             </Stack>
         </Container>

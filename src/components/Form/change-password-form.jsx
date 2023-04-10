@@ -5,8 +5,9 @@ import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
 import { AuthApi } from '~/api';
 import useAuth from '~/hooks/useAuth';
+import { toast } from 'react-toastify';
 
-function ChangePasswordForm() {
+function ChangePasswordForm({ handleClose }) {
     const currentUser = useAuth();
     const initialValues = {
         oldPw: '',
@@ -29,13 +30,16 @@ function ChangePasswordForm() {
             oldPassword: values.oldPw,
             newPassword: values.newPw,
         };
-        const config = {
-            headers: { Authorization: `Bearer ${currentUser?.accessToken}` },
-        };
+
         try {
-            const res = await AuthApi.changePassword(data, config);
-            console.log(res);
+            await AuthApi.changePassword(data);
+
+            if (handleClose) {
+                handleClose();
+            }
+            toast.success('Thay đổi mật khẩu thành công.');
         } catch (err) {
+            toast.error('Thay đổi mật khẩu thất bại.');
             console.log(err);
         }
     };
