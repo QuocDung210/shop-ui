@@ -8,13 +8,18 @@ import config from '~/config';
 import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logoutSuccess } from '~/redux/slices/authSlice';
+import { useEffect, useState } from 'react';
+import { AuthApi } from '~/api';
+import { toast } from 'react-toastify';
+import useAuth from '~/hooks/useAuth';
 
 function MainHeaderMenu({ menuItems }) {
+    const token = useAuth();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const currentUser = useSelector((state) => state.auth.login.currentUser);
+    const [currentUser, setCurrentUser] = useState({});
     const userMenu = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,
@@ -31,17 +36,33 @@ function MainHeaderMenu({ menuItems }) {
         },
     ];
 
+    useEffect(() => {
+        if (token?.accessToken) {
+            const fetch = async () => {
+                try {
+                    const res = await AuthApi.getProfile();
+                    setCurrentUser(res);
+                } catch (err) {
+                    console.log(err);
+                    toast.error('Có lỗi xảy ra.');
+                }
+            };
+            fetch();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <>
             <div className="d-none d-lg-flex h-100">
-                {currentUser ? (
+                {currentUser.name ? (
                     <div className="d-flex justify-content-end align-items-center options__list">
                         <Link>
-                            <p className="mb-0 d-none d-sm-block header-user-name">{currentUser.user.name}</p>
+                            <p className="mb-0 d-none d-sm-block header-user-name">{currentUser?.name}</p>
                         </Link>
                         <Menu items={userMenu} placement={'bottom-end'}>
                             <Images
-                                src=""
+                                src={currentUser?.img || ''}
                                 alt="user"
                                 className="current-user"
                                 fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"

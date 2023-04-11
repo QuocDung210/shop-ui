@@ -3,6 +3,13 @@
     padding-top: 20px;
     background-color: #222222;
     color: var(--white);
+    p {
+        color: var(--text-color-2);
+        font-weight: 500;
+    }
+    p:hover {
+        color: var(--white);
+    }
 }
 
 .footer-bottom {

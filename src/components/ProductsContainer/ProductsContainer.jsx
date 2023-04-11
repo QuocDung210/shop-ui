@@ -9,9 +9,11 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 function ProductsContainer(props) {
-    const { products = null, title, isLoading } = props;
+    const { products = null, title, isLoading, type, id } = props;
+    const navigate = useNavigate();
     const lg = 5;
     const responsive = {
         superLargeDesktop: {
@@ -47,7 +49,17 @@ function ProductsContainer(props) {
         );
     };
 
-    const handleSeeMore = () => {};
+    const handleSeeMore = () => {
+        if (type) {
+            if (type === 'sort') {
+                navigate(`/product?${createSearchParams({ s: `${title}%${1}` })}`);
+            } else {
+                navigate(`/product?${createSearchParams({ c: `${title}%${id}` })}`);
+            }
+        } else {
+            navigate('/product');
+        }
+    };
 
     return (
         <Container fluid>

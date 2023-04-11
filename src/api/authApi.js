@@ -12,8 +12,8 @@ export const AuthApi = {
     changePassword(data) {
         return axiosTest.put('/Auth/change-password', data);
     },
-    getProfile(payload) {
-        return axiosTest.get('/Auth/profile', payload);
+    getProfile() {
+        return axiosTest.get('/Auth/profile');
     },
     checkAcc(payload) {
         return axiosTest.post('/Auth/check-user', {

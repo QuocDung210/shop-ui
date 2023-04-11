@@ -23,6 +23,7 @@ import { logoutSuccess } from '~/redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { noticeApi } from '~/api/noticeApi';
 import Buttons from '~/components/Buttons';
+import { AuthApi } from '~/api';
 const ADMIN_SIDEBAR_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faGauge} />,
@@ -74,12 +75,15 @@ function AdminMainPage() {
     const [noticeList, setNoticeList] = useState([]);
     const contentBox = useRef(null);
     const [render, setRender] = useState(false);
+    const [currentUser, setCurrentUser] = useState({});
     const top = useRef(null);
 
     useEffect(() => {
         const fetch = async () => {
             try {
                 const res = await noticeApi.getNoticeUser();
+                const resUser = await AuthApi.getProfile();
+                setCurrentUser(resUser);
                 setNoticeList(res.reverse());
             } catch (err) {
                 console.log(err);
@@ -210,7 +214,7 @@ function AdminMainPage() {
                                         )}
                                     >
                                         <Images
-                                            src=""
+                                            src={currentUser?.img || ''}
                                             alt="user"
                                             className="admin-avatar"
                                             fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"

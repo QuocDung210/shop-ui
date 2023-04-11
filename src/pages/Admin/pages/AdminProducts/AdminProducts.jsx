@@ -23,6 +23,7 @@ function AdminProducts() {
     const [deleteMultiTarget, setDeleteMultiTarget] = useState([]);
     const [dataBrand, setDataBrand] = useState([]);
     const [type, setType] = useState(0);
+    const [index, setIndex] = useState(0);
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -143,8 +144,10 @@ function AdminProducts() {
             setDeleteMultiTarget(deleteMultiTarget.filter((pd) => pd.id !== item.id));
         }
     };
-    const handleFilterBrand = (item) => {
+    const handleFilterBrand = (item, idx) => {
         setType(item.id);
+        setIndex(idx);
+        setCurrentPage(1);
     };
     return (
         <Container fluid className="acc-wrapper">
@@ -171,7 +174,7 @@ function AdminProducts() {
                 <Col xs={3}>
                     <Dropdown className="filter-product" as={ButtonGroup}>
                         <Button className="btn-filter-product" variant="success">
-                            {type?.name || 'All'}
+                            {dataBrand[index]?.name || 'All'}
                         </Button>
 
                         <Dropdown.Toggle
@@ -182,11 +185,18 @@ function AdminProducts() {
                         />
 
                         <Dropdown.Menu className="menu-filter-product">
-                            <Dropdown.Item key={0} onClick={() => setType(0)}>
+                            <Dropdown.Item
+                                key={0}
+                                onClick={() => {
+                                    setType(0);
+                                    setIndex(dataBrand.length);
+                                    setCurrentPage(1);
+                                }}
+                            >
                                 All
                             </Dropdown.Item>
                             {dataBrand.map((item, idx) => (
-                                <Dropdown.Item key={idx} onClick={() => handleFilterBrand(item)}>
+                                <Dropdown.Item key={idx} onClick={() => handleFilterBrand(item, idx)}>
                                     {item?.name}
                                 </Dropdown.Item>
                             ))}
@@ -255,7 +265,9 @@ function AdminProducts() {
                                     <Stack className="acc-menu content-box p-3" {...attrs}>
                                         <div className="acc-menu-option">
                                             <Link to={`/admin/update-product/${item.id}`}>
-                                                <p className="my-2 mx-3">Cập nhật</p>
+                                                <p className="my-2 mx-3" style={{ color: 'var(--text-color)' }}>
+                                                    Cập nhật
+                                                </p>
                                             </Link>
                                         </div>
                                         <div className="acc-menu-option">

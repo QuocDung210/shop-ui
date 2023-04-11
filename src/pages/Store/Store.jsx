@@ -1,7 +1,13 @@
-import { faChevronLeft, faChevronRight, faFilter } from '@fortawesome/free-solid-svg-icons';
+import {
+    faArrowUpShortWide,
+    faArrowUpWideShort,
+    faChevronLeft,
+    faChevronRight,
+    faFilter,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Col, Container, Nav, Navbar, NavDropdown, Offcanvas, Row } from 'react-bootstrap';
+import { Col, Container, Offcanvas, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { ProductApi } from '~/api';
 import ProductCard from '~/layouts/components/ProductCard';
@@ -13,7 +19,8 @@ function Store() {
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('q');
     const cate = searchParams.get('c')?.split('%');
-
+    const br = searchParams.get('b')?.split('%');
+    const st = searchParams.get('s')?.split('%');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +28,7 @@ function Store() {
     const [priceRange, setPriceRange] = useState({ max: 0, min: 0 });
     const [categorySelected, setCategorySelected] = useState(0);
     const [show, setShow] = useState(false);
+    const [sort, setSort] = useState(st ? st[1] : 0);
 
     useEffect(() => {
         const allProducts = async () => {
@@ -32,9 +40,9 @@ function Store() {
                     pageIndex: currentPage,
                     pageSize: 12,
                     totalRow: 0,
-                    sort: 0,
+                    sort: sort,
                     products: [],
-                    brandId: 0,
+                    brandId: br ? br[1] : 0,
                     categoryId: cate ? cate[1] : categorySelected,
                     seriesId: 0,
                     minPrice: priceRange.min,
@@ -50,7 +58,7 @@ function Store() {
 
         allProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query, currentPage, priceRange, categorySelected]);
+    }, [query, currentPage, priceRange, categorySelected, sort]);
 
     const handleNext = () => {
         if (currentPage < totalPage) {
@@ -94,39 +102,31 @@ function Store() {
                                     <h3 className="mt-2 mb-2">{`Kết quả tìm kiếm cho : "${query}"`}</h3>
                                 </Row>
                             )}
+                            <Row className="content-box">
+                                <Col className="sort-product-container">
+                                    <p className="m-0">Sắp xếp theo giá :</p>
+                                    <div
+                                        className={`sort-product-wide-short ${sort === 2 && 'selected-sort'}`}
+                                        onClick={() => {
+                                            setSort(2);
+                                            setSearchParams('');
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faArrowUpWideShort} />
+                                    </div>
+                                    <div
+                                        className={`sort-product-wide-short ${sort === 3 && 'selected-sort'}`}
+                                        onClick={() => {
+                                            setSort(3);
+                                            setSearchParams('');
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faArrowUpShortWide} />
+                                    </div>
+                                </Col>
+                            </Row>
                             <Row className="shop-products">
                                 <Container fluid className="products-container content-box">
-                                    <Row className="products-nav">
-                                        <Navbar bg="light" expand="lg">
-                                            <Container fluid>
-                                                <Navbar.Brand href="#">Lọc sản phẩm</Navbar.Brand>
-                                                <Navbar.Toggle aria-controls="navbarScroll" />
-                                                <Navbar.Collapse id="navbarScroll">
-                                                    <Nav
-                                                        className="me-auto my-2 my-lg-0"
-                                                        style={{ maxHeight: '100px' }}
-                                                        navbarScroll
-                                                    >
-                                                        <Nav.Link href="#action1">Home</Nav.Link>
-                                                        <Nav.Link href="#action2">Link</Nav.Link>
-                                                        <NavDropdown title="Link" id="navbarScrollingDropdown">
-                                                            <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                                            <NavDropdown.Item href="#action4">
-                                                                Another action
-                                                            </NavDropdown.Item>
-                                                            <NavDropdown.Divider />
-                                                            <NavDropdown.Item href="#action5">
-                                                                Something else here
-                                                            </NavDropdown.Item>
-                                                        </NavDropdown>
-                                                        <Nav.Link href="#" disabled>
-                                                            Link
-                                                        </Nav.Link>
-                                                    </Nav>
-                                                </Navbar.Collapse>
-                                            </Container>
-                                        </Navbar>
-                                    </Row>
                                     {!isLoading ? (
                                         <Row className="products-list m-1">
                                             <Container fluid className="p-0">

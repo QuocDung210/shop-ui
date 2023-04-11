@@ -50,7 +50,7 @@ function UpdateProduct() {
     const [discount, setDiscount] = useState(0);
     const [selected, setSelected] = useState(PRODUCT_SPECIFICATIONS[0]);
 
-    const [images, setImages] = useState(null);
+    const [images, setImages] = useState([]);
     const [currentImgs, setCurrentImgs] = useState([]);
     const [imgsDel, setImgsDel] = useState([]);
     const [brandList, setBrandList] = useState([]);
@@ -104,7 +104,27 @@ function UpdateProduct() {
 
     //Add-Delete product images
     const handleAddImg = (e) => {
-        setImages([...e.target.files]);
+        let intersection = [];
+        if (images.length > 0) {
+            for (let i = 0; i < [...e.target.files].length; i++) {
+                var check = false;
+                for (let j = 0; j < images.length; j++) {
+                    if ([...e.target.files][i].name === images[j].name) {
+                        check = true;
+                    }
+                }
+                if (!check) {
+                    intersection.push([...e.target.files][i]);
+                }
+            }
+        }
+        if (images.length > 0) {
+            setImages([...images, ...intersection]);
+            // setData({ ...data, images: [...images, ...intersection] });
+        } else {
+            setImages([...e.target.files]);
+            // setData({ ...data, images: [...e.target.files] });
+        }
     };
     const handleDeleteImg = (idx) => {
         for (let image of images) {
@@ -135,6 +155,9 @@ function UpdateProduct() {
             { name: selected, value: specificationInput || 'Đang cập nhật' },
         ]);
         setSpecificationInput('');
+        if (selected < PRODUCT_SPECIFICATIONS.length) {
+            setSelected(selected + 1);
+        }
         inputSpecificationRef.current.focus();
     };
 
@@ -454,11 +477,6 @@ function UpdateProduct() {
                                             {item.name}
                                         </option>
                                     ))}
-                                    {/* <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option> */}
                                 </select>
                             </div>
                         </Row>

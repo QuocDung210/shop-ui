@@ -12,7 +12,6 @@ import { BrandApi, ProductApi } from '~/api';
 import { seriesApi } from '~/api/seriesApi';
 import { categoryApi } from '~/api/categoryApi';
 import { FirebaseService } from '~/firebase/firebaseService';
-import useAuth from '~/hooks/useAuth';
 const PRODUCT_SPECIFICATIONS = [
     'CPU',
     'RAM',
@@ -407,11 +406,6 @@ function AddProduct() {
                                             {item.name}
                                         </option>
                                     ))}
-                                    {/* <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option>
-                                    <option>hahahah</option> */}
                                 </select>
                             </div>
                         </Row>

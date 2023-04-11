@@ -7,9 +7,7 @@ function TopHeader() {
         <Container fluid className="p-0 header-top">
             <Container>
                 <Row>
-                    <Col className="slogan">
-                        <span className="text-uppercase">Thể hiện tính cách của bạn</span>
-                    </Col>
+                    <Col className="slogan"></Col>
                     <Col className="d-none d-md-block">
                         <div className="d-flex flex-row justify-content-end">
                             <div className="d-flex">

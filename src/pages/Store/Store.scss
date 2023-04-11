@@ -22,3 +22,21 @@
 .products-container {
     min-height: 632px;
 }
+
+.sort-product-container {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    font-weight: 500;
+
+    color: var(--text-color-2);
+    .sort-product-wide-short,
+    .sort-product-short-wide {
+        cursor: pointer;
+    }
+    .sort-product-wide-short.selected-sort,
+    .sort-product-short-wide.selected-sort {
+        color: var(--text-color);
+    }
+}
