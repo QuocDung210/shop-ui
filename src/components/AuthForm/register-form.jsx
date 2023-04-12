@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerFailed, registerSuccess, startRegister } from '~/redux/slices/authSlice';
 import { AuthApi } from '~/api';
+import { toast } from 'react-toastify';
 function RegisterForm(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -35,7 +36,6 @@ function RegisterForm(props) {
 
     const handleSubmitForm = async (values) => {
         const { name, email, phone, password } = values;
-        console.log(name, email, phone, password);
         dispatch(startRegister());
         try {
             const res = await AuthApi.register({
@@ -44,7 +44,6 @@ function RegisterForm(props) {
                 phone: phone,
                 password: password,
             });
-
             dispatch(registerSuccess(res));
             if (res.user.role === 'admin' || res.user.role === 'employee') {
                 navigate('/admin');
@@ -52,7 +51,8 @@ function RegisterForm(props) {
                 navigate('/');
             }
         } catch (error) {
-            console.log('Error: ', error.status);
+            console.log('Error: ', error);
+            toast.error(error);
             dispatch(registerFailed());
         }
     };

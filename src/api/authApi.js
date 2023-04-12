@@ -28,4 +28,10 @@ export const AuthApi = {
             image: payload,
         });
     },
+    refresh(accessToken, refreshToken) {
+        return axiosTest.post('/Auth/refreshtoken', {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        });
+    },
 };

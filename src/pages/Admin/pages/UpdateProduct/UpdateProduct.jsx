@@ -227,6 +227,8 @@ function UpdateProduct() {
             if (images?.length > 0) {
                 const urls = await FirebaseService.uploadImg(images, 'ProductImgs');
                 newImgs = [...urls, ...currentImgs];
+            } else {
+                newImgs = [...currentImgs];
             }
             let spList = [];
             for (let key in specificationsList) {

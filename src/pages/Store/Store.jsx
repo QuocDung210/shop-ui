@@ -109,7 +109,6 @@ function Store() {
                                         className={`sort-product-wide-short ${sort === 2 && 'selected-sort'}`}
                                         onClick={() => {
                                             setSort(2);
-                                            setSearchParams('');
                                         }}
                                     >
                                         <FontAwesomeIcon icon={faArrowUpWideShort} />
@@ -118,7 +117,6 @@ function Store() {
                                         className={`sort-product-wide-short ${sort === 3 && 'selected-sort'}`}
                                         onClick={() => {
                                             setSort(3);
-                                            setSearchParams('');
                                         }}
                                     >
                                         <FontAwesomeIcon icon={faArrowUpShortWide} />

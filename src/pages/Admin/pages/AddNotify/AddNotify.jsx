@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import './AddNotify.scss';
 import images from '~/assets/images';
 import { noticeApi } from '~/api/noticeApi';
+
 function AddNotify() {
     const [descriptionUser, setDescriptionUser] = useState('');
     const [descriptionRole, setDescriptionRole] = useState('');
@@ -140,6 +141,7 @@ function AddNotify() {
                     </div>
                     <div>
                         <h4>Nội dung</h4>
+
                         <CKEditor
                             editor={ClassicEditor}
                             data={descriptionRole}

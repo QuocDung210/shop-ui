@@ -26,14 +26,11 @@ function MainHeader({ menuItems, navList }) {
     const [noticeList, setNoticeList] = useState([]);
     const auth = useAuth();
     const [render, setRender] = useState(false);
-
     useEffect(() => {
         const fetch = async () => {
-            if (auth) {
+            if (auth?.accessToken) {
                 try {
-                    const res = await cartApi.getCart({
-                        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                    });
+                    const res = await cartApi.getCart();
                     setCartItems(res);
                     const noticeRes = await noticeApi.getNoticeUser();
 

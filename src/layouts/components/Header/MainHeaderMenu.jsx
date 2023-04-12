@@ -31,6 +31,7 @@ function MainHeaderMenu({ menuItems }) {
             label: 'Đăng xuất',
             action: () => {
                 dispatch(logoutSuccess());
+                setCurrentUser({});
                 navigate('/');
             },
         },
