@@ -32,10 +32,12 @@ import AddNotify from './pages/Admin/pages/AddNotify/AddNotify';
 import AdminOrderDetail from './pages/Admin/pages/AdminOrderDetail/AdminOrderDetail';
 import ForgetPw from './pages/ForgetPassword/ForgetPw';
 import AccountDetail from './pages/Admin/pages/AccountDetail/AccountDetail';
+import ScrollTotop from './components/ScrollTotop';
 function App() {
     return (
         <>
             <Router>
+                <ScrollTotop />
                 <Routes>
                     <Route path={config.routes.home} element={<DefaultLayout />}>
                         <Route index element={<Home />} />

@@ -28,11 +28,15 @@
             font-size: 1.8rem;
             font-weight: 600;
             border-radius: 10px;
+            transition: all ease 0.3s;
             cursor: pointer;
             &:hover {
-                background-color: var(--color-5);
-                color: var(--white);
+                background-color: var(--color-4);
             }
+        }
+        .menu-item.menu-item-selected {
+            background-color: var(--color-5);
+            color: var(--white);
         }
     }
 }

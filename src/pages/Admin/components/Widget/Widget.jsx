@@ -46,10 +46,10 @@ function Widget(props) {
         <Container className="p-0">
             <Stack className="info-wrapper align-items-center">
                 <div className="info-icon" style={{ backgroundColor: data.color }}>
-                    {data.icon}
+                    {data?.icon}
                 </div>
                 <span>{dt}</span>
-                <p>{data.title}</p>
+                <p>{data?.title}</p>
             </Stack>
         </Container>
     );

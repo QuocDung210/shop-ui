@@ -80,7 +80,7 @@ function Home() {
                                       >
                                           <Images
                                               src={brand?.logo || ''}
-                                              alt="user"
+                                              alt="brand"
                                               className="brand-card-img"
                                               fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                                           />

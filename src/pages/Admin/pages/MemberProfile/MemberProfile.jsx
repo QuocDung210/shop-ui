@@ -6,13 +6,11 @@ import { AuthApi } from '~/api';
 import Buttons from '~/components/Buttons';
 import ProfileForm from '~/components/Form/profile-form';
 import Images from '~/components/Images';
-import useAuth from '~/hooks/useAuth';
 import './MemberProfile.scss';
 import { toast } from 'react-toastify';
 import { FirebaseService } from '~/firebase/firebaseService';
 import ChangePasswordForm from '~/components/Form/change-password-form';
 function Profile() {
-    const userProfile = useAuth();
     const [show, setShow] = useState(false);
     const [changePwShow, setChangePwShow] = useState(false);
     const [profile, setProfile] = useState({});
@@ -24,9 +22,7 @@ function Profile() {
     useEffect(() => {
         const fetchApi = async () => {
             try {
-                const res = await AuthApi.getProfile({
-                    headers: { Authorization: `Bearer ${userProfile?.accessToken}` },
-                });
+                const res = await AuthApi.getProfile();
                 setProfile(res);
             } catch (err) {
                 console.log(err);
@@ -84,19 +80,19 @@ function Profile() {
                         <Stack gap={3}>
                             <div>
                                 <h3>Họ tên :</h3>
-                                <p>{profile.name}</p>
+                                <p>{profile?.name}</p>
                             </div>
                             <div>
                                 <h3>Số điện thoại :</h3>
-                                <p>{profile.phone}</p>
+                                <p>{profile?.phone}</p>
                             </div>
                             <div>
                                 <h3>Email :</h3>
-                                <p>{profile.email}</p>
+                                <p>{profile?.email}</p>
                             </div>
                             <div>
                                 <h3>Chức vụ :</h3>
-                                <p>{profile.role}</p>
+                                <p>{profile?.role}</p>
                             </div>
                         </Stack>
                     </Col>

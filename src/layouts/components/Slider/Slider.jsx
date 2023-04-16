@@ -32,10 +32,14 @@ function Slider() {
     const navigate = useNavigate();
     useEffect(() => {
         const fetch = async () => {
-            const resAdImg = await FirebaseService.getImgs('AdImgs', 'img');
-            const resCategory = await categoryApi.getAll();
-            setCurrentAddImgs(resAdImg.listImg);
-            setCategory(resCategory);
+            try {
+                const resCategory = await categoryApi.getAll();
+                setCategory(resCategory);
+                const resAdImg = await FirebaseService.getImgs('AdImgs', 'img');
+                setCurrentAddImgs(resAdImg.listImg);
+            } catch (err) {
+                console.log(err);
+            }
         };
         fetch();
     }, []);
@@ -67,7 +71,7 @@ function Slider() {
                                 {currentAdImgs.length > 0
                                     ? currentAdImgs.map((item, idx) => (
                                           <Carousel.Item interval={3000} key={idx}>
-                                              <img className="d-block w-100 slider-img" src={item} alt={idx} />
+                                              <img className="d-block slider-img" src={item} alt={idx} />
                                           </Carousel.Item>
                                       ))
                                     : listSlider.map((sliderItem, idx) => (

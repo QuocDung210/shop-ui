@@ -131,7 +131,7 @@ function Ad() {
                         <Stack className=" content-box">
                             <h3>Ảnh quảng cáo hiện có : {currentAdImgs?.length || 0}</h3>
                             <div className="current-ad-imgs d-flex">
-                                {currentAdImgs &&
+                                {currentAdImgs.length > 0 &&
                                     currentAdImgs.map((img, idx) => (
                                         <div key={idx} className="ad-img me-4">
                                             <FontAwesomeIcon

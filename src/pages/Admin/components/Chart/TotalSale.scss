@@ -30,7 +30,9 @@
         border: 1px solid #ccc;
     }
 }
-
+.recharts-layer {
+    position: relative;
+}
 .total-pd-sale {
     position: absolute;
     top: 49%;

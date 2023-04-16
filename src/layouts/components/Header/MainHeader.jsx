@@ -5,23 +5,19 @@ import { Container, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import MainHeaderMenu from './MainHeaderMenu';
 import Cart from '../Cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faBox, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import MainNavbar from '../MainNavbar';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState } from 'react';
 import Buttons from '~/components/Buttons';
-import { cartApi } from '~/api';
 import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
-import CartItem from '../Cart/CartItem';
-import config from '~/config';
 import { noticeApi } from '~/api/noticeApi';
-import parse from 'html-react-parser';
+import Images from '~/components/Images';
 
 function MainHeader({ menuItems, navList }) {
     const [open, setOpen] = useState(false);
-    const [cartItems, setCartItems] = useState({});
     const [show, setShow] = useState(false);
     const [noticeList, setNoticeList] = useState([]);
     const auth = useAuth();
@@ -30,8 +26,6 @@ function MainHeader({ menuItems, navList }) {
         const fetch = async () => {
             if (auth?.accessToken) {
                 try {
-                    const res = await cartApi.getCart();
-                    setCartItems(res);
                     const noticeRes = await noticeApi.getNoticeUser();
 
                     setNoticeList(noticeRes);
@@ -85,19 +79,30 @@ function MainHeader({ menuItems, navList }) {
                                             interactive
                                             arrow
                                             render={(attrs) => (
-                                                <Stack gap={4} className="nav-notify-popper content-box p-3" {...attrs}>
-                                                    {noticeList.length > 0 ? (
+                                                <Stack className="nav-notify-popper content-box p-3" {...attrs}>
+                                                    {noticeList?.length > 0 ? (
                                                         noticeList?.map((notice, idx) => (
-                                                            <div key={idx} className="admin-notice-option">
-                                                                <h3 className="m-0">{notice?.title}</h3>
-                                                                <div>{parse(notice?.message)}</div>
+                                                            <div key={idx} className="user-notice-item">
+                                                                <Images
+                                                                    src=""
+                                                                    alt="user"
+                                                                    className="sender-notice-avatar"
+                                                                    fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                                                    style={{
+                                                                        boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)',
+                                                                    }}
+                                                                />
+                                                                <div>
+                                                                    <h3>MyShop</h3>
+                                                                    <p className="m-0">{notice?.title}</p>
+                                                                </div>
                                                             </div>
                                                         ))
                                                     ) : (
                                                         <h3 className="m-0">Không có thông báo</h3>
                                                     )}
                                                     <Buttons
-                                                        disabled={noticeList.length > 0 ? false : true}
+                                                        disabled={noticeList?.length > 0 ? false : true}
                                                         outline
                                                         small
                                                         to={'/notify'}
@@ -115,10 +120,10 @@ function MainHeader({ menuItems, navList }) {
                                                 <FontAwesomeIcon icon={faBell} />
                                                 <div
                                                     className={`notice-quantity-user ${
-                                                        noticeList.length === 0 && 'd-none'
+                                                        noticeList?.length === 0 && 'd-none'
                                                     }`}
                                                 >
-                                                    {noticeList.length}
+                                                    {noticeList?.length || 0}
                                                 </div>
                                             </div>
                                         </Tippy>
@@ -158,25 +163,6 @@ function MainHeader({ menuItems, navList }) {
                         </Navbar.Offcanvas>
                     </Container>
                 </Navbar>
-                <div className={`d-lg-none ${show ? 'd-block' : 'd-none'}`}>
-                    <Stack gap={3} className="cart-list content-box p-0">
-                        <div className="cart-list-header d-flex align-items-center gap-3 p-4 ">
-                            <FontAwesomeIcon icon={faBox} />
-                            <h3 className="m-0">Giỏ hàng</h3>
-                        </div>
-
-                        <Stack gap={3} className="p-3">
-                            {cartItems && cartItems?.result?.map((item, idx) => <CartItem item={item} key={idx} />)}
-                        </Stack>
-                        <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>
-                            <Buttons primary to={config.routes.order} onClick={() => setShow(!show)}>
-                                {`Thanh toán ${cartItems?.result?.reduce((total, num) => {
-                                    return total + num.product.price;
-                                }, 0)} đ`}
-                            </Buttons>
-                        </div>
-                    </Stack>
-                </div>
             </Container>
         </Container>
     );

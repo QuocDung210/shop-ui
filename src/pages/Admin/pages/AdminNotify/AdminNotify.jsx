@@ -8,6 +8,7 @@ import parse from 'html-react-parser';
 import { noticeApi } from '~/api/noticeApi';
 import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
+import Images from '~/components/Images';
 function AdminNotify() {
     const [noticeList, setNoticeList] = useState([]);
     const [selected, setSelected] = useState(null);
@@ -74,8 +75,17 @@ function AdminNotify() {
                                     className={`admin-notify-item  ${selected?.id === notice?.id && 'selected'}`}
                                     onClick={() => setSelected(notice)}
                                 >
-                                    <h4>{notice?.title}</h4>
-                                    <p className="m-0">{notice?.role}</p>
+                                    <Images
+                                        src=""
+                                        alt="user"
+                                        className="notify-item-avatar"
+                                        fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                        style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
+                                    />
+                                    <div className="notify-item-title">
+                                        <h3>{notice?.role}</h3>
+                                        <p>{notice?.title}</p>
+                                    </div>
                                 </div>
                             ))}
                         </Stack>

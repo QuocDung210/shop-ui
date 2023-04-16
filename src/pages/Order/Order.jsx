@@ -92,31 +92,31 @@ function Order() {
 
     return (
         <Container fluid>
-            <Container>
+            <Container className="mb-4">
                 <Row className="gap-3 mb-4">
                     <Col className="content-box">
                         <h3>Giỏ hàng</h3>
                         <Row className="cart-table-header d-flex align-items-center">
-                            <Col xs={5}>
+                            <Col xs={6} lg={5}>
                                 <p>Tên sản phẩm</p>
                             </Col>
-                            <Col xs={2}>
+                            <Col xs={2} className="d-none d-lg-block">
                                 <p>Đơn giá</p>
                             </Col>
-                            <Col xs={1}>
+                            <Col xs={1} className="d-none d-lg-block">
                                 <p>Số lượng</p>
                             </Col>
-                            <Col xs={3}>
+                            <Col xs={4} lg={3}>
                                 <p>Thành tiền</p>
                             </Col>
-                            <Col xs={1} className="text-center">
+                            <Col xs={2} lg={1} className="text-center">
                                 <p>Xóa</p>
                             </Col>
                         </Row>
                         <Stack gap={3} className="cart-table-body">
                             {cartItems?.map((item, idx) => (
                                 <Row key={idx} className="d-flex align-items-center">
-                                    <Col xs={5} className="d-flex align-items-center">
+                                    <Col xs={6} lg={5} className="d-flex align-items-center">
                                         <Images
                                             src={item?.product?.images[0] || images.errorImg}
                                             alt="user"
@@ -127,17 +127,18 @@ function Order() {
 
                                         <p className="text-split mb-0 ms-4">{item?.product?.name}</p>
                                     </Col>
-                                    <Col xs={2}>
+                                    <Col xs={2} className="d-none d-lg-block">
                                         <p>{`${splitNumber(item?.product?.price)} đ`}</p>
                                     </Col>
-                                    <Col xs={1}>
+                                    <Col xs={1} className="d-none d-lg-block">
                                         <p>{item?.quantity}</p>
                                     </Col>
-                                    <Col xs={3}>
+                                    <Col xs={4} lg={3}>
                                         <p>{`${splitNumber(item?.product?.price * item?.quantity)} đ`}</p>
                                     </Col>
                                     <Col
-                                        xs={1}
+                                        xs={2}
+                                        lg={1}
                                         className="order-cart-delete text-center"
                                         onClick={() => handleDelete(item)}
                                     >
@@ -146,35 +147,6 @@ function Order() {
                                 </Row>
                             ))}
                         </Stack>
-                    </Col>
-                    <Col className="content-box " lg={6} xs={12}>
-                        <h3>Thông tin nhận hàng</h3>
-                        <Row className="mt-4 " xs={1} md={2}>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-name" onChange={handleSetData} type="text" />
-                                    <span>Tên người nhận</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-phone" onChange={handleSetData} type="number" />
-                                    <span>Sđt người nhận</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-address" onChange={handleSetData} type="text" />
-                                    <span>Địa chỉ nhận hàng</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-note" onChange={handleSetData} type="text" />
-                                    <span>Ghi chú</span>
-                                </div>
-                            </Col>
-                        </Row>
                     </Col>
                 </Row>
 
@@ -254,8 +226,37 @@ function Order() {
                         </div>
                     </Col>
                 </Row>
-                <Row>
-                    <Col className="content-box mb-4">
+                <Row className="gap-4">
+                    <Col md={6} xs={12} className="content-box">
+                        <h3>Thông tin nhận hàng</h3>
+                        <Row className="mt-4 " xs={1}>
+                            <Col className="mb-4">
+                                <div className="order-receive-ip">
+                                    <input id="receiver-name" onChange={handleSetData} type="text" />
+                                    <span>Tên người nhận</span>
+                                </div>
+                            </Col>
+                            <Col className="mb-4">
+                                <div className="order-receive-ip">
+                                    <input id="receiver-phone" onChange={handleSetData} type="number" />
+                                    <span>Sđt người nhận</span>
+                                </div>
+                            </Col>
+                            <Col className="mb-4">
+                                <div className="order-receive-ip">
+                                    <input id="receiver-address" onChange={handleSetData} type="text" />
+                                    <span>Địa chỉ nhận hàng</span>
+                                </div>
+                            </Col>
+                            <Col className="mb-4">
+                                <div className="order-receive-ip">
+                                    <input id="receiver-note" onChange={handleSetData} type="text" />
+                                    <span>Ghi chú</span>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col className="content-box ">
                         <h3 className="mb-4">Thông tin đơn hàng</h3>
                         <Stack gap={3} className="order-info">
                             <div className="d-flex justify-content-between">

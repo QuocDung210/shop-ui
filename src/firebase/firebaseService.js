@@ -33,7 +33,6 @@ export const FirebaseService = {
     },
     deleteImg: async (img, collection, document) => {
         try {
-            console.log('check img: ', img);
             const deleteRef = ref(storage, img);
             await deleteObject(deleteRef);
 

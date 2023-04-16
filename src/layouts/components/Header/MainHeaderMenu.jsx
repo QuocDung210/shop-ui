@@ -48,15 +48,15 @@ function MainHeaderMenu({ menuItems }) {
                     toast.error('Có lỗi xảy ra.');
                 }
             };
+
             fetch();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [token]);
 
     return (
         <>
             <div className="d-none d-lg-flex h-100">
-                {currentUser.name ? (
+                {currentUser?.name ? (
                     <div className="d-flex justify-content-end align-items-center options__list">
                         <Link>
                             <p className="mb-0 d-none d-sm-block header-user-name">{currentUser?.name}</p>

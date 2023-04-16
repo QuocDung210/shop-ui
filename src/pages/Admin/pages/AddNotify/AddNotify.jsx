@@ -48,14 +48,13 @@ function AddNotify() {
                 } else {
                     checkTitle = title;
                 }
-                const res = await noticeApi.createNotice({
+                await noticeApi.createNotice({
                     id: 0,
                     phone: '',
                     roleId: targetRole,
                     title: checkTitle,
                     message: descriptionRole,
                 });
-                console.log(res);
                 toast.success('Tạo thông báo thành công.');
             }
         } catch (err) {

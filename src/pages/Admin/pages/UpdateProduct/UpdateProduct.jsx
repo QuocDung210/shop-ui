@@ -82,6 +82,7 @@ function UpdateProduct() {
             setDiscount(resProduct.discount);
             setDescription(resProduct.description);
             setCurrentImgs(resProduct.images);
+
             setSeriesSelected(resProduct.seriesId);
             setCategorySelected(resProduct.categoryId);
             setBrandSelected(resProduct.brandId);
@@ -240,6 +241,7 @@ function UpdateProduct() {
                 }
             }
             console.log('check mang: ', [...newImgs, ...currentImgs]);
+            console.log(spList);
             const data = {
                 id: currentProduct.id,
                 name: name || 'Chưa cập nhật tên',

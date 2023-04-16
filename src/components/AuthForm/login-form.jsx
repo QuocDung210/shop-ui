@@ -32,7 +32,6 @@ function LoginForm(props) {
                 phone: phone,
                 password: password,
             });
-            console.log(res);
             dispatch(loginSuccess(res));
             if (res.user.role === 'admin' || res.user.role === 'employee') {
                 navigate('/admin');

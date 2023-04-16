@@ -16,14 +16,27 @@
 }
 
 .nav-item {
-    border-radius: 10px;
     cursor: pointer;
+    .nav-item-title {
+        padding-right: 10px;
+        p {
+            font-size: 1.8rem;
+            width: 100%;
+            padding: 10px;
+        }
+        &:hover {
+            background-color: var(--color-4);
+            border-radius: 10px;
+        }
+    }
     p {
         font-size: 1.8rem;
+        width: 100%;
         padding: 10px;
     }
-    &:hover {
-        background-color: var(--color-4);
+    .nav-item-arrow {
+        transition: all ease 0.2s;
+        transform: rotate(180deg);
     }
 }
 
@@ -45,4 +58,14 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
+}
+
+.category-brand-collapse {
+    max-height: 300px;
+    overflow-y: overlay;
+}
+
+.nav-selected {
+    background-color: var(--color-4);
+    border-radius: 10px;
 }

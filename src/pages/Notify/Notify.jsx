@@ -12,7 +12,7 @@ function AdminNotify() {
         const fetch = async () => {
             try {
                 const res = await noticeApi.getNoticeUser();
-                setNoticeList(res.reverse());
+                setNoticeList(res?.reverse());
                 setSelected(res[res.length - 1]);
             } catch (err) {
                 console.log(err);
@@ -21,7 +21,6 @@ function AdminNotify() {
         };
         fetch();
     }, []);
-
     return (
         <Container fluid>
             <Container>
@@ -34,7 +33,7 @@ function AdminNotify() {
                             <h3>Tất cả thông báo</h3>
                             <div className="all-notify">
                                 <Stack gap={3}>
-                                    {noticeList.length > 0 &&
+                                    {noticeList?.length > 0 &&
                                         noticeList.map((notice, idx) => (
                                             <div
                                                 className={`${selected?.id === notice?.id && 'selected'}`}
@@ -51,7 +50,7 @@ function AdminNotify() {
                     <Col>
                         <div className="content-box">
                             <h3>{selected?.title}</h3>
-                            <div className="notify-detail">{parse(`${selected?.message}`)}</div>
+                            <div className="user-notify-message-container">{parse(`${selected?.message}`)}</div>
                         </div>
                     </Col>
                 </Row>

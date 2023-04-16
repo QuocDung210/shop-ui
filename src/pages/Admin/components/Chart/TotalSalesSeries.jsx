@@ -36,7 +36,7 @@ function TotalSalesSeries() {
     return (
         <Container fluid className="total-sale-container">
             <div className="d-flex flex-wrap justify-content-between align-items-center">
-                <h2 className="ms-4 mb-0">Total Sold by Category</h2>
+                <h2 className="ms-4 mb-0">Total Sold by Series</h2>
                 <div className="d-flex gap-4">
                     <DropdownButton className="thu" id="dropdown-basic-button" title={`month ${month}`}>
                         {Array.from({ length: 12 }).map((_, idx) => (

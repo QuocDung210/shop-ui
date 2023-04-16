@@ -79,15 +79,15 @@ function Profile() {
                         <Stack gap={3}>
                             <div>
                                 <h3>Họ tên :</h3>
-                                <p>{profile.name}</p>
+                                <p>{profile?.name}</p>
                             </div>
                             <div>
                                 <h3>Số điện thoại :</h3>
-                                <p>{profile.phone}</p>
+                                <p>{profile?.phone}</p>
                             </div>
                             <div>
                                 <h3>Email :</h3>
-                                <p>{profile.email}</p>
+                                <p>{profile?.email}</p>
                             </div>
                         </Stack>
                     </Col>

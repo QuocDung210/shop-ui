@@ -6,7 +6,7 @@ import {
     faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Col, Container, Offcanvas, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { ProductApi } from '~/api';
@@ -29,8 +29,8 @@ function Store() {
     const [categorySelected, setCategorySelected] = useState(0);
     const [show, setShow] = useState(false);
     const [sort, setSort] = useState(st ? st[1] : 0);
-
-    useEffect(() => {
+    const [brand, setBrand] = useState(0);
+    useLayoutEffect(() => {
         const allProducts = async () => {
             try {
                 setIsLoading(true);
@@ -42,7 +42,7 @@ function Store() {
                     totalRow: 0,
                     sort: sort,
                     products: [],
-                    brandId: br ? br[1] : 0,
+                    brandId: br ? br[1] : brand,
                     categoryId: cate ? cate[1] : categorySelected,
                     seriesId: 0,
                     minPrice: priceRange.min,
@@ -58,7 +58,7 @@ function Store() {
 
         allProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query, currentPage, priceRange, categorySelected, sort]);
+    }, [query, currentPage, priceRange, categorySelected, sort, brand]);
 
     const handleNext = () => {
         if (currentPage < totalPage) {
@@ -81,6 +81,11 @@ function Store() {
         setCategorySelected(id);
         setSearchParams('');
     };
+
+    const handleFilterbrand = (id) => {
+        setBrand(id);
+    };
+
     const handleClose = () => {
         setShow(!show);
     };
@@ -93,7 +98,11 @@ function Store() {
             <Container>
                 <Row>
                     <Col md={3} className="d-none d-lg-block">
-                        <Sidebar priceFilter={handlePriceFilter} categoryFilter={handleFilter} />
+                        <Sidebar
+                            priceFilter={handlePriceFilter}
+                            categoryFilter={handleFilter}
+                            brandFilter={handleFilterbrand}
+                        />
                     </Col>
                     <Col xs={12} lg={9}>
                         <Container fluid className="shop-container d-flex flex-column gap-2 mb-4">

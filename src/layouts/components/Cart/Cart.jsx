@@ -13,7 +13,6 @@ import config from '~/config';
 import { splitNumber } from '~/numberSplit';
 import images from '~/assets/images';
 function Cart(props) {
-    const { handleShow } = props;
     const [rerender, setRerender] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const auth = useAuth();
@@ -39,9 +38,14 @@ function Cart(props) {
 
     return (
         <div className="cart-container">
-            <div className="d-none d-lg-flex align-items-center cart-wrapper gap-2">
+            <div className="d-flex align-items-center cart-wrapper gap-2">
                 <div className="d-none d-md-block cart-label">
-                    <span>GIỎ HÀNG / 0 đ</span>
+                    <span>{`GIỎ HÀNG / ${splitNumber(
+                        cartItems?.length > 0 &&
+                            cartItems?.reduce((total, num) => {
+                                return total + num.product.price * num.quantity;
+                            }, 0),
+                    )} đ`}</span>
                 </div>
                 <Tippy
                     delay={[0, 200]}
@@ -89,12 +93,6 @@ function Cart(props) {
                         <div className="cart-top"></div>
                     </div>
                 </Tippy>
-            </div>
-            <div className="d-block d-lg-none cart-wrapper" onClick={() => handleShow()}>
-                <div className="d-flex align-items-center justify-content-center cart-bottom">
-                    <span>{cartItems?.length || 0}</span>
-                </div>
-                <div className="cart-top"></div>
             </div>
         </div>
     );

@@ -15,7 +15,6 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Images from '~/components/Images';
 import AdminSidebar from './components/AdminSidebar';
 import Tippy from '@tippyjs/react/headless';
-import parse from 'html-react-parser';
 import './Admin.scss';
 import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
@@ -62,7 +61,7 @@ const ADMIN_SIDEBAR_ITEMS = [
     },
     {
         icon: <FontAwesomeIcon icon={faTags} />,
-        title: 'Các thứ linh tinh',
+        title: 'Danh mục và dòng máy',
         link: 'category-series',
     },
 ];
@@ -165,8 +164,19 @@ function AdminMainPage() {
                                                 {noticeList.length > 0 ? (
                                                     noticeList?.map((notice, idx) => (
                                                         <div key={idx} className="admin-notice-option">
-                                                            <h3 className="m-0">{notice?.title}</h3>
-                                                            <div>{parse(notice?.message)}</div>
+                                                            <Images
+                                                                src=""
+                                                                alt="user"
+                                                                className="sender-notice-avatar"
+                                                                fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                                                style={{
+                                                                    boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)',
+                                                                }}
+                                                            />
+                                                            <div>
+                                                                <h3>MyShop</h3>
+                                                                <p className="m-0">{notice?.title}</p>
+                                                            </div>
                                                         </div>
                                                     ))
                                                 ) : (
