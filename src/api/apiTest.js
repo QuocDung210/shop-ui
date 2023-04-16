@@ -66,15 +66,13 @@ axiosTest.interceptors.response.use(
         const refreshToken = auth.auth.login.currentUser?.refreshToken;
         if (!accessToken || !refreshToken) return Promise.reject(error);
         const { config } = error;
-        console.log('check: ', config);
-        // const prevRequest = error?.config;
+
         if (error.response.status === 401 && !config._retry && refreshToken) {
             if (isRefreshing) {
                 return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
                 })
                     .then((token) => {
-                        console.log('test token: ', token);
                         config.headers['Authorization'] = `Bearer ${token}`;
                         return axiosTest(config);
                     })
@@ -86,8 +84,7 @@ axiosTest.interceptors.response.use(
             isRefreshing = true;
             try {
                 const newData = await refreshTokenRequest(accessToken, refreshToken);
-                console.log('new access:', newData.accessToken);
-                console.log('/n new refresh: ', newData.refreshToken);
+
                 axiosTest.defaults.headers.common['Authorization'] = 'Bearer ' + newData.accessToken;
                 config.headers['Authorization'] = `Bearer ${newData.accessToken}`;
                 processQueue(null, newData.accessToken);

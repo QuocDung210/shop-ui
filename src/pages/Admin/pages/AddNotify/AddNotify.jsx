@@ -1,14 +1,13 @@
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useEffect, useState } from 'react';
 import { Container, Row, Stack } from 'react-bootstrap';
 import Buttons from '~/components/Buttons';
 import { userApi } from '~/api/userApi';
-import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
 import './AddNotify.scss';
 import images from '~/assets/images';
 import { noticeApi } from '~/api/noticeApi';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 function AddNotify() {
     const [descriptionUser, setDescriptionUser] = useState('');
@@ -18,15 +17,11 @@ function AddNotify() {
     const [selected, setSelected] = useState(null);
     const [title, setTitle] = useState('');
     const [titleUser, setTitleUser] = useState('');
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
 
     useEffect(() => {
         const fetchAllUser = async () => {
             try {
-                const allUser = await userApi.getAll(configHeader);
+                const allUser = await userApi.getAll();
                 setUserList(allUser);
             } catch (err) {
                 toast.error('Có lỗi xảy ra.');
@@ -35,6 +30,16 @@ function AddNotify() {
         fetchAllUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // const uploadAdapter = (loader) => {
+    //     console.log(loader.file);
+    // };
+
+    // const uploadPlugins = (editor) => {
+    //     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+    //         return uploadAdapter(loader);
+    //     };
+    // };
 
     const handleCreactNoticeRole = async () => {
         try {
