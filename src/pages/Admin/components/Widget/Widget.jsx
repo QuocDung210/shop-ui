@@ -2,9 +2,11 @@ import { faClockRotateLeft, faExclamation, faTag, faUser } from '@fortawesome/fr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Stack } from 'react-bootstrap';
 import './Widget.scss';
+import { useNavigate } from 'react-router-dom';
 function Widget(props) {
-    const { type, dt = 0 } = props;
+    const { type, dt = 0, link } = props;
     let data;
+    const navigate = useNavigate();
     switch (type) {
         case 'users':
             data = {
@@ -45,7 +47,7 @@ function Widget(props) {
     return (
         <Container className="p-0">
             <Stack className="info-wrapper align-items-center">
-                <div className="info-icon" style={{ backgroundColor: data.color }}>
+                <div className="info-icon" style={{ backgroundColor: data.color }} onClick={() => navigate(link)}>
                     {data?.icon}
                 </div>
                 <span>{dt}</span>

@@ -15,6 +15,7 @@ import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
 import { noticeApi } from '~/api/noticeApi';
 import Images from '~/components/Images';
+import config from '~/config';
 
 function MainHeader({ menuItems, navList }) {
     const [open, setOpen] = useState(false);
@@ -105,7 +106,7 @@ function MainHeader({ menuItems, navList }) {
                                                         disabled={noticeList?.length > 0 ? false : true}
                                                         outline
                                                         small
-                                                        to={'/notify'}
+                                                        to={config.routes.notify}
                                                     >
                                                         Xem tất cả
                                                     </Buttons>

@@ -44,13 +44,13 @@ function Dashboard() {
         <Container fluid className="dashboard-container ">
             <Row xs={1} sm={2} md={3} className="g-4 mb-4">
                 <Col>
-                    <Widget type="users" dt={users} />
+                    <Widget type="users" dt={users} link={'/admin/account'} />
                 </Col>
                 <Col>
-                    <Widget type="products" dt={products} />
+                    <Widget type="products" dt={products} link={'/admin/products'} />
                 </Col>
                 <Col>
-                    <Widget type="orders" dt={oders} />
+                    <Widget type="orders" dt={oders} link={'/admin/order'} />
                 </Col>
             </Row>
             <Row className="g-4 mb-4" md={2} xs={1}>

@@ -53,32 +53,32 @@ function App() {
                                 <Route path={config.routes.changePassword} element={<ChangePassword />} />
                                 <Route path={config.routes.history} element={<History />} />
                             </Route>
-                            <Route path={'order'} element={<Order />} />
+                            <Route path={config.routes.order} element={<Order />} />
                         </Route>
-                        <Route path="notify" element={<Notify />} />
+                        <Route path={config.routes.notify} element={<Notify />} />
                         <Route path={config.routes._404} element={<NotFound />} />
                     </Route>
                     <Route path={config.routes.login} element={<Login />} />
                     <Route path={config.routes.register} element={<Register />} />
                     <Route path={config.routes.forgot_pw} element={<ForgetPw />} />
                     <Route element={<ProtectedRoutes roles={['admin', 'employee']} />}>
-                        <Route path="/admin" element={<Admin />}>
+                        <Route path={config.routes.adminPage} element={<Admin />}>
                             <Route index element={<Dashboard />} />
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="account" element={<Accounts />} />
-                            <Route path="account-detail" element={<AccountDetail />} />
-                            <Route path="add-account" element={<AddAccount />} />
-                            <Route path="products" element={<AdminProducts />} />
-                            <Route path="add-product" element={<AddProduct />} />
-                            <Route path="update-product/:id" element={<UpdateProduct />} />
-                            <Route path="order" element={<AdminOrder />} />
-                            <Route path="order-detail" element={<AdminOrderDetail />} />
-                            <Route path="notify" element={<AdminNotify />} />
-                            <Route path="add-notify" element={<AddNotify />} />
-                            <Route path="member-profile" element={<MemberProfile />} />
-                            <Route path="advertising" element={<Ad />} />
-                            <Route path="brand" element={<Brand />} />
-                            <Route path="category-series" element={<CategoryAndSeries />} />
+                            <Route path={config.routes.dashboard} element={<Dashboard />} />
+                            <Route path={config.routes.account} element={<Accounts />} />
+                            <Route path={config.routes.accountDetail} element={<AccountDetail />} />
+                            <Route path={config.routes.addAccount} element={<AddAccount />} />
+                            <Route path={config.routes.adminProducts} element={<AdminProducts />} />
+                            <Route path={config.routes.addProduct} element={<AddProduct />} />
+                            <Route path={config.routes.updateProduct} element={<UpdateProduct />} />
+                            <Route path={config.routes.adminOrders} element={<AdminOrder />} />
+                            <Route path={config.routes.adminOrderDetail} element={<AdminOrderDetail />} />
+                            <Route path={config.routes.adminNotify} element={<AdminNotify />} />
+                            <Route path={config.routes.addNotify} element={<AddNotify />} />
+                            <Route path={config.routes.memberProfile} element={<MemberProfile />} />
+                            <Route path={config.routes.Advertising} element={<Ad />} />
+                            <Route path={config.routes.Brand} element={<Brand />} />
+                            <Route path={config.routes.Category} element={<CategoryAndSeries />} />
                         </Route>
                     </Route>
                 </Routes>

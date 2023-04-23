@@ -240,8 +240,7 @@ function UpdateProduct() {
                     await FirebaseService.deleteImg(img);
                 }
             }
-            console.log('check mang: ', [...newImgs, ...currentImgs]);
-            console.log(spList);
+
             const data = {
                 id: currentProduct.id,
                 name: name || 'Chưa cập nhật tên',

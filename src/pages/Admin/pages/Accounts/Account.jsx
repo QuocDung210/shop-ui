@@ -10,6 +10,7 @@ import { userApi } from '~/api';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ROLE_ARR } from '~/const/roleArr';
 import { toast } from 'react-toastify';
+import config from '~/config';
 
 function Account() {
     let arr = ['Customer', 'Employee', 'Admin'];
@@ -73,7 +74,7 @@ function Account() {
     };
 
     const handleViewDetail = (user) => {
-        navigate(`/admin/account-detail?${createSearchParams({ acc: `${user.name}%${user.phone}` })}`);
+        navigate(`/admin/${config.routes.accountDetail}?${createSearchParams({ acc: `${user.name}%${user.phone}` })}`);
     };
 
     const handleShowDeleteUser = (user) => {
@@ -119,7 +120,11 @@ function Account() {
             <Row className="acc-tools mb-4 content-box">
                 <div className="d-flex align-items-center  p-0">
                     <h2 className="my-0 me-5">Công cụ</h2>
-                    <Buttons primary to={'/admin/add-account'} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
+                    <Buttons
+                        primary
+                        to={`/admin/${config.routes.addAccount}`}
+                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                    >
                         Thêm tài khoản
                     </Buttons>
                     <Buttons
@@ -260,17 +265,6 @@ function Account() {
                     </Buttons>
                 </Modal.Footer>
             </Modal>
-            {/* <Modal show={showDeleteMembers} onHide={handleCloseDeleteMembers} className="delete-members">
-                <Modal.Body>Xác nhận xóa tài khoản thành viên !</Modal.Body>
-                <Modal.Footer>
-                    <Buttons onClick={handleCloseDeleteMembers} outline small>
-                        Cancel
-                    </Buttons>
-                    <Buttons onClick={handleDeleteMembers} primary small>
-                        OK
-                    </Buttons>
-                </Modal.Footer>
-            </Modal> */}
         </Container>
     );
 }

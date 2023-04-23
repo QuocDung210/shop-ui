@@ -1,5 +1,5 @@
 export const splitNumber = (num) => {
-    if (num === 0) {
+    if (num === 0 || !num) {
         return 0;
     }
     const numString = num?.toString();

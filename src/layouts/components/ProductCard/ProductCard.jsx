@@ -14,7 +14,7 @@ function ProductCard({ product }) {
 
     return (
         <>
-            <Card className="card-custom">
+            <Card className="card-custom h-100">
                 <div className="card-left-label">
                     <div className={`card-sale-label ${product?.discount === 0 && 'd-none'}`}>
                         <span>{product?.discount}%</span>
@@ -49,7 +49,16 @@ function ProductCard({ product }) {
                             <p className="card-name">{product?.name || product?.nickname}</p>
                         </Link>
                     </Card.Title>
-                    <Card.Text>{`${splitNumber(product?.price)} đ`}</Card.Text>
+                    <div className={product?.discount === 0 ? 'd-none' : 'd-block'}>
+                        <Card.Text
+                            style={{ fontSize: '1.3rem', margin: '0', textDecoration: 'line-through' }}
+                        >{`${splitNumber(product?.price)} đ`}</Card.Text>
+                    </div>
+                    <Card.Text style={{ fontSize: '1.6rem', fontWeight: '500', color: 'var(--color-6)' }}>
+                        {product?.discount === 0
+                            ? `${splitNumber(product?.price)} đ`
+                            : `${splitNumber(product?.price - (product?.price * product?.discount) / 100)} đ`}{' '}
+                    </Card.Text>
                 </Card.Body>
             </Card>
         </>

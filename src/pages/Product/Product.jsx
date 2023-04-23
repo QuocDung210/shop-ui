@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Col, Container, Placeholder, Row, Stack, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProductApi, cartApi } from '~/api';
 import AddCartForm from '~/components/Form/add-cart-form';
 import './Product.scss';
@@ -10,9 +10,11 @@ import parse from 'html-react-parser';
 import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import { splitNumber } from '~/numberSplit';
+import config from '~/config';
 
 function Product() {
     const params = useParams();
+    const navigate = useNavigate();
     const [currentProduct, setCurrentProduct] = useState({});
     const [loading, setLoading] = useState(false);
     const currentUser = useAuth();
@@ -37,18 +39,29 @@ function Product() {
         }
 
         try {
-            await cartApi.addCart(
-                {
-                    productId: id,
-                    quantity: quantity,
-                },
-                {
-                    headers: { Authorization: `Bearer ${currentUser?.accessToken}` },
-                },
-            );
+            await cartApi.addCart({
+                productId: id,
+                quantity: quantity,
+            });
             toast.success('Thêm thành công.');
         } catch (err) {
             toast.error(err);
+        }
+    };
+
+    const handleBuyNow = async (id, quantity) => {
+        if (!currentUser) {
+            navigate(config.routes.login);
+            return;
+        }
+        try {
+            await cartApi.addCart({
+                productId: id,
+                quantity: quantity,
+            });
+            navigate(`/${config.routes.order}`);
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -103,13 +116,18 @@ function Product() {
                             <p className="m-0">{currentProduct?.available}</p>
                         </div>
                         <div>
-                            <AddCartForm id={currentProduct.id} add={handleAdd} max={currentProduct?.available} />
+                            <AddCartForm
+                                id={currentProduct.id}
+                                add={handleAdd}
+                                buy={handleBuyNow}
+                                max={currentProduct?.available}
+                            />
                         </div>
                     </Col>
                 </Row>
                 <Row className="mb-4">
                     <h2>Thông số kỹ thuật</h2>
-                    <Col className="content-box">
+                    <Col className="content-box" style={{ fontSize: '1.6rem' }}>
                         <Table striped="columns">
                             <tbody>
                                 {PRODUCT_TAGS.map((tag, idx) => (

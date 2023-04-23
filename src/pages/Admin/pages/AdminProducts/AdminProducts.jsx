@@ -11,6 +11,7 @@ import { BrandApi, ProductApi } from '~/api';
 import { toast } from 'react-toastify';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { splitNumber } from '~/numberSplit';
+import config from '~/config';
 
 function AdminProducts() {
     const [showDeleteMember, setShowDeleteMember] = useState(false);
@@ -157,7 +158,11 @@ function AdminProducts() {
             <Row className="acc-tools mb-4 content-box">
                 <div className="d-flex align-items-center  p-0">
                     <h2 className="my-0 me-5">Công cụ</h2>
-                    <Buttons primary to={'/admin/add-product'} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
+                    <Buttons
+                        primary
+                        to={`/admin/${config.routes.addProduct}`}
+                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                    >
                         Thêm sản phẩm
                     </Buttons>
                     <Buttons
@@ -264,7 +269,7 @@ function AdminProducts() {
                                 render={(attrs) => (
                                     <Stack className="acc-menu content-box p-3" {...attrs}>
                                         <div className="acc-menu-option">
-                                            <Link to={`/admin/update-product/${item.id}`}>
+                                            <Link to={`/admin/products/update-product/${item.id}`}>
                                                 <p className="my-2 mx-3" style={{ color: 'var(--text-color)' }}>
                                                     Cập nhật
                                                 </p>

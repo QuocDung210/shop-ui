@@ -19,6 +19,7 @@ import { dateFormat } from '~/Date';
 import { splitNumber } from '~/numberSplit';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { STATUS_ARR } from '~/const/statusArr';
+import config from '~/config';
 
 const STATISTICAL_ITEM = [
     {
@@ -105,7 +106,7 @@ function AdminOrder() {
     };
 
     const handleClickOrder = (item) => {
-        navigate(`/admin/order-detail?${createSearchParams({ d: `${item.id}` })}`);
+        navigate(`/admin/${config.routes.adminOrderDetail}?${createSearchParams({ d: `${item.id}` })}`);
     };
 
     return (

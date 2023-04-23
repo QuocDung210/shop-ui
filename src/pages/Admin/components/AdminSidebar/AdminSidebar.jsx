@@ -1,12 +1,19 @@
 import { Container, Row, Stack } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Logo from '~/components/Logo';
 import './AdminSidebar.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 function AdminSidebar(props) {
+    const location = useLocation();
+    const pathNames = location.pathname.split('/').filter((x) => x);
+
     const { sbItems, handleCloseOffCanvas } = props;
     const [selected, setSelected] = useState(sbItems[0].title);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setSelected(pathNames[1]);
+    }, [pathNames]);
 
     const handleClickItem = (item) => {
         if (typeof handleCloseOffCanvas === 'function') {
@@ -27,7 +34,7 @@ function AdminSidebar(props) {
                     {sbItems.map((item, idx) => (
                         <div
                             key={idx}
-                            className={`menu-item ${selected === item?.title && 'menu-item-selected'}`}
+                            className={`menu-item ${selected === item?.link && 'menu-item-selected'}`}
                             onClick={() => handleClickItem(item)}
                         >
                             {item?.icon}

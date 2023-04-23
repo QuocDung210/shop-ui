@@ -137,7 +137,7 @@ function Store() {
                                     {!isLoading ? (
                                         <Row className="products-list m-1">
                                             <Container fluid className="p-0">
-                                                <Row xs={2} sm={3} md={4} className="g-4">
+                                                <Row xs={1} sm={3} lg={4} className="g-4">
                                                     {products.map((product, index) => {
                                                         return (
                                                             index <= 11 && (

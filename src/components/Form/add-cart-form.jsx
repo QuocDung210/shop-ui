@@ -3,10 +3,13 @@ import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
 import QuantityField from '../hook-form/QuantityField';
 import * as yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 function AddCartForm(props) {
-    const { id, add, max } = props;
-
+    const { id, add, max, buy } = props;
+    const [typeSubmit, setTypeSubmit] = useState(false);
     const initialValues = {
         quantity: null,
     };
@@ -16,7 +19,11 @@ function AddCartForm(props) {
     });
 
     const handleSubmitForm = (values) => {
-        add(id, values.quantity);
+        if (typeSubmit) {
+            buy(id, values.quantity);
+        } else {
+            add(id, values.quantity);
+        }
     };
 
     return (
@@ -38,8 +45,22 @@ function AddCartForm(props) {
                             placeholder="--"
                         />
                         <FormGroup>
-                            <Buttons primary lager>
+                            <Buttons
+                                leftIcon={<FontAwesomeIcon icon={faCartShopping} />}
+                                type={'submit'}
+                                outline
+                                lager
+                                onClick={() => setTypeSubmit(false)}
+                            >
                                 Thêm vào giỏ hàng
+                            </Buttons>
+                            <Buttons
+                                type={'submit'}
+                                primary
+                                leftIcon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
+                                onClick={() => setTypeSubmit(true)}
+                            >
+                                Mua ngay
                             </Buttons>
                         </FormGroup>
                     </Form>

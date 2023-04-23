@@ -9,6 +9,7 @@ import { noticeApi } from '~/api/noticeApi';
 import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import Images from '~/components/Images';
+import config from '~/config';
 function AdminNotify() {
     const [noticeList, setNoticeList] = useState([]);
     const [selected, setSelected] = useState(null);
@@ -48,7 +49,11 @@ function AdminNotify() {
                 </Col>
                 <Col className=" d-flex flex-wrap justify-content-end gap-4">
                     <div>
-                        <Buttons primary to={'/admin/add-notify'} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
+                        <Buttons
+                            primary
+                            to={`/admin/${config.routes.addNotify}`}
+                            leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                        >
                             Tạo thông báo
                         </Buttons>
                     </div>
