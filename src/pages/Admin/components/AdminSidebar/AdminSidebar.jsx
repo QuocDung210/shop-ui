@@ -25,7 +25,7 @@ function AdminSidebar(props) {
     return (
         <Container fluid className="m-0 admin-sidebar-container">
             <Row className="p-3 admin-info">
-                <div onClick={() => handleClickItem('dashboard')}>
+                <div>
                     <Logo.NotLink />
                 </div>
             </Row>

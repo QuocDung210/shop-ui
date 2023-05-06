@@ -37,7 +37,7 @@ export const orderApi = {
         });
     },
     getBrandChart(month, year) {
-        return axiosTest.get('/Order/brandcirclechart', {
+        return axiosTest.get('/Order/brandcircle-chart', {
             params: {
                 month: month,
                 year: year,
@@ -45,7 +45,7 @@ export const orderApi = {
         });
     },
     getCategoryChart(month, year) {
-        return axiosTest.get('/Order/categoycirclechart', {
+        return axiosTest.get('/Order/categoycircle-chart', {
             params: {
                 month: month,
                 year: year,
@@ -53,11 +53,14 @@ export const orderApi = {
         });
     },
     getSeriesChart(month, year) {
-        return axiosTest.get('/Order/seriescirclechart', {
+        return axiosTest.get('/Order/seriescircle-chart', {
             params: {
                 month: month,
                 year: year,
             },
         });
+    },
+    momoPay(payload) {
+        return axiosTest.get(`/Order/quick-pay/${payload}`);
     },
 };

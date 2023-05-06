@@ -14,7 +14,6 @@ import './AdminOrder.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { orderApi } from '~/api';
-import useAuth from '~/hooks/useAuth';
 import { dateFormat } from '~/Date';
 import { splitNumber } from '~/numberSplit';
 import { createSearchParams, useNavigate } from 'react-router-dom';
@@ -70,14 +69,11 @@ function AdminOrder() {
     const [orders, setOrders] = useState([]);
     const [orderList, setOrderList] = useState([]);
     const navigate = useNavigate();
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await orderApi.getOrderAdmin(configHeader);
+                const res = await orderApi.getOrderAdmin();
 
                 setOrders(res);
                 setOrderList(res);

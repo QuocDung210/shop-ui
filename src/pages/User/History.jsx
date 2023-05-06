@@ -7,23 +7,17 @@ import { toast } from 'react-toastify';
 import { dateFormat } from '~/Date';
 import { orderApi } from '~/api';
 import { STATUS_ARR } from '~/const/statusArr';
-import useAuth from '~/hooks/useAuth';
 import { splitNumber } from '~/numberSplit';
 
 function History() {
     const [history, setHistory] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(0);
     const [currentOrder, setCurrentOrder] = useState({});
-    const auth = useAuth();
-
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
 
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await orderApi.getOrderUser(configHeader);
+                const res = await orderApi.getOrderUser();
                 setHistory(res);
                 setSelectedOrder(res[0]?.id || 0);
             } catch (err) {
@@ -39,7 +33,7 @@ function History() {
         const fetch = async () => {
             if (selectedOrder !== 0) {
                 try {
-                    const res = await orderApi.getOrderDetailById(selectedOrder, configHeader);
+                    const res = await orderApi.getOrderDetailById(selectedOrder);
                     setCurrentOrder(res);
                 } catch (err) {
                     console.log(err);
@@ -53,6 +47,7 @@ function History() {
 
     const handleCancel = async (item) => {
         try {
+            console.log('check order id: ', item.id);
             const res = await orderApi.cancelOrder(item.id);
             console.log(res);
             toast.success('Đã gửi yêu cầu.');
@@ -64,7 +59,10 @@ function History() {
     return (
         <Container fluid>
             <Stack gap={3}>
-                <Stack gap={3}>
+                <div className={`content-box ${history.length > 0 && 'd-none'}`}>
+                    <h2>Lịch sử trống.</h2>
+                </div>
+                <Stack gap={3} className={`${history.length === 0 && 'd-none'}`}>
                     <div className="d-flex gap-3 align-items-center ">
                         <FontAwesomeIcon icon={faClock} />
                         <h2 className="m-0">Lịch sử mua hàng</h2>
@@ -117,7 +115,7 @@ function History() {
                         })}
                     </div>
                 </Stack>
-                <Stack gap={3}>
+                <Stack gap={3} className={`${selectedOrder === 0 && 'd-none'}`}>
                     <div className="d-flex align-items-center gap-3">
                         <FontAwesomeIcon icon={faFileInvoice} />
                         <h2 className="m-0">Chi tiết đơn hàng</h2>
@@ -126,6 +124,9 @@ function History() {
                         <Row className="order-info-header">
                             <h3 className="mb-4">THÔNG TIN ĐƠN HÀNG</h3>
                             <Col>
+                                <p>
+                                    Người đặt hàng: <strong>{currentOrder?.orderer}</strong>
+                                </p>
                                 <p>
                                     Người nhận hàng: <strong>{currentOrder?.shipName}</strong>
                                 </p>
@@ -144,7 +145,8 @@ function History() {
                                     Ngày đặt hàng: <strong>{dateFormat(currentOrder?.orderDate)}</strong>
                                 </p>
                                 <p>
-                                    Ngày nhận hàng dự kiến: <strong>Name</strong>
+                                    Trạng thái thanh toán :{' '}
+                                    <strong>{currentOrder?.isPay ? 'Đã thanh toán' : 'Chưa thanh toán'}</strong>
                                 </p>
                             </Col>
                             <div className="order-value d-flex flex-wrap align-items-center">

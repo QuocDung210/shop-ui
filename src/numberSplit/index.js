@@ -10,7 +10,11 @@ export const splitNumber = (num) => {
         if (count === 3) {
             if (i === numString?.length - 3) {
                 newString = numString?.slice(numString?.length - 3);
+
                 count = 0;
+            }
+            if (i === 1) {
+                newString = numString[0] + ',' + numString?.slice(numString?.length - 3);
             }
 
             if (i !== numString?.length - 3) {

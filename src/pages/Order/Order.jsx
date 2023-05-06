@@ -11,7 +11,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Buttons from '~/components/Buttons';
 import { useNavigate } from 'react-router-dom';
+import getAllUrlParams from '~/hooks/getAllParams';
 function Order() {
+    useEffect(() => {
+        const check = getAllUrlParams(window.location.href);
+        console.log(check);
+        if (check.resultcode === '0') {
+            toast.success('Thanh toán thành công.Đang chuyển hướng.');
+            setTimeout(() => {
+                navigate('/');
+            }, 5000);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [cartItems, setCartItems] = useState([]);
     const [data, setData] = useState({
         shipName: '',
@@ -21,7 +33,7 @@ function Order() {
         shipMethod: 0,
     });
     const [deliverType, setDeliverType] = useState(0);
-    const [payType, setPayType] = useState(true);
+    const [payType, setPayType] = useState(1);
 
     const navigate = useNavigate();
 
@@ -70,23 +82,43 @@ function Order() {
     };
 
     const handleOrder = async () => {
-        try {
-            for (let key in data) {
-                if (data[key] === '' && key !== 'note') {
-                    toast.warn('Vui lòng nhập đầy đủ thông tin người nhận.');
-                    return;
+        let total =
+            cartItems?.reduce((total, num) => {
+                return total + num.product.price * num.quantity;
+            }, 0) -
+            cartItems?.reduce((total, num) => {
+                return total + (num.product.price * num.quantity * num.product.discount) / 100;
+            }, 0) +
+            deliverType;
+        if (total > 50000000 && payType === 2) {
+            toast.warning('Giá trị đơn hàng vượt quá giới hạn thanh toán của Momo.');
+        } else {
+            try {
+                for (let key in data) {
+                    if (data[key] === '' && key !== 'note') {
+                        toast.warn('Vui lòng nhập đầy đủ thông tin người nhận.');
+                        return;
+                    }
                 }
+                const payload = { ...data, orderDetails: [], id: '', orderer: '', transMethod: payType };
+                console.log('check payload:', payload);
+                const res = await orderApi.createOrder(payload);
+                if (res) {
+                    window.location.assign(res);
+                }
+                // if (payType) {
+                //     toast.success('Đặt hàng thành công.');
+                //     setTimeout(() => {
+                //         navigate('/product');
+                //     }, 2000);
+                // } else {
+                //     // const momoRes = orderApi.momoPay()
+                //     console.log('check res: ', res);
+                // }
+            } catch (err) {
+                console.log(err);
+                toast.error('Đặt hàng thất bại.');
             }
-            const payload = { ...data, orderDetails: [] };
-            await orderApi.createOrder(payload);
-
-            toast.success('Đặt hàng thành công.');
-            setTimeout(() => {
-                navigate('/product');
-            }, 2000);
-        } catch (err) {
-            console.log(err);
-            toast.error('Đặt hàng thất bại.');
         }
     };
 
@@ -156,40 +188,21 @@ function Order() {
                         <div className="d-flex flex-wrap gap-3">
                             <div>
                                 <Buttons
-                                    outline={payType === true}
-                                    primary={payType === false}
-                                    onClick={() => setPayType(false)}
+                                    outline={payType === 1}
+                                    primary={payType === 2}
+                                    onClick={() => setPayType(2)}
+                                    leftIcon={
+                                        <img style={{ width: '30px', height: '30px' }} src={images.momo} alt="momo" />
+                                    }
                                 >
-                                    Chuyển khoản
+                                    Thanh toán qua Momo
                                 </Buttons>
-                                <div className={payType ? 'd-none' : 'd-block'}>
-                                    <p>
-                                        ***Chú ý: Nếu các bạn chọn thanh toán bằng chuyển khoản, hãy làm theo hướng dẫn
-                                        sau:
-                                    </p>
-                                    <p>
-                                        Số tài khoản: <strong>123712412648</strong> VietCombank
-                                    </p>
-                                    <p>
-                                        Thời hạn thanh toán : <strong>1 tuần kể từ ngày đặt hàng</strong>.
-                                    </p>
-                                    <p>
-                                        Nội dung chuyển khoản: <strong>Myshop + Số điện thoại bạn dùng đặt hàng</strong>
-                                        .
-                                    </p>
-                                    <p>
-                                        <strong>Ghi chú:</strong> Nếu quá hạn bạn không thanh toán, đơn hàng sẽ bị hủy.
-                                        Và nếu bạn không thanh toán quá nhiều lần, chúng tôi sẽ khóa tài khoản của
-                                        bạn.Khi chuyển khoản hãy chụp lại màn hình hóa đơn chuyển khoản để làm chứng.
-                                    </p>
+                                <div className={payType === 1 ? 'd-none' : 'd-block'}>
+                                    <p>***Chú ý: Giới hạn đơn hàng ở 50.000.000 đồng</p>
                                 </div>
                             </div>
 
-                            <Buttons
-                                outline={payType === false}
-                                primary={payType === true}
-                                onClick={() => setPayType(true)}
-                            >
+                            <Buttons outline={payType === 2} primary={payType === 1} onClick={() => setPayType(1)}>
                                 Trực tiếp
                             </Buttons>
                         </div>
@@ -284,7 +297,7 @@ function Order() {
                             <hr />
                             <div className="d-flex justify-content-between">
                                 <p>Hình thức thanh toán</p>
-                                <span>{payType ? 'Trực tiếp' : 'Chuyển khoản'}</span>
+                                <span>{payType === 1 ? 'Trực tiếp' : 'Momo'}</span>
                             </div>
                             <hr />
                             <div className="d-flex justify-content-between align-items-center pt-3">

@@ -6,6 +6,7 @@ const images = {
     LoginImg: require('~/assets/images/login.png'),
     background: require('~/assets/images/04.jpg'),
     noCart: require('~/assets/images/no-cart.png'),
+    momo: require('~/assets/images/logo-momo.png'),
 };
 
 export default images;

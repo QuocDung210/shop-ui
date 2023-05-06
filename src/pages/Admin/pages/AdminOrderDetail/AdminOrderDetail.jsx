@@ -18,7 +18,7 @@ function AdminOrderDetail() {
 
     useEffect(() => {
         const fetch = async () => {
-            const res = await orderApi.getOrderDetailById(parseInt(query));
+            const res = await orderApi.getOrderDetailById(query);
             setOrderTarget(res);
         };
         fetch();
@@ -35,6 +35,19 @@ function AdminOrderDetail() {
         }
     };
 
+    const handleCancelOrder = async () => {
+        try {
+            if (orderTarget.status !== 3 || orderTarget.status !== 5) {
+                await orderApi.cancelOrderAdmin(orderTarget.id);
+                toast.success('Cập nhật thành công.');
+                setRender(!render);
+            }
+        } catch (err) {
+            toast.error('Có lỗi xảy ra.');
+            console.log(err);
+        }
+    };
+
     return (
         <Container fluid>
             <Row className="mb-4">
@@ -48,13 +61,22 @@ function AdminOrderDetail() {
                                 </p>
                             ),
                     )}
-                    <Buttons
-                        primary
-                        disabled={orderTarget?.status === 3 || orderTarget?.status === 5 ? true : false}
-                        onClick={handleUpdateStatus}
-                    >
-                        Cập nhật trạng thái
-                    </Buttons>
+                    <div className="d-flex gap-3">
+                        <div>
+                            <Buttons
+                                primary
+                                disabled={orderTarget?.status === 3 || orderTarget?.status === 5 ? true : false}
+                                onClick={handleUpdateStatus}
+                            >
+                                Cập nhật trạng thái
+                            </Buttons>
+                        </div>
+                        <div>
+                            <Buttons outline onClick={handleCancelOrder}>
+                                Hủy
+                            </Buttons>
+                        </div>
+                    </div>
                 </div>
             </Row>
             <Row>
