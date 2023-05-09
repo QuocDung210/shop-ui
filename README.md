@@ -5,23 +5,30 @@
 
 <h2>A frontend of e-commerce website</h2>
 
-### ⚪️ Công nghệ sử dụng
+### ⚪️ Technology used
 <p>- Reactjs</p>
 <p>- React boostrap</p>
 
 
-### ⚪️ Môi trường
+### ⚪️ IDEs
 <p>
   - Visual Studio Code
 </p>
 
 
-### ⚪️ Cài đặt
+### Setting
 
-#### Môi trường code [Vs Code](https://code.visualstudio.com/)
+#### [Vs Code](https://code.visualstudio.com/)
 
 #### [Git](https://git-scm.com/)
 
 #### [Nodejs](https://nodejs.org/en)
 
-### ⚪️ Khởi chạy
+### ⚪️ Start
+First, run the development server:
+
+```bash
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
