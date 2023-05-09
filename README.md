@@ -1,5 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-## AHhahsdhh
+This is a [Reactjs](https://react.dev/) project bootstrapped with `create-create-app`.
+## 
 ## chacoasdb
 
 First, run the development server:
