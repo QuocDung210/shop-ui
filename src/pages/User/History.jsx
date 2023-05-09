@@ -34,6 +34,7 @@ function History() {
             if (selectedOrder !== 0) {
                 try {
                     const res = await orderApi.getOrderDetailById(selectedOrder);
+                    console.log(res);
                     setCurrentOrder(res);
                 } catch (err) {
                     console.log(err);
@@ -138,6 +139,10 @@ function History() {
                                 </p>
                             </Col>
                             <Col>
+                                <p>
+                                    Phương thức vận chuyển:{' '}
+                                    <strong>{currentOrder?.shipMethod === 1 ? 'Tốc hành' : 'Thông thường'}</strong>
+                                </p>
                                 <p>
                                     Phương thức thanh toán:{' '}
                                     <strong>

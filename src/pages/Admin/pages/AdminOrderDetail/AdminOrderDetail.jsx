@@ -100,14 +100,21 @@ function AdminOrderDetail() {
                             </Col>
                             <Col>
                                 <p>
-                                    Phương thức giao hàng:{' '}
-                                    <strong>{orderTarget?.shipMethod === 1 ? 'Siêu tốc' : 'Tiêu chuẩn'}</strong>
+                                    Phương thức vận chuyển:{' '}
+                                    <strong>{orderTarget?.shipMethod === 1 ? 'Siêu tốc' : 'Thông thường'}</strong>
+                                </p>
+                                <p>
+                                    Phương thức thanh toán:{' '}
+                                    <strong>
+                                        {orderTarget?.transMethod === 1 ? 'Thanh toán trực tiếp' : 'Thanh toán Momo'}
+                                    </strong>
                                 </p>
                                 <p>
                                     Ngày đặt hàng: <strong>{dateFormat(orderTarget?.orderDate)}</strong>
                                 </p>
                                 <p>
-                                    Ngày nhận hàng dự kiến: <strong>{dateFormat(orderTarget?.orderDate)}</strong>
+                                    Trạng thái thanh toán :{' '}
+                                    <strong>{orderTarget?.isPay ? 'Đã thanh toán' : 'Chưa thanh toán'}</strong>
                                 </p>
                             </Col>
                             <div className="order-value d-flex flex-wrap align-items-center">
