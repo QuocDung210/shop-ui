@@ -26,7 +26,11 @@ function RegisterForm(props) {
     const validationSchema = yup.object().shape({
         name: yup.string().required('Vui lòng nhập tên'),
         email: yup.string().email('Email không hợp lệ').required('vui lòng nhập email'),
-        phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ').required('Vui lòng nhập số điện thoại'),
+        phone: yup
+            .string()
+            .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+            .required('Vui lòng nhập số điện thoại')
+            .min(10, 'Số điện thoại không hợp lệ'),
         password: yup.string().required('Vui lòng nhập mật khẩu'),
         confirmPassword: yup
             .string()
