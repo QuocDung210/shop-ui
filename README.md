@@ -6,8 +6,7 @@
 <h2>A frontend of e-commerce website</h2>
 
 ### ⚪️ Công nghệ sử dụng
-<p>- Reactjs</p>
-<p>- React boostrap</p>
+
 ### ⚪️ Môi trường
 <p>
   - Visual Studio Code
