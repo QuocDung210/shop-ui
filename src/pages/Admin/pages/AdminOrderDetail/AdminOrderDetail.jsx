@@ -71,7 +71,16 @@ function AdminOrderDetail() {
                                 Cập nhật trạng thái
                             </Buttons>
                         </div>
-                        <div>
+                        <div
+                            className={
+                                orderTarget?.isPay ||
+                                orderTarget?.status === 3 ||
+                                orderTarget?.status === 5 ||
+                                orderTarget?.status === 4
+                                    ? 'd-none'
+                                    : 'd-block'
+                            }
+                        >
                             <Buttons outline onClick={handleCancelOrder}>
                                 Hủy
                             </Buttons>
@@ -88,6 +97,9 @@ function AdminOrderDetail() {
                         <Row className="order-info-header">
                             <h3 className="mb-4">THÔNG TIN ĐƠN HÀNG</h3>
                             <Col>
+                                <p>
+                                    Người đặt hàng: <strong>{orderTarget?.orderer}</strong>
+                                </p>
                                 <p>
                                     Người nhận hàng: <strong>{orderTarget?.shipName}</strong>
                                 </p>

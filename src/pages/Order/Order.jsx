@@ -179,7 +179,7 @@ function Order() {
                 <Row className="gap-4 mb-4">
                     <Col className=" content-box">
                         <h3>Phương thức thanh toán</h3>
-                        <div className="d-flex flex-wrap gap-3">
+                        <div className="d-flex flex-column gap-3">
                             <div>
                                 <Buttons
                                     outline={payType === 1}
@@ -195,10 +195,11 @@ function Order() {
                                     <p>***Chú ý: Giới hạn đơn hàng ở 50.000.000 đồng</p>
                                 </div>
                             </div>
-
-                            <Buttons outline={payType === 2} primary={payType === 1} onClick={() => setPayType(1)}>
-                                Trực tiếp
-                            </Buttons>
+                            <div>
+                                <Buttons outline={payType === 2} primary={payType === 1} onClick={() => setPayType(1)}>
+                                    Trực tiếp
+                                </Buttons>
+                            </div>
                         </div>
                     </Col>
                     <Col className="content-box">

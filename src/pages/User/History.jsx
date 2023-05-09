@@ -19,6 +19,7 @@ function History() {
             try {
                 const res = await orderApi.getOrderUser();
                 setHistory(res);
+                console.log(res);
                 setSelectedOrder(res[0]?.id || 0);
             } catch (err) {
                 console.log(err);
@@ -74,45 +75,54 @@ function History() {
                             <Col xs={3}>Tổng tiền</Col>
                             <Col xs={1}>Hủy</Col>
                         </Row>
-                        {history?.map((item, idx) => {
-                            return (
-                                <div key={idx}>
-                                    <Row
-                                        key={idx}
-                                        className={`history-order-item ${selectedOrder === item?.id && 'selected'}`}
-                                    >
-                                        <Col
-                                            xs={5}
-                                            className="history-order-item-date d-flex align-items-center"
-                                            onClick={() => setSelectedOrder(item.id)}
+                        <Row className="history-order-list">
+                            {history?.map((item, idx) => {
+                                return (
+                                    <div key={idx}>
+                                        <Row
+                                            key={idx}
+                                            className={`history-order-item ${selectedOrder === item?.id && 'selected'}`}
                                         >
-                                            <p className="text-split m-0">{dateFormat(item?.orderDate)}</p>
-                                        </Col>
-                                        <Col xs={3} className="d-flex align-items-center">
-                                            {STATUS_ARR.map(
-                                                (color, index) =>
-                                                    index === item?.status && (
-                                                        <p key={index} className={`${color.type}`}>
-                                                            {color.name}
-                                                        </p>
-                                                    ),
-                                            )}
-                                        </Col>
-                                        <Col xs={3} className="d-flex align-items-center">
-                                            <p className="m-0">{`${splitNumber(item?.orderValue)} đ`}</p>
-                                        </Col>
-                                        <Col xs={1} className="d-flex align-items-center">
-                                            <div
-                                                className="text-center history-order-item-cancel "
-                                                onClick={() => handleCancel(item)}
+                                            <Col
+                                                xs={5}
+                                                className="history-order-item-date d-flex align-items-center"
+                                                onClick={() => setSelectedOrder(item.id)}
                                             >
-                                                <FontAwesomeIcon className="order-cancel-icon" icon={faCancel} />
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            );
-                        })}
+                                                <p className="text-split m-0">{dateFormat(item?.orderDate)}</p>
+                                            </Col>
+                                            <Col xs={3} className="d-flex align-items-center">
+                                                {STATUS_ARR.map(
+                                                    (color, index) =>
+                                                        index === item?.status && (
+                                                            <p key={index} className={`${color.type}`}>
+                                                                {color.name}
+                                                            </p>
+                                                        ),
+                                                )}
+                                            </Col>
+                                            <Col xs={3} className="d-flex align-items-center">
+                                                <p className="m-0">{`${splitNumber(item?.orderValue)} đ`}</p>
+                                            </Col>
+                                            <Col xs={1} className="d-flex align-items-center">
+                                                <div
+                                                    className={`${
+                                                        item?.isPay ||
+                                                        item?.status === 3 ||
+                                                        item?.status === 4 ||
+                                                        item?.status === 5
+                                                            ? 'd-none'
+                                                            : 'd-block'
+                                                    }  text-center history-order-item-cancel`}
+                                                    onClick={() => handleCancel(item)}
+                                                >
+                                                    <FontAwesomeIcon className="order-cancel-icon" icon={faCancel} />
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                );
+                            })}
+                        </Row>
                     </div>
                 </Stack>
                 <Stack gap={3} className={`${selectedOrder === 0 && 'd-none'}`}>

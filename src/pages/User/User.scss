@@ -50,7 +50,10 @@
     border: 2px solid #ccc;
     border-radius: 10px;
 }
-
+.history-order-list {
+    max-height: 300px;
+    overflow-y: overlay;
+}
 .history-order-item {
     padding: 10px;
     text-align: center;
