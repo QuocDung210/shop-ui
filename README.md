@@ -13,9 +13,4 @@
   - Visual Studio Code
 </p>
 ### ⚪️ Cài đặt
-#### Vs Code
-Cài đặt môi trường code ở [đây](https://code.visualstudio.com/)
-### Git
-Cài đặt ở [đây](https://git-scm.com/)
-### Nodejs
-Cài đặt ở [đây](https://nodejs.org/en)
+
