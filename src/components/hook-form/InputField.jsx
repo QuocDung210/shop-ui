@@ -11,7 +11,7 @@ function InputField(props) {
     return (
         <FormGroup className="mb-3">
             <InputGroup hasValidation className="ipg-wrapper">
-                {label && <FormLabel className="ipg-label mb-0 d-none d-sm-block">{label}</FormLabel>}
+                {label && <FormLabel className="ipg-label mb-0 d-none d-sm-flex align-items-center">{label}</FormLabel>}
                 <FormControl
                     id={name}
                     type={type}

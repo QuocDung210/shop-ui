@@ -34,6 +34,7 @@ function History() {
             if (selectedOrder !== 0) {
                 try {
                     const res = await orderApi.getOrderDetailById(selectedOrder);
+                    console.log(res);
                     setCurrentOrder(res);
                 } catch (err) {
                     console.log(err);
@@ -139,7 +140,10 @@ function History() {
                             </Col>
                             <Col>
                                 <p>
-                                    Phương thức thanh toán: <strong>Name</strong>
+                                    Phương thức thanh toán:{' '}
+                                    <strong>
+                                        {currentOrder?.transMethod === 1 ? 'Thanh toán trực tiếp' : 'Thanh toán Momo'}
+                                    </strong>
                                 </p>
                                 <p>
                                     Ngày đặt hàng: <strong>{dateFormat(currentOrder?.orderDate)}</strong>

@@ -11,6 +11,7 @@ import { FirebaseService } from '~/firebase/firebaseService';
 
 function Profile() {
     const [show, setShow] = useState(false);
+    const [render, setRender] = useState(true);
     const [profile, setProfile] = useState({});
     const [img, setImg] = useState('');
     const handleUpdate = () => {
@@ -29,7 +30,7 @@ function Profile() {
         };
         fetchApi();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [render]);
 
     const handleChangeAvatar = async (e) => {
         setImg(URL.createObjectURL(e.target.files[0]));
@@ -105,7 +106,12 @@ function Profile() {
                     <Modal.Title id="contained-modal-title-vcenter">Cập nhật thông tin</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <ProfileForm handleClose={handleUpdate} />
+                    <ProfileForm
+                        handleClose={() => {
+                            handleUpdate();
+                            setRender(!render);
+                        }}
+                    />
                 </Modal.Body>
             </Modal>
         </Container>

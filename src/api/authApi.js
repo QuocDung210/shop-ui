@@ -31,4 +31,13 @@ export const AuthApi = {
     refresh(payload) {
         return axiosTest.post('/Auth/refreshtoken', payload);
     },
+    updateName(payload) {
+        return axiosTest.put('/Auth/update-name', {
+            name: payload,
+            email: '',
+            phone: '',
+            img: '',
+            role: '',
+        });
+    },
 };
