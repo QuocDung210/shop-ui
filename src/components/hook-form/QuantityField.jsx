@@ -8,7 +8,7 @@ import './QuantityField.scss';
 function QuantityField(props) {
     const ref = useRef();
 
-    const { field, form, type, label, placeholder, disable, max } = props;
+    const { field, form, type, label, placeholder, max } = props;
 
     const { name, value } = field;
     const { errors, touched } = form;
@@ -60,7 +60,7 @@ function QuantityField(props) {
                 onChange={handleChangeQuantity}
                 ref={ref}
                 placeholder={placeholder}
-                disabled={disable}
+                disabled={true}
                 className="quantity-input"
                 max={max}
                 min={0}

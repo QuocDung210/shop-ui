@@ -34,7 +34,6 @@ function History() {
             if (selectedOrder !== 0) {
                 try {
                     const res = await orderApi.getOrderDetailById(selectedOrder);
-                    console.log(res);
                     setCurrentOrder(res);
                 } catch (err) {
                     console.log(err);

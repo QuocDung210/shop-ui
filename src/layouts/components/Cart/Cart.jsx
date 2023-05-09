@@ -68,7 +68,12 @@ function Cart(props) {
                                     <Stack gap={3} className="p-3">
                                         {cartItems?.length > 0 &&
                                             cartItems?.map((item, idx) => (
-                                                <CartItem item={item} key={idx} reRenderCart={reRenderCart} />
+                                                <CartItem
+                                                    item={item}
+                                                    key={idx}
+                                                    reRenderCart={reRenderCart}
+                                                    rerd={() => setRerender(!rerender)}
+                                                />
                                             ))}
                                     </Stack>
                                     <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>

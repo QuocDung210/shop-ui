@@ -8,6 +8,7 @@ import { AuthApi } from '~/api';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, startLogin, loginFailed } from '~/redux/slices/authSlice';
 import config from '~/config';
+import { toast } from 'react-toastify';
 function LoginForm(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -20,11 +21,8 @@ function LoginForm(props) {
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const validationSchema = yup.object().shape({
         // email: yup.string().email('Email không hợp lệ').required('vui lòng nhập email'),
-        phone: yup
-            .string()
-            .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
-            .required('Vui lòng nhập số điện thoại')
-            .min(10, 'Số điện thoại không hợp lệ'),
+        phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ').required('Vui lòng nhập số điện thoại'),
+        // .min(10, 'Số điện thoại không hợp lệ'),
         // phone: yup.string().required('Vui lòng nhập số điện thoại'),
         password: yup.string().required('Vui lòng nhập mật khẩu'),
     });
@@ -37,6 +35,7 @@ function LoginForm(props) {
                 phone: phone,
                 password: password,
             });
+
             dispatch(loginSuccess(res));
             if (res.user.role === 'admin' || res.user.role === 'employee') {
                 navigate('/admin');
@@ -45,6 +44,7 @@ function LoginForm(props) {
             }
         } catch (error) {
             console.log('Error: ', error);
+            toast.error('Đăng nhập thất bại.');
             dispatch(loginFailed());
         }
     };

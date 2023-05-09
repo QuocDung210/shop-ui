@@ -11,7 +11,7 @@ import images from '~/assets/images';
 import { useNavigate } from 'react-router-dom';
 import { splitNumber } from '~/numberSplit';
 function CartItem(props) {
-    const { item, reRenderCart } = props;
+    const { item, reRenderCart, rerd } = props;
     const auth = useAuth();
     const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
@@ -30,14 +30,6 @@ function CartItem(props) {
         }
     };
 
-    const handleSetQuantity = (e) => {
-        if (e.target.value < 0) {
-            setQuantity(0);
-        } else {
-            setQuantity(e.target.value);
-        }
-    };
-
     const handleSetQuantityPlus = async () => {
         try {
             let numbers = parseInt(quantity) + 1;
@@ -51,6 +43,7 @@ function CartItem(props) {
                 },
             );
             setQuantity(numbers);
+            rerd();
         } catch (err) {
             toast.error(err);
         }
@@ -68,6 +61,7 @@ function CartItem(props) {
                 },
             );
             setQuantity(numbers);
+            rerd();
         } else {
             return;
         }
@@ -99,14 +93,7 @@ function CartItem(props) {
                         </Tippy>
                         <div className="cart-set-quantity d-flex  align-items-center">
                             <FontAwesomeIcon icon={faMinus} onClick={handleSetQuantityMinus} className="cart-minus" />
-                            <input
-                                value={quantity}
-                                type="number"
-                                className="quantity-input"
-                                min={0}
-                                onChange={handleSetQuantity}
-                                disabled
-                            />
+                            <input value={quantity} type="number" className="quantity-input" min={0} disabled />
                             <FontAwesomeIcon icon={faPlus} onClick={handleSetQuantityPlus} className="cart-plus" />
                         </div>
                     </Stack>

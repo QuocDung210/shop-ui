@@ -5,7 +5,9 @@ import Buttons from '~/components/Buttons';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { AuthApi } from '~/api';
+import { useNavigate } from 'react-router-dom';
 function ForgetPw() {
+    const navigate = useNavigate();
     const [phone, setPhone] = useState('');
     const [check, setCheck] = useState(false);
     const [data, setData] = useState({ phone: '', newPassword: '', otp: '' });
@@ -46,6 +48,7 @@ function ForgetPw() {
             const res = await AuthApi.forgotPassword(data);
             console.log(res);
             toast.success('Đổi mật khẩu thành công.');
+            navigate('/');
         } catch (err) {
             toast.error('Xảy ra lỗi.');
         }

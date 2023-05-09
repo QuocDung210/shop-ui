@@ -15,7 +15,6 @@ import getAllUrlParams from '~/hooks/getAllParams';
 function Order() {
     useEffect(() => {
         const check = getAllUrlParams(window.location.href);
-        console.log(check);
         if (check.resultcode === '0') {
             toast.success('Thanh toán thành công.Đang chuyển hướng.');
             setTimeout(() => {
@@ -101,20 +100,15 @@ function Order() {
                     }
                 }
                 const payload = { ...data, orderDetails: [], id: '', orderer: '', transMethod: payType };
-                console.log('check payload:', payload);
                 const res = await orderApi.createOrder(payload);
                 if (res) {
                     window.location.assign(res);
+                } else {
+                    toast.success('Đặt hàng thành công.');
+                    setTimeout(() => {
+                        navigate('/product');
+                    }, 2000);
                 }
-                // if (payType) {
-                //     toast.success('Đặt hàng thành công.');
-                //     setTimeout(() => {
-                //         navigate('/product');
-                //     }, 2000);
-                // } else {
-                //     // const momoRes = orderApi.momoPay()
-                //     console.log('check res: ', res);
-                // }
             } catch (err) {
                 console.log(err);
                 toast.error('Đặt hàng thất bại.');

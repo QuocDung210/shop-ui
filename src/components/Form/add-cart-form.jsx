@@ -43,6 +43,7 @@ function AddCartForm(props) {
                             type={'number'}
                             max={max}
                             placeholder="--"
+                            disabled={true}
                         />
                         <FormGroup>
                             <Buttons
