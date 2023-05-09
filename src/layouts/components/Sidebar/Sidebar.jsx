@@ -9,14 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 function Sidebar(props) {
-    const { priceFilter, categoryFilter, setClose, brandFilter } = props;
+    const { priceFilter, categoryFilter, setClose, brandFilter, currentSelected } = props;
     const [open, setOpen] = useState(false);
     const [category, setCategory] = useState([]);
     const [data, setData] = useState({ max: 0, min: 0 });
     const [brands, setBrands] = useState([]);
-    const [selectedCate, setSelectedCate] = useState(-1);
+    const [selectedCate, setSelectedCate] = useState(currentSelected || 0);
     const [selectedBrand, setSelectedBrand] = useState(0);
-
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -140,7 +139,13 @@ function Sidebar(props) {
                                     categoryFilter(sidebarItem.id);
                                 }}
                             >
-                                <p className={`m-0 ${selectedCate === sidebarItem?.id && 'nav-selected'}`}>
+                                <p
+                                    className={`m-0 ${
+                                        currentSelected
+                                            ? parseInt(currentSelected) === sidebarItem?.id && 'nav-selected'
+                                            : selectedCate === sidebarItem?.id && 'nav-selected'
+                                    }`}
+                                >
                                     {sidebarItem?.name}
                                 </p>
                             </Nav.Item>

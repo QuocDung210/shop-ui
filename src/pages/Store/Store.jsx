@@ -99,6 +99,7 @@ function Store() {
                 <Row>
                     <Col md={3} className="d-none d-lg-block">
                         <Sidebar
+                            currentSelected={cate ? cate[1] : null}
                             priceFilter={handlePriceFilter}
                             categoryFilter={handleFilter}
                             brandFilter={handleFilterbrand}

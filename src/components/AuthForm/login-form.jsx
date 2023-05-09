@@ -1,5 +1,5 @@
 import { FastField, Form, Formik } from 'formik';
-import { FormCheck, FormGroup } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
@@ -58,15 +58,10 @@ function LoginForm(props) {
                     <Form>
                         <FastField name="phone" component={InputField} type="text" placeholder="Phone..." />
                         <FastField name="password" component={InputField} type="password" placeholder="Password..." />
-                        <div className="d-flex justify-content-between">
-                            <FormGroup className="mb-3" controlId="formBasicCheckbox">
-                                <FormCheck type="checkbox" label="Nhớ tài khoản" />
-                            </FormGroup>
-                            <div>
-                                <Link to={config.routes.forgot_pw}>
-                                    <span style={{ color: 'var(--color-6)' }}>Quên mật khẩu ?</span>
-                                </Link>
-                            </div>
+                        <div className="d-flex justify-content-end mb-2">
+                            <Link to={config.routes.forgot_pw}>
+                                <span style={{ color: 'var(--color-6)' }}>Quên mật khẩu ?</span>
+                            </Link>
                         </div>
                         <FormGroup>
                             <Buttons primary lager className="button-login">
