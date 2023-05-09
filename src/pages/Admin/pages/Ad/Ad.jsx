@@ -88,7 +88,6 @@ function Ad() {
     };
 
     const handleUpdateAd = async () => {
-        console.log(currentAdImgs);
         const data = {
             listImg: currentAdImgs,
         };
@@ -99,7 +98,7 @@ function Ad() {
                 res = await FirebaseService.deleteImg(i, 'AdImgs', 'img');
             }
             if (res) {
-                toast.success('Cập nhạt thành công.');
+                toast.success('Cập nhật thành công.');
             }
         } catch (err) {
             toast.error('Cập nhật thất bại.');

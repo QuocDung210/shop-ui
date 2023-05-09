@@ -8,7 +8,6 @@ import { faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { ToastContainer, toast } from 'react-toastify';
 import images from '~/assets/images';
-import useAuth from '~/hooks/useAuth';
 function Brand() {
     const [brandList, setBrandList] = useState([]);
     const [render, setRender] = useState(false);
@@ -23,10 +22,7 @@ function Brand() {
     const updateNameIpRef = useRef(null);
     const updateLogoIpRef = useRef(null);
     const updateDescriptionIpRef = useRef(null);
-    const auth = useAuth();
-    const configHeader = {
-        headers: { Authorization: `Bearer ${auth?.accessToken}` },
-    };
+
     useEffect(() => {
         const fetchApi = async () => {
             try {
@@ -67,19 +63,29 @@ function Brand() {
         if (!data?.name) {
             return;
         }
+
         let url = [];
         if (logoFile) {
             url = await FirebaseService.uploadImg([logoFile], 'Logo');
         } else {
             url = [''];
         }
-        const dt = {
-            ...data,
-            logo: url[0],
-        };
+        let dt = {};
+        if (!data?.description) {
+            dt = {
+                ...data,
+                description: '',
+                logo: url[0],
+            };
+        } else {
+            dt = {
+                ...data,
+                logo: url[0],
+            };
+        }
 
         try {
-            const resbrand = await BrandApi.addBrand(dt, configHeader);
+            const resbrand = await BrandApi.addBrand(dt);
             toast.success('Thêm thành công.');
             setBrandList([...brandList, resbrand]);
             nameIpRef.current.value = null;
@@ -95,7 +101,7 @@ function Brand() {
 
     const handleDeleteBrand = async () => {
         try {
-            await BrandApi.deleteBrand(selected.id, configHeader);
+            await BrandApi.deleteBrand(selected.id);
             await FirebaseService.deleteImg(selected.logo);
             setBrandList(brandList.filter((item) => item.id !== selected.id));
             toast.success('Xóa thành công.');
@@ -143,7 +149,7 @@ function Brand() {
         };
 
         try {
-            await BrandApi.updateBrand(selected.id, dt, configHeader);
+            await BrandApi.updateBrand(selected.id, dt);
             updateNameIpRef.current.value = null;
             updateDescriptionIpRef.current.value = null;
             updateLogoIpRef.current.value = null;

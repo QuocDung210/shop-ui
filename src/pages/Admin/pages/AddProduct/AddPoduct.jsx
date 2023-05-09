@@ -199,6 +199,10 @@ function AddProduct() {
             } else {
                 urls = [''];
             }
+            if (name === '' || !category || !brand || !series) {
+                toast.warning('Vui lòng nhập đầy đủ thông tin.');
+                return;
+            }
             const data = {
                 name: name,
                 brandId: parseInt(brand),
@@ -211,7 +215,7 @@ function AddProduct() {
                 images: urls,
                 available: parseInt(quantity),
             };
-
+            console.log(data);
             await ProductApi.addProduct(data);
             toast.success('Success');
         } catch (err) {

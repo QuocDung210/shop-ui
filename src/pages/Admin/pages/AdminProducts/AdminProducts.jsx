@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { splitNumber } from '~/numberSplit';
 import config from '~/config';
+import useAuth from '~/hooks/useAuth';
 
 function AdminProducts() {
     const [showDeleteMember, setShowDeleteMember] = useState(false);
@@ -26,6 +27,7 @@ function AdminProducts() {
     const [type, setType] = useState(0);
     const [index, setIndex] = useState(0);
     const [render, setRender] = useState(false);
+    const auth = useAuth();
 
     useEffect(() => {
         const fetch = async () => {
@@ -86,6 +88,10 @@ function AdminProducts() {
         setDeleteTarget(item);
     };
     const handleDeleteProduct = async () => {
+        if (auth.user.role !== 'admin') {
+            toast.warning('Không có quyền thực hiện hành động này.');
+            return;
+        }
         try {
             if (deleteTarget.images[0] !== '') {
                 for (let img of deleteTarget.images) {
@@ -107,6 +113,10 @@ function AdminProducts() {
         setShowDeleteMembers(true);
     };
     const handleDeleteProducts = async () => {
+        if (auth.user.role !== 'admin') {
+            toast.warning('Không có quyền thực hiện hành động này.');
+            return;
+        }
         try {
             toast.warning('Đang xử lý, xin bạn hãy chờ.');
             for (let product of deleteMultiTarget) {

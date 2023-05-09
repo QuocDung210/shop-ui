@@ -7,20 +7,16 @@ export const BrandApi = {
     getById(id) {
         return axiosTest.get(`/Brand/${id}`);
     },
-    addBrand(payload, config) {
-        return axiosTest.post('/Brand', payload, config);
+    addBrand(payload) {
+        return axiosTest.post('/Brand', payload);
     },
-    updateBrand(id, data, config) {
-        return axiosTest.put(
-            '/Brand',
-            {
-                ...data,
-                id: id,
-            },
-            config,
-        );
+    updateBrand(id, data) {
+        return axiosTest.put('/Brand', {
+            ...data,
+            id: id,
+        });
     },
-    deleteBrand(id, config) {
-        return axiosTest.delete(`/Brand/${id}`, config);
+    deleteBrand(id) {
+        return axiosTest.delete(`/Brand/${id}`);
     },
 };

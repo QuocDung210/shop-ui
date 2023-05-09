@@ -501,7 +501,7 @@ function UpdateProduct() {
                         </Row>
                         <Row className="content-box">
                             <Buttons primary onClick={handleUpdate}>
-                                Tạo
+                                Cập nhật
                             </Buttons>
                         </Row>
                     </Container>
