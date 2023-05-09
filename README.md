@@ -5,7 +5,7 @@
 
 <h2>A frontend of e-commerce website</h2>
 
-### ⚪️ Technology used
+### ⚪️ Công nghệ sử dụng
 <p>
   <a href=""><img alt="Reactjs" src="https://img.shields.io/badge/Asp.Net%206-512BD4?logo=.net&logoColor=white"/></a>
   <a href=""><img alt="React Boostrap" src="https://img.shields.io/badge/-SQL%20Server-white?logo=microsoftsqlserver&logoColor=CC2927"/></a>
