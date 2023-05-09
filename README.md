@@ -6,11 +6,16 @@
 <h2>A frontend of e-commerce website</h2>
 
 ### ⚪️ Công nghệ sử dụng
--Reactjs.
--React Boostrap
-
+<p>- Reactjs</p>
+<p>- React boostrap</p>
 ### ⚪️ Môi trường
 <p>
-  <a href=""><img alt="Visual Studio 2022" src="https://img.shields.io/static/v1?message=Visual%20Studio%202022&logo=visualstudio&color=5C2D91&logoColor=white&label=%20"></a>
-  <a href=""><img alt="SQL Server Management" src="https://img.shields.io/badge/-SQL%20Server%20Management-FFDC28"></a>
+  - Visual Studio Code
 </p>
+### ⚪️ Cài đặt
+#### Vs Code
+Cài đặt môi trường code ở [đây](https://code.visualstudio.com/)
+### Git
+Cài đặt ở [đây](https://git-scm.com/)
+### Nodejs
+Cài đặt ở [đây](https://nodejs.org/en)
