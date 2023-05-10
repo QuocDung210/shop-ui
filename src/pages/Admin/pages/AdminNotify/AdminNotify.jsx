@@ -88,7 +88,7 @@ function AdminNotify() {
                                         style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
                                     />
                                     <div className="notify-item-title">
-                                        <h3>{notice?.role}</h3>
+                                        <h3>{notice?.name ? notice?.name : notice?.role}</h3>
                                         <p>{notice?.title}</p>
                                     </div>
                                 </div>

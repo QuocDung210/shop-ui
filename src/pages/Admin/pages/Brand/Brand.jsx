@@ -104,6 +104,7 @@ function Brand() {
             await BrandApi.deleteBrand(selected.id);
             await FirebaseService.deleteImg(selected.logo);
             setBrandList(brandList.filter((item) => item.id !== selected.id));
+            setSelected(brandList[brandList.length - 1]);
             toast.success('Xóa thành công.');
         } catch (err) {
             console.log(err);
