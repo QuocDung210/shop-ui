@@ -33,6 +33,9 @@ import AdminOrderDetail from './pages/Admin/pages/AdminOrderDetail/AdminOrderDet
 import ForgetPw from './pages/ForgetPassword/ForgetPw';
 import AccountDetail from './pages/Admin/pages/AccountDetail/AccountDetail';
 import ScrollTotop from './components/ScrollTotop';
+import PolicyPage from './pages/Police/PolicyPage';
+import WarrantyPolicy from './pages/Police/WarrantyPolicy';
+import ShippingPolicy from './pages/Police/ShippingPolicy';
 function App() {
     return (
         <>
@@ -57,6 +60,11 @@ function App() {
                         </Route>
                         <Route path={config.routes.notify} element={<Notify />} />
                         <Route path={config.routes._404} element={<NotFound />} />
+                        <Route path={'/police'} element={<PolicyPage />}>
+                            <Route index element={<WarrantyPolicy />} />
+                            <Route path="chinh-sach-bao-hanh" element={<WarrantyPolicy />} />
+                            <Route path="chinh-sach-van-chuyen" element={<ShippingPolicy />} />
+                        </Route>
                     </Route>
                     <Route path={config.routes.login} element={<Login />} />
                     <Route path={config.routes.register} element={<Register />} />

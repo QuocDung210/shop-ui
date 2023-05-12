@@ -9,13 +9,21 @@ import { useEffect, useState } from 'react';
 import { ProductApi, orderApi, userApi } from '~/api';
 import TotalSalesCategory from '../../components/Chart/TotalSalesCategory';
 import TotalSalesSeries from '../../components/Chart/TotalSalesSeries';
+import useAuth from '~/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
     const [oders, setOders] = useState([]);
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
+    const auth = useAuth();
 
     useEffect(() => {
+        if (auth.user.role === 'employee') {
+            navigate('/admin/order');
+            return;
+        }
         const fetch = async () => {
             const resPd = await ProductApi.getAll({
                 query: '',
@@ -38,6 +46,7 @@ function Dashboard() {
             setUsers(resUsers.length);
         };
         fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

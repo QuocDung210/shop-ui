@@ -19,7 +19,6 @@ function History() {
             try {
                 const res = await orderApi.getOrderUser();
                 setHistory(res);
-                console.log(res);
                 setSelectedOrder(res[0]?.id || 0);
             } catch (err) {
                 console.log(err);
@@ -49,8 +48,7 @@ function History() {
     const handleCancel = async (item) => {
         try {
             console.log('check order id: ', item.id);
-            const res = await orderApi.cancelOrder(item.id);
-            console.log(res);
+            await orderApi.cancelOrder(item.id);
             toast.success('Đã gửi yêu cầu.');
         } catch (err) {
             console.log(err);
@@ -184,7 +182,7 @@ function History() {
                                 <div key={idx}>
                                     <Row key={idx} className="history-order-item">
                                         <Col xs={1} className="text-start d-flex align-items-center">
-                                            <p>{idx + 1}</p>
+                                            <p className="m-0">{idx + 1}</p>
                                         </Col>
                                         <Col xs={4} className="history-order-item-name d-flex align-items-center">
                                             <p className="text-split m-0">{item?.product?.name}</p>

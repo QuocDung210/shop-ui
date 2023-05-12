@@ -33,6 +33,7 @@ function TotalSale() {
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounced, month]);
+
     return (
         <Container fluid className="total-sale-container">
             <div className="d-flex flex-wrap justify-content-between align-items-center">

@@ -30,6 +30,10 @@ const NavList = [
         label: 'SẢN PHẨM',
         link: config.routes.store,
     },
+    {
+        label: 'CHÍNH SÁCH',
+        link: '/police',
+    },
 ];
 
 function Header() {

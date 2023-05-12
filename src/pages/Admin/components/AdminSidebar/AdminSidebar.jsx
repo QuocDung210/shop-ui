@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Logo from '~/components/Logo';
 import './AdminSidebar.scss';
 import { useEffect, useState } from 'react';
+import useAuth from '~/hooks/useAuth';
 function AdminSidebar(props) {
     const location = useLocation();
     const pathNames = location.pathname.split('/').filter((x) => x);
@@ -10,7 +11,7 @@ function AdminSidebar(props) {
     const { sbItems, handleCloseOffCanvas } = props;
     const [selected, setSelected] = useState(sbItems[0].title);
     const navigate = useNavigate();
-
+    const auth = useAuth();
     useEffect(() => {
         setSelected(pathNames[1]);
     }, [pathNames]);
@@ -34,7 +35,11 @@ function AdminSidebar(props) {
                     {sbItems.map((item, idx) => (
                         <div
                             key={idx}
-                            className={`menu-item ${selected === item?.link && 'menu-item-selected'}`}
+                            className={`menu-item ${selected === item?.link && 'menu-item-selected'} ${
+                                auth.user.role === 'employee' &&
+                                (item?.title === 'Tài khoản' || item?.title === 'Bảng điều khiển') &&
+                                'd-none'
+                            }`}
                             onClick={() => handleClickItem(item)}
                         >
                             {item?.icon}

@@ -1,5 +1,6 @@
 import {
     faBan,
+    faBoxOpen,
     faCheck,
     faCheckDouble,
     faClock,
@@ -141,6 +142,12 @@ function AdminOrder() {
                     >
                         {STATISTICAL_ITEM.map((item, idx) => (
                             <Tab key={idx} eventKey={item.id} title={item.name}>
+                                <Row className={`no-order ${orderList.length > 0 ? 'd-none' : 'd-block'}`}>
+                                    <div className="d-flex flex-column ">
+                                        <FontAwesomeIcon className="no-order-icon" icon={faBoxOpen} />
+                                        <p>Chưa có đơn hàng nào</p>
+                                    </div>
+                                </Row>
                                 <Row
                                     className={`admin-order-list px-5 py-3 ${
                                         orderList.length <= 0 ? 'd-none' : 'd-block'

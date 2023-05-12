@@ -25,7 +25,6 @@ function YearlySales(props) {
                     y = parseInt(debounced);
                 }
                 const resColumn = await orderApi.getIncomeYear(y);
-
                 setData(resColumn);
             } catch (err) {
                 console.log(err);

@@ -20,6 +20,11 @@ function Order() {
             setTimeout(() => {
                 navigate('/');
             }, 5000);
+        } else if (check.resultcode) {
+            toast.success('Thanh toán Momo thất bại. Đã đặt hàng với phương thức thanh toán trực tiếp.');
+            setTimeout(() => {
+                navigate('/');
+            }, 5000);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -93,13 +98,16 @@ function Order() {
             toast.warning('Giá trị đơn hàng vượt quá giới hạn thanh toán của Momo.');
         } else {
             try {
+                console.log('check 1');
                 for (let key in data) {
                     if (data[key] === '' && key !== 'note') {
                         toast.warn('Vui lòng nhập đầy đủ thông tin người nhận.');
                         return;
                     }
                 }
+                console.log('check 2');
                 const payload = { ...data, orderDetails: [], id: '', orderer: '', transMethod: payType };
+                console.log('check 3');
                 const res = await orderApi.createOrder(payload);
                 if (res) {
                     window.location.assign(res);
@@ -109,6 +117,7 @@ function Order() {
                         navigate('/product');
                     }, 2000);
                 }
+                console.log('check 4');
             } catch (err) {
                 console.log(err);
                 toast.error('Đặt hàng thất bại.');

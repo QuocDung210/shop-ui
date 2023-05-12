@@ -11,6 +11,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ROLE_ARR } from '~/const/roleArr';
 import { toast } from 'react-toastify';
 import config from '~/config';
+import useAuth from '~/hooks/useAuth';
 
 function Account() {
     let arr = ['Customer', 'Employee', 'Admin'];
@@ -22,7 +23,12 @@ function Account() {
     const [deleteTarget, setDeleteTarget] = useState([]);
     const [render, setRender] = useState(false);
     const navigate = useNavigate();
+    const auth = useAuth();
     useEffect(() => {
+        if (auth.user.role === 'employee') {
+            navigate('/admin/order');
+            return;
+        }
         const fetch = async () => {
             const res = await userApi.getAll();
             if (type === 'All') {

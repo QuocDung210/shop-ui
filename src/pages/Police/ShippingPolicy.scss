@@ -1,0 +1,30 @@
+.shipping-policy-container {
+    font-weight: 500;
+    h2 {
+        padding: 10px;
+        background-color: var(--color-6);
+        color: var(--white);
+        border-radius: 10px;
+    }
+    .shipping-policy-in {
+        background-color: var(--color-1);
+    }
+    .shipping-mothod-normal {
+        padding: 0;
+        border: 2px solid var(--color-1);
+        h3 {
+            background-color: var(--color-1);
+            padding: 10px;
+            color: var(--white);
+        }
+    }
+    .shipping-mothod-fast {
+        padding: 0;
+        border: 2px solid var(--color-6);
+        h3 {
+            background-color: var(--color-6);
+            padding: 10px;
+            color: var(--white);
+        }
+    }
+}

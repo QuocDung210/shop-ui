@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Dropdown, Modal, Row, Stack } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Buttons from '~/components/Buttons';
 import Images from '~/components/Images';
 import './AdminProducts.scss';
@@ -28,6 +28,7 @@ function AdminProducts() {
     const [index, setIndex] = useState(0);
     const [render, setRender] = useState(false);
     const auth = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
@@ -160,6 +161,14 @@ function AdminProducts() {
         setIndex(idx);
         setCurrentPage(1);
     };
+    const handleClickBtnAddProduct = () => {
+        if (auth.user.role === 'employee') {
+            toast.warning('Quyền của bạn không được thực hiện hành động này.');
+            return;
+        } else {
+            navigate(`/admin/${config.routes.addProduct}`);
+        }
+    };
     return (
         <Container fluid className="acc-wrapper">
             <Row className="mb-4">
@@ -168,11 +177,7 @@ function AdminProducts() {
             <Row className="acc-tools mb-4 content-box">
                 <div className="d-flex align-items-center  p-0">
                     <h2 className="my-0 me-5">Công cụ</h2>
-                    <Buttons
-                        primary
-                        to={`/admin/${config.routes.addProduct}`}
-                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                    >
+                    <Buttons primary leftIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClickBtnAddProduct}>
                         Thêm sản phẩm
                     </Buttons>
                     <Buttons
@@ -277,7 +282,7 @@ function AdminProducts() {
                                 interactive
                                 arrow
                                 render={(attrs) => (
-                                    <Stack className="acc-menu content-box p-3" {...attrs}>
+                                    <Stack className={`acc-menu content-box p-3`} {...attrs}>
                                         <div className="acc-menu-option">
                                             <Link to={`/admin/products/update-product/${item.id}`}>
                                                 <p className="my-2 mx-3" style={{ color: 'var(--text-color)' }}>

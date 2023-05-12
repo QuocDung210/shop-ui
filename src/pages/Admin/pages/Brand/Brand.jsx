@@ -8,6 +8,7 @@ import { faCircleXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FirebaseService } from '~/firebase/firebaseService';
 import { ToastContainer, toast } from 'react-toastify';
 import images from '~/assets/images';
+import useAuth from '~/hooks/useAuth';
 function Brand() {
     const [brandList, setBrandList] = useState([]);
     const [render, setRender] = useState(false);
@@ -22,7 +23,7 @@ function Brand() {
     const updateNameIpRef = useRef(null);
     const updateLogoIpRef = useRef(null);
     const updateDescriptionIpRef = useRef(null);
-
+    const auth = useAuth();
     useEffect(() => {
         const fetchApi = async () => {
             try {
@@ -60,6 +61,10 @@ function Brand() {
     };
 
     const handleAddBrand = async (e) => {
+        if (auth.user.role === 'employee') {
+            toast.warning('Bạn không có quyền thực hiện hành động này');
+            return;
+        }
         if (!data?.name) {
             return;
         }
@@ -100,6 +105,10 @@ function Brand() {
     };
 
     const handleDeleteBrand = async () => {
+        if (auth.user.role === 'employee') {
+            toast.warning('Bạn không có quyền thực hiện hành động này');
+            return;
+        }
         try {
             await BrandApi.deleteBrand(selected.id);
             await FirebaseService.deleteImg(selected.logo);
@@ -113,6 +122,10 @@ function Brand() {
     };
 
     const handleUpdateBrand = async () => {
+        if (auth.user.role === 'employee') {
+            toast.warning('Bạn không có quyền thực hiện hành động này');
+            return;
+        }
         if (data === null && logoFile === null) {
             return;
         }
