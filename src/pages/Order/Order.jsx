@@ -12,6 +12,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Buttons from '~/components/Buttons';
 import { useNavigate } from 'react-router-dom';
 import getAllUrlParams from '~/hooks/getAllParams';
+import OrderForm from '~/components/Form/order-form';
 function Order() {
     useEffect(() => {
         const check = getAllUrlParams(window.location.href);
@@ -70,22 +71,22 @@ function Order() {
         }
     };
 
-    const handleSetData = (e) => {
-        if (e.target.id === 'receiver-name') {
-            setData({ ...data, shipName: e.target.value });
-        }
-        if (e.target.id === 'receiver-phone') {
-            setData({ ...data, shipPhone: e.target.value });
-        }
-        if (e.target.id === 'receiver-address') {
-            setData({ ...data, shipAddress: e.target.value });
-        }
-        if (e.target.id === 'receiver-note') {
-            setData({ ...data, note: e.target.value });
-        }
-    };
+    // const handleSetData = (e) => {
+    //     if (e.target.id === 'receiver-name') {
+    //         setData({ ...data, shipName: e.target.value });
+    //     }
+    //     if (e.target.id === 'receiver-phone') {
+    //         setData({ ...data, shipPhone: e.target.value });
+    //     }
+    //     if (e.target.id === 'receiver-address') {
+    //         setData({ ...data, shipAddress: e.target.value });
+    //     }
+    //     if (e.target.id === 'receiver-note') {
+    //         setData({ ...data, note: e.target.value });
+    //     }
+    // };
 
-    const handleOrder = async () => {
+    const handleOrder = async (info) => {
         let total =
             cartItems?.reduce((total, num) => {
                 return total + num.product.price * num.quantity;
@@ -94,20 +95,20 @@ function Order() {
                 return total + (num.product.price * num.quantity * num.product.discount) / 100;
             }, 0) +
             deliverType;
+        console.log('check total:', total);
         if (total > 50000000 && payType === 2) {
             toast.warning('Giá trị đơn hàng vượt quá giới hạn thanh toán của Momo.');
         } else {
             try {
-                console.log('check 1');
-                for (let key in data) {
-                    if (data[key] === '' && key !== 'note') {
-                        toast.warn('Vui lòng nhập đầy đủ thông tin người nhận.');
-                        return;
-                    }
-                }
-                console.log('check 2');
-                const payload = { ...data, orderDetails: [], id: '', orderer: '', transMethod: payType };
-                console.log('check 3');
+                // for (let key in data) {
+                //     if (data[key] === '' && key !== 'note') {
+                //         toast.warn('Vui lòng nhập đầy đủ thông tin người nhận.');
+                //         return;
+                //     }
+                // }
+                // const payload = info;
+                const payload = { ...info, orderDetails: [], id: '', orderer: '', transMethod: payType };
+                console.log(payload);
                 const res = await orderApi.createOrder(payload);
                 if (res) {
                     window.location.assign(res);
@@ -117,7 +118,6 @@ function Order() {
                         navigate('/product');
                     }, 2000);
                 }
-                console.log('check 4');
             } catch (err) {
                 console.log(err);
                 toast.error('Đặt hàng thất bại.');
@@ -246,7 +246,7 @@ function Order() {
                 <Row className="gap-4">
                     <Col md={6} xs={12} className="content-box">
                         <h3>Thông tin nhận hàng</h3>
-                        <Row className="mt-4 " xs={1}>
+                        {/* <Row className="mt-4 " xs={1}>
                             <Col className="mb-4">
                                 <div className="order-receive-ip">
                                     <input id="receiver-name" onChange={handleSetData} type="text" />
@@ -271,7 +271,8 @@ function Order() {
                                     <span>Ghi chú</span>
                                 </div>
                             </Col>
-                        </Row>
+                        </Row> */}
+                        <OrderForm submit={handleOrder} />
                     </Col>
                     <Col className="content-box ">
                         <h3 className="mb-4">Thông tin đơn hàng</h3>
@@ -320,9 +321,9 @@ function Order() {
                                         deliverType,
                                 )} đ`}</span>
                             </div>
-                            <Buttons primary onClick={handleOrder}>
+                            {/* <Buttons primary onClick={handleOrder}>
                                 Đặt mua
-                            </Buttons>
+                            </Buttons> */}
                         </Stack>
                     </Col>
                 </Row>

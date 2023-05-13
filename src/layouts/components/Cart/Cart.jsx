@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import Buttons from '~/components/Buttons';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import { cartApi } from '~/api';
 import config from '~/config';
@@ -25,7 +24,7 @@ function Cart(props) {
 
                     setCartItems(res);
                 } catch (err) {
-                    toast.error('Error.');
+                    console.log(err);
                 }
             }
         };

@@ -54,7 +54,7 @@ function ShippingPolicy() {
                 <div className="text-center">
                     <h2>NGOẠI THÀNH</h2>
                 </div>
-                <Row>
+                <Row className="gap-4">
                     <Col className="shipping-mothod-normal">
                         <div>
                             <h3 className="text-center">Giao hàng thông thường</h3>

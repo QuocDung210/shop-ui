@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 import { logoutSuccess } from '~/redux/slices/authSlice';
 import { useEffect, useState } from 'react';
 import { AuthApi } from '~/api';
-import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 
 function MainHeaderMenu({ menuItems }) {
@@ -45,7 +44,6 @@ function MainHeaderMenu({ menuItems }) {
                     setCurrentUser(res);
                 } catch (err) {
                     console.log(err);
-                    toast.error('Có lỗi xảy ra.');
                 }
             };
 

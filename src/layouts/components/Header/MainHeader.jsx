@@ -11,7 +11,6 @@ import MainNavbar from '../MainNavbar';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState } from 'react';
 import useAuth from '~/hooks/useAuth';
-import { toast } from 'react-toastify';
 import { noticeApi } from '~/api/noticeApi';
 import HeaderNotify from '../HeaderNotify/HeaderNotify';
 
@@ -28,7 +27,7 @@ function MainHeader({ menuItems, navList }) {
 
                     setNoticeList(noticeRes);
                 } catch (err) {
-                    toast.error('Error.');
+                    console.log(err);
                 }
             }
         };
