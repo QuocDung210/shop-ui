@@ -45,7 +45,7 @@ function OrderForm({ submit }) {
     });
 
     const handleSubmitForm = async (values) => {
-        // submit(values);
+        submit(values);
         console.log(values);
     };
     return (

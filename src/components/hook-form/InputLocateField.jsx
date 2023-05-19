@@ -5,6 +5,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import Buttons from '../Buttons';
 import { AuthApi, cityApi } from '~/api';
+import { toast } from 'react-toastify';
 function InputLocateField(props) {
     const { field, form, type, label, placeholder, disable, readonly } = props;
 
@@ -74,6 +75,17 @@ function InputLocateField(props) {
     };
 
     const handleSetData = () => {
+        if (wards.length <= 0) {
+            if (!province || !selectedDistrict) {
+                toast.warning('Thay đổi không thành công.');
+                return;
+            }
+        } else {
+            if (!province || !selectedDistrict || !selectedWard) {
+                toast.warning('Thay đổi không thành công.');
+                return;
+            }
+        }
         const value = province?.text + ',' + selectedDistrict?.text + ',' + selectedWard?.text;
 
         const changEvent = {

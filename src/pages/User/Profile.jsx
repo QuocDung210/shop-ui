@@ -22,7 +22,6 @@ function Profile() {
         const fetchApi = async () => {
             try {
                 const res = await AuthApi.getProfile();
-                console.log(res);
                 setProfile(res);
             } catch (err) {
                 console.log(err);
