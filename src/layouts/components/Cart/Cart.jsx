@@ -5,16 +5,18 @@ import { Stack } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import Buttons from '~/components/Buttons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useAuth from '~/hooks/useAuth';
 import { cartApi } from '~/api';
 import config from '~/config';
 import { splitNumber } from '~/numberSplit';
 import images from '~/assets/images';
+import { AppContext } from '~/Context/AppContext';
 function Cart(props) {
     const [rerender, setRerender] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const auth = useAuth();
+    const context = useContext(AppContext);
 
     useEffect(() => {
         const fetch = async () => {
@@ -30,10 +32,7 @@ function Cart(props) {
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rerender]);
-    const reRenderCart = (id) => {
-        setCartItems(cartItems?.filter((item) => item?.productId !== id));
-    };
+    }, [rerender, context.render]);
 
     return (
         <div className="cart-container">
@@ -42,7 +41,11 @@ function Cart(props) {
                     <span>{`GIỎ HÀNG / ${splitNumber(
                         cartItems?.length > 0 &&
                             cartItems?.reduce((total, num) => {
-                                return total + num.product.price * num.quantity;
+                                return (
+                                    total +
+                                    (num.product.price - (num.product.price * num.product.discount) / 100) *
+                                        num.quantity
+                                );
                             }, 0),
                     )} đ`}</span>
                 </div>
@@ -66,21 +69,23 @@ function Cart(props) {
                                 <div className={`${cartItems?.length === 0 ? 'd-none' : 'd-block'}`}>
                                     <Stack gap={3} className="p-3">
                                         {cartItems?.length > 0 &&
-                                            cartItems?.map((item, idx) => (
-                                                <CartItem
-                                                    item={item}
-                                                    key={idx}
-                                                    reRenderCart={reRenderCart}
-                                                    rerd={() => setRerender(!rerender)}
-                                                />
-                                            ))}
+                                            cartItems?.map((item, idx) => <CartItem item={item} key={idx} />)}
                                     </Stack>
                                     <div className="text-center p-4" style={{ borderTop: '1px solid #ccc' }}>
                                         <Buttons primary to={`/${config.routes.order}`}>
+                                            {/* {`${splitNumber(
+                                        currentProduct?.price -
+                                            (currentProduct?.price * currentProduct?.discount) / 100,
+                                    )} đ`} */}
                                             {`Thanh toán ${splitNumber(
                                                 cartItems?.length > 0 &&
                                                     cartItems?.reduce((total, num) => {
-                                                        return total + num.product.price * num.quantity;
+                                                        return (
+                                                            total +
+                                                            (num.product.price -
+                                                                (num.product.price * num.product.discount) / 100) *
+                                                                num.quantity
+                                                        );
                                                     }, 0),
                                             )} đ`}
                                         </Buttons>

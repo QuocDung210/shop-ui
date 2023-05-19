@@ -6,6 +6,7 @@ import './ProductCard.scss';
 import { splitNumber } from '~/numberSplit';
 
 function ProductCard({ product }) {
+    // console.log(product.slug);
     const ref = useRef(null);
 
     const handleErrorImg = () => {
@@ -36,7 +37,7 @@ function ProductCard({ product }) {
                         ref={ref}
                     />
                     <div className="card-tool">
-                        <Link to={`/product/${product?.nickname || product?.id}`}>
+                        <Link to={`/product/${product?.nickname || product?.slug}`}>
                             <div className="card-tool-title">
                                 <p>View detail</p>
                             </div>
@@ -45,7 +46,7 @@ function ProductCard({ product }) {
                 </div>
                 <Card.Body>
                     <Card.Title className="card-title-custom">
-                        <Link to={`/product/${product?.nickname || product?.id}`}>
+                        <Link to={`/product/${product?.nickname || product?.slug}`}>
                             <p className="card-name">{product?.name || product?.nickname}</p>
                         </Link>
                     </Card.Title>

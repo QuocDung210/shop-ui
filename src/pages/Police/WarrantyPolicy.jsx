@@ -166,7 +166,7 @@ function WarrantyPolicy() {
                                 <h3 style={{ color: 'var(--color-1)' }}>A. ĐỔI SẢN PHẨM KHÁC</h3>
                                 <p>
                                     Đổi ngay sản phẩm tương đương: Cùng nhóm, cùng cấu hình, cùng dung lượng, … hoặc cao
-                                    hơn do GearVN đề xuất.
+                                    hơn do MyStore đề xuất.
                                 </p>
                             </div>
                             <div>

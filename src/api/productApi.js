@@ -8,6 +8,9 @@ export const ProductApi = {
     getById(payload) {
         return axiosClient.get('/users/search', { params: payload });
     },
+    getBySlug(payload) {
+        return axiosTest.get(`/Product/slug/${payload}`);
+    },
     getByIdProduct(payload) {
         return axiosTest.get(`/Product/${payload}`);
     },

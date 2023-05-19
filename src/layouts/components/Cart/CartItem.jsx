@@ -3,19 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 import { Container, Row, Stack } from 'react-bootstrap';
 import './CartItem.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { cartApi } from '~/api';
-import useAuth from '~/hooks/useAuth';
 import images from '~/assets/images';
 import { useNavigate } from 'react-router-dom';
 import { splitNumber } from '~/numberSplit';
+import { AppContext } from '~/Context/AppContext';
 function CartItem(props) {
-    const { item, reRenderCart, rerd } = props;
-    const auth = useAuth();
+    const { item } = props;
     const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
-
+    const context = useContext(AppContext);
     useEffect(() => {
         setQuantity(item.quantity);
     }, [item]);
@@ -23,7 +22,7 @@ function CartItem(props) {
     const handleRemoveFromCart = async () => {
         try {
             await cartApi.deleteCart(item?.productId);
-            reRenderCart(item?.productId);
+            context.handleReRender();
             toast.success('Xóa thành công.');
         } catch (err) {
             toast.error('Xóa thất bại.');
@@ -33,17 +32,12 @@ function CartItem(props) {
     const handleSetQuantityPlus = async () => {
         try {
             let numbers = parseInt(quantity) + 1;
-            await cartApi.updateCart(
-                {
-                    productId: item.productId,
-                    quantity: numbers,
-                },
-                {
-                    headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                },
-            );
+            await cartApi.updateCart({
+                productId: item.productId,
+                quantity: numbers,
+            });
             setQuantity(numbers);
-            rerd();
+            context.handleReRender();
         } catch (err) {
             toast.error(err);
         }
@@ -51,17 +45,12 @@ function CartItem(props) {
     const handleSetQuantityMinus = async () => {
         if (quantity > 1) {
             let numbers = parseInt(quantity) - 1;
-            await cartApi.updateCart(
-                {
-                    productId: item.productId,
-                    quantity: numbers,
-                },
-                {
-                    headers: { Authorization: `Bearer ${auth?.accessToken}` },
-                },
-            );
+            await cartApi.updateCart({
+                productId: item.productId,
+                quantity: numbers,
+            });
             setQuantity(numbers);
-            rerd();
+            context.handleReRender();
         } else {
             return;
         }
@@ -82,7 +71,9 @@ function CartItem(props) {
                                 <div className="cart-item-name">
                                     <p>{item?.product?.name}</p>
                                 </div>
-                                <div className="cart-item-price">{`${splitNumber(item?.product?.price)} đ`}</div>
+                                <div className="cart-item-price">{`${splitNumber(
+                                    item?.product?.price - (item?.product?.price * item?.product?.discount) / 100,
+                                )} đ`}</div>
                             </Stack>
                         </Stack>
 

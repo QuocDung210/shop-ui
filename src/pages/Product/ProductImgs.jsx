@@ -28,7 +28,7 @@ function ProductImgs({ imageList = [] }) {
     return (
         <Container fluid>
             <Row className="img-slide">
-                <Carousel interval={null} activeIndex={currentImg} onSelect={handleClick}>
+                <Carousel activeIndex={currentImg} onSelect={handleClick}>
                     {imageList[0] !== 'string' ? (
                         imgList().map((img, idx) => (
                             <Carousel.Item key={idx}>

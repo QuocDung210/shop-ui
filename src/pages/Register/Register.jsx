@@ -5,7 +5,11 @@ import RegisterForm from '~/components/AuthForm/register-form';
 import images from '~/assets/images';
 import { Link } from 'react-router-dom';
 import config from '~/config';
+import { useState } from 'react';
+import OtpForm from '~/components/AuthForm/otp-form';
 function Register() {
+    const [info, setInfo] = useState(null);
+    console.log('check info: ', info);
     return (
         <div className="d-flex align-items-center login">
             <Container className="login-container">
@@ -21,8 +25,8 @@ function Register() {
                             <div>
                                 <Logo />
                             </div>
+                            {!info ? <RegisterForm setInfo={(data) => setInfo(data)} /> : <OtpForm info={info} />}
 
-                            <RegisterForm />
                             <div>
                                 <p className="fs-5">
                                     Bằng việc đăng ký, tôi đồng ý với{' '}

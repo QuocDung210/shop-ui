@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Container, Placeholder, Row, Stack, Table } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductApi, cartApi } from '~/api';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import { splitNumber } from '~/numberSplit';
 import config from '~/config';
+import { AppContext } from '~/Context/AppContext';
 
 function Product() {
     const params = useParams();
@@ -18,11 +19,15 @@ function Product() {
     const [currentProduct, setCurrentProduct] = useState({});
     const [loading, setLoading] = useState(false);
     const currentUser = useAuth();
+    const context = useContext(AppContext);
+
     useEffect(() => {
         const product = async () => {
             try {
                 setLoading(true);
-                const res = await ProductApi.getByIdProduct(params.id);
+                // const res = await ProductApi.getByIdProduct(params.id);
+                const res = await ProductApi.getBySlug(params.id);
+                console.log(res);
                 setCurrentProduct(res);
                 setLoading(false);
             } catch (error) {
@@ -44,6 +49,7 @@ function Product() {
                 quantity: quantity,
             });
             toast.success('Thêm thành công.');
+            context.handleReRender();
         } catch (err) {
             toast.error(err);
         }
@@ -59,6 +65,7 @@ function Product() {
                 productId: id,
                 quantity: quantity,
             });
+            context.handleReRender();
             navigate(`/${config.routes.order}`);
         } catch (err) {
             console.log(err);

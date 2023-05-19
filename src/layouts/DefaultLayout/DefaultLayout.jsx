@@ -6,7 +6,7 @@ import './DefaultLayout.scss';
 import Footer from '../components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import { Outlet } from 'react-router-dom';
-function DefaultLayout({ children }) {
+function DefaultLayout() {
     return (
         <Container
             fluid

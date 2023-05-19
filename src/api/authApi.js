@@ -5,8 +5,12 @@ export const AuthApi = {
         return axiosTest.post('Auth/log-in', payload);
     },
 
-    register(payload) {
-        return axiosTest.post('Auth/register', payload);
+    register(payload, otp) {
+        return axiosTest.post('Auth/register', payload, {
+            params: {
+                otp: otp,
+            },
+        });
     },
 
     changePassword(data) {
@@ -39,5 +43,9 @@ export const AuthApi = {
             img: '',
             role: '',
         });
+    },
+    sendOtp(payload) {
+        console.log('check body:', payload);
+        return axiosTest.post('/Auth/sendotp', payload);
     },
 };

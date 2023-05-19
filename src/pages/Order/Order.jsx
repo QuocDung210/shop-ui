@@ -1,6 +1,6 @@
 import { Col, Container, Row, Stack } from 'react-bootstrap';
 import './Order.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { cartApi, orderApi } from '~/api';
 import { toast } from 'react-toastify';
@@ -13,7 +13,10 @@ import Buttons from '~/components/Buttons';
 import { useNavigate } from 'react-router-dom';
 import getAllUrlParams from '~/hooks/getAllParams';
 import OrderForm from '~/components/Form/order-form';
+import { AppContext } from '~/Context/AppContext';
 function Order() {
+    const context = useContext(AppContext);
+
     useEffect(() => {
         const check = getAllUrlParams(window.location.href);
         if (check.resultcode === '0') {
@@ -29,7 +32,9 @@ function Order() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     const [cartItems, setCartItems] = useState([]);
+    // const [quantity, setQuantity] = useState(0);
     const [data, setData] = useState({
         shipName: '',
         shipPhone: '',
@@ -46,6 +51,11 @@ function Order() {
         const fetch = async () => {
             try {
                 const res = await cartApi.getCart();
+                if (res.length <= 0) {
+                    setTimeout(() => {
+                        navigate('/product');
+                    }, 2000);
+                }
                 setCartItems(res);
             } catch (err) {
                 toast.error('Error.');
@@ -53,7 +63,7 @@ function Order() {
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [context.render]);
 
     const handleDelete = async (pd) => {
         try {
@@ -65,6 +75,7 @@ function Order() {
                     navigate('/product');
                 }, 5000);
             }
+            context.handleReRender();
             toast.success('Xóa sản phẩm thành công.');
         } catch (err) {
             toast.error('Xóa sản phẩm thất bại.');
@@ -108,7 +119,6 @@ function Order() {
                 // }
                 // const payload = info;
                 const payload = { ...info, orderDetails: [], id: '', orderer: '', transMethod: payType };
-                console.log(payload);
                 const res = await orderApi.createOrder(payload);
                 if (res) {
                     window.location.assign(res);
@@ -124,6 +134,36 @@ function Order() {
             }
         }
     };
+    // const handleSetQuantityPlus = async (item) => {
+    //     try {
+    //         let numbers = parseInt(quantity) + 1;
+    //         await cartApi.updateCart(
+    //             {
+    //                 productId: item.productId,
+    //                 quantity: numbers,
+    //             }
+    //         );
+    //         setQuantity(numbers);
+    //     } catch (err) {
+    //         toast.error(err);
+    //     }
+    //     console.log(item);
+    // };
+    // const handleSetQuantityMinus = async (item) => {
+    //     if (quantity > 1) {
+    //         let numbers = parseInt(quantity) - 1;
+    //         await cartApi.updateCart(
+    //             {
+    //                 productId: item.productId,
+    //                 quantity: numbers,
+    //             }
+    //         );
+    //         setQuantity(numbers);
+    //     } else {
+    //         return;
+    //     }
+    //     console.log(item);
+    // };
 
     return (
         <Container fluid>
@@ -246,32 +286,7 @@ function Order() {
                 <Row className="gap-4">
                     <Col md={6} xs={12} className="content-box">
                         <h3>Thông tin nhận hàng</h3>
-                        {/* <Row className="mt-4 " xs={1}>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-name" onChange={handleSetData} type="text" />
-                                    <span>Tên người nhận</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-phone" onChange={handleSetData} type="number" />
-                                    <span>Sđt người nhận</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-address" onChange={handleSetData} type="text" />
-                                    <span>Địa chỉ nhận hàng</span>
-                                </div>
-                            </Col>
-                            <Col className="mb-4">
-                                <div className="order-receive-ip">
-                                    <input id="receiver-note" onChange={handleSetData} type="text" />
-                                    <span>Ghi chú</span>
-                                </div>
-                            </Col>
-                        </Row> */}
+
                         <OrderForm submit={handleOrder} />
                     </Col>
                     <Col className="content-box ">
@@ -290,7 +305,7 @@ function Order() {
                                 <p>Giảm giá</p>
                                 <span>{`${splitNumber(
                                     cartItems?.reduce((total, num) => {
-                                        return total + (num.product.price * num.quantity * num.product.discount) / 100;
+                                        return total + (num.product.price * num.product.discount) / 100;
                                     }, 0),
                                 )} đ`}</span>
                             </div>
@@ -321,9 +336,6 @@ function Order() {
                                         deliverType,
                                 )} đ`}</span>
                             </div>
-                            {/* <Buttons primary onClick={handleOrder}>
-                                Đặt mua
-                            </Buttons> */}
                         </Stack>
                     </Col>
                 </Row>

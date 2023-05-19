@@ -4,13 +4,12 @@ import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { registerFailed, registerSuccess, startRegister } from '~/redux/slices/authSlice';
+import { registerFailed } from '~/redux/slices/authSlice';
 import { AuthApi } from '~/api';
 import { toast } from 'react-toastify';
 function RegisterForm(props) {
+    const { setInfo } = props;
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const initialValues = {
         name: '',
@@ -40,19 +39,18 @@ function RegisterForm(props) {
 
     const handleSubmitForm = async (values) => {
         const { name, email, phone, password } = values;
-        dispatch(startRegister());
         try {
-            const res = await AuthApi.register({
+            let data = {
                 name: name,
                 email: email,
                 phone: phone,
                 password: password,
-            });
-            dispatch(registerSuccess(res));
-            if (res.user.role === 'admin' || res.user.role === 'employee') {
-                navigate('/admin');
-            } else {
-                navigate('/');
+            };
+
+            const res = await AuthApi.sendOtp(data);
+            if (res.includes('sent succcessfully')) {
+                toast.success(`Đã gửi OTP cho ${email} thành công. Vui lòng kiểm tra.`);
+                setInfo(data);
             }
         } catch (error) {
             console.log('Error: ', error);

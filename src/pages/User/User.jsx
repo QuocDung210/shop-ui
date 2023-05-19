@@ -40,6 +40,7 @@ function User() {
     const handleLogOut = () => {
         dispatch(logoutSuccess());
         navigate('/');
+        window.location.reload();
     };
 
     return (

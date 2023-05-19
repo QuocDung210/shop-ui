@@ -32,6 +32,7 @@ function MainHeaderMenu({ menuItems }) {
                 dispatch(logoutSuccess());
                 setCurrentUser({});
                 navigate('/');
+                window.location.reload();
             },
         },
     ];

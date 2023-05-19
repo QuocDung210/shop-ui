@@ -4,48 +4,43 @@ export const splitNumber = (num) => {
     }
     const numString = num?.toString();
 
-    let newString = '';
+    let newString = null;
     let count = 0;
     for (let i = numString?.length; i >= 1; i--) {
         if (count === 3) {
-            if (i === numString?.length - 3) {
-                newString = numString?.slice(numString?.length - 3);
-
-                count = 0;
-            }
             if (i === 1) {
-                newString = numString[0] + ',' + numString?.slice(numString?.length - 3);
-            }
-
-            if (i !== numString?.length - 3) {
-                if (i === 1) {
-                    newString =
-                        numString.slice(0, numString.length - newString.length - count + 1) +
-                        ',' +
-                        numString.slice(i, i + count) +
-                        ',' +
-                        newString;
-                    count = 0;
+                if (!newString) {
+                    newString = numString[0] + ',' + numString?.slice(1, 4);
+                } else {
+                    newString = numString[0] + ',' + numString?.slice(1, 4) + ',' + newString;
                 }
-                if (i !== 1) {
-                    newString = numString.slice(i, i + count) + ',' + newString;
-                    count = 0;
+            } else {
+                if (!newString) {
+                    newString = numString?.slice(numString?.length - 3);
+                } else {
+                    newString = numString?.slice(i, i + 3) + ',' + newString;
                 }
             }
+            count = 0;
         } else {
-            if (i === 1 && count === 2) {
-                if (numString.length < 6) {
-                    newString = numString.slice(0, numString.length - newString.length + count - 2) + ',' + newString;
+            if (i === 1) {
+                if (count === 0) {
+                    newString = numString;
                 }
-                if (numString.length > 6) {
-                    newString = numString.slice(0, numString.length - newString.length + count - 1) + ',' + newString;
+                if (count === 1) {
+                    if (!newString) {
+                        newString = numString;
+                    } else {
+                        newString = numString[0] + numString?.slice(1, 2) + ',' + newString;
+                    }
                 }
-                if (numString.length === 6) {
-                    newString = numString.slice(0, numString.length - newString.length) + ',' + newString;
+                if (count === 2) {
+                    if (!newString) {
+                        newString = numString;
+                    } else {
+                        newString = numString[0] + numString?.slice(1, 3) + ',' + newString;
+                    }
                 }
-            }
-            if (i === 1 && count === 1) {
-                newString = numString.slice(0, numString.length - newString.length + count) + ',' + newString;
             }
         }
 
