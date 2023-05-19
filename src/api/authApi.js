@@ -21,7 +21,7 @@ export const AuthApi = {
     },
     checkAcc(payload) {
         return axiosTest.post('/Auth/check-user', {
-            phone: payload,
+            email: payload,
         });
     },
     forgotPassword(paload) {

@@ -3,13 +3,13 @@ import { Col, Container, Row, Stack } from 'react-bootstrap';
 import Logo from '~/components/Logo';
 import RegisterForm from '~/components/AuthForm/register-form';
 import images from '~/assets/images';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
 import { useState } from 'react';
 import OtpForm from '~/components/AuthForm/otp-form';
 function Register() {
     const [info, setInfo] = useState(null);
-    console.log('check info: ', info);
+    const navigate = useNavigate();
     return (
         <div className="d-flex align-items-center login">
             <Container className="login-container">
@@ -30,7 +30,7 @@ function Register() {
                             <div>
                                 <p className="fs-5">
                                     Bằng việc đăng ký, tôi đồng ý với{' '}
-                                    <strong>
+                                    <strong onClick={() => navigate('/police')}>
                                         <u>Điều khoản dịch vụ</u>
                                     </strong>{' '}
                                     và{' '}
