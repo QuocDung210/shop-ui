@@ -56,7 +56,7 @@ function CartItem(props) {
         }
     };
     const handleClickItem = () => {
-        navigate(`product/${item.productId}`);
+        navigate(`product/${item.product.slug}`);
     };
     return (
         <>

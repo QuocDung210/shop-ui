@@ -27,7 +27,6 @@ function Product() {
                 setLoading(true);
                 // const res = await ProductApi.getByIdProduct(params.id);
                 const res = await ProductApi.getBySlug(params.id);
-                console.log(res);
                 setCurrentProduct(res);
                 setLoading(false);
             } catch (error) {

@@ -46,23 +46,29 @@ function AddCartForm(props) {
                             disabled={true}
                         />
                         <FormGroup>
-                            <Buttons
-                                leftIcon={<FontAwesomeIcon icon={faCartShopping} />}
-                                type={'submit'}
-                                outline
-                                lager
-                                onClick={() => setTypeSubmit(false)}
-                            >
-                                Thêm vào giỏ hàng
-                            </Buttons>
-                            <Buttons
-                                type={'submit'}
-                                primary
-                                leftIcon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
-                                onClick={() => setTypeSubmit(true)}
-                            >
-                                Mua ngay
-                            </Buttons>
+                            <div className="d-flex flex-wrap gap-3">
+                                <div>
+                                    <Buttons
+                                        leftIcon={<FontAwesomeIcon icon={faCartShopping} />}
+                                        type={'submit'}
+                                        outline
+                                        lager
+                                        onClick={() => setTypeSubmit(false)}
+                                    >
+                                        Thêm vào giỏ hàng
+                                    </Buttons>
+                                </div>
+                                <div>
+                                    <Buttons
+                                        type={'submit'}
+                                        primary
+                                        leftIcon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
+                                        onClick={() => setTypeSubmit(true)}
+                                    >
+                                        Mua ngay
+                                    </Buttons>
+                                </div>
+                            </div>
                         </FormGroup>
                     </Form>
                 );

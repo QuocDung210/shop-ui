@@ -9,7 +9,7 @@ const cx = classNames.bind(Styles);
 
 function ResultSearchItem({ searchResult }) {
     return (
-        <Link to={`/product/${searchResult?.id}`} className={cx('wrapper')}>
+        <Link to={`/product/${searchResult?.slug}`} className={cx('wrapper')}>
             <Images className={cx('product__img')} src={searchResult.images[0]} alt="avatar" />
             <div className={cx('info')}>
                 <p className={cx('product__name')}>{searchResult.name}</p>

@@ -4,11 +4,9 @@ import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
 import { AuthApi } from '~/api';
-import useAuth from '~/hooks/useAuth';
 import { toast } from 'react-toastify';
 
 function ChangePasswordForm({ handleClose }) {
-    const currentUser = useAuth();
     const initialValues = {
         oldPw: '',
         newPw: '',
@@ -25,7 +23,6 @@ function ChangePasswordForm({ handleClose }) {
     });
 
     const handleSubmitForm = async (values) => {
-        console.log('check value :', values, currentUser?.accessToken);
         const data = {
             oldPassword: values.oldPw,
             newPassword: values.newPw,

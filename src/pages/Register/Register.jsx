@@ -30,12 +30,8 @@ function Register() {
                             <div>
                                 <p className="fs-5">
                                     Bằng việc đăng ký, tôi đồng ý với{' '}
-                                    <strong onClick={() => navigate('/police')}>
+                                    <strong style={{ cursor: 'pointer' }} onClick={() => navigate('/police')}>
                                         <u>Điều khoản dịch vụ</u>
-                                    </strong>{' '}
-                                    và{' '}
-                                    <strong>
-                                        <u>Chính sách bảo mật</u>
                                     </strong>{' '}
                                     của MyStore.
                                 </p>

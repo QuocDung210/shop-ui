@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 function ForgotPwOtpForm(props) {
     const { handleGetPw } = props;
+
     const initialValues = {
         otp: '',
         newPass: '',
@@ -38,6 +39,7 @@ function ForgotPwOtpForm(props) {
                 return (
                     <Form>
                         <FastField name="otp" component={InputField} type="text" placeholder="Mã xác thực..." />
+
                         <FastField
                             name="newPass"
                             component={InputField}

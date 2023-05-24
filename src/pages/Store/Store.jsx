@@ -30,6 +30,7 @@ function Store() {
     const [show, setShow] = useState(false);
     const [sort, setSort] = useState(st ? st[1] : 0);
     const [brand, setBrand] = useState(0);
+    const [rd, setRd] = useState(false);
     useLayoutEffect(() => {
         const allProducts = async () => {
             try {
@@ -58,7 +59,7 @@ function Store() {
 
         allProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query, currentPage, priceRange, categorySelected, sort, brand]);
+    }, [query, currentPage, priceRange, categorySelected, sort, brand, rd]);
 
     const handleNext = () => {
         if (currentPage < totalPage) {
@@ -78,6 +79,9 @@ function Store() {
 
     const handleFilter = (id) => {
         setCurrentPage(1);
+        if (id === 0) {
+            setRd(!rd);
+        }
         setCategorySelected(id);
         setSearchParams('');
     };
