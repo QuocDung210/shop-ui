@@ -1,0 +1,42 @@
+.employee-container {
+    .delivery-statistics {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.delivery-statistics {
+    .delivery-statistics-icon {
+        max-width: 50px;
+        padding: 10px;
+        font-size: 4rem;
+        color: var(--white);
+        border-radius: 5px;
+    }
+    .delivery-statistics-icon.yes {
+        background-color: var(--color-1);
+    }
+    .delivery-statistics-icon.no {
+        background-color: var(--color-6);
+    }
+    span {
+        font-size: 3rem;
+        font-weight: 500;
+    }
+    p {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+}
+
+.order-shipping-item {
+    cursor: pointer;
+    &:hover {
+        background-color: var(--color-4);
+        border-radius: 10px;
+        transition: all ease 0.3s;
+    }
+}

@@ -1,4 +1,4 @@
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Col, Container, Modal, Row, Stack } from 'react-bootstrap';
@@ -14,6 +14,8 @@ function Profile() {
     const [render, setRender] = useState(true);
     const [profile, setProfile] = useState({});
     const [img, setImg] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const handleUpdate = () => {
         setShow(false);
     };
@@ -33,14 +35,16 @@ function Profile() {
 
     const handleChangeAvatar = async (e) => {
         setImg(URL.createObjectURL(e.target.files[0]));
+        setLoading(true);
         try {
             const url = await FirebaseService.uploadImg([e.target.files[0]], 'UserAvatar');
 
             await AuthApi.updateAvatar(url[0]);
-
+            setLoading(false);
             toast.success('Thay đổi ảnh thành công.');
         } catch (err) {
             toast.error('Có lỗi xảy ra.');
+            setLoading(false);
         }
     };
     return (
@@ -52,15 +56,15 @@ function Profile() {
                 </div>
                 <hr />
                 <Row className="g-4">
-                    <Col className="text-center" style={{ position: 'relative' }}>
-                        <Images
+                    <Col className="d-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
+                        {/* <Images
                             src={img || profile?.img}
                             alt="user"
                             className="user-avatar"
                             fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
                             style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
-                        />
-                        <div className="user-avatar-change">
+                        /> */}
+                        {/* <div className="user-avatar-change">
                             <label htmlFor="logo">
                                 <FontAwesomeIcon icon={faPen} />
                             </label>
@@ -72,6 +76,36 @@ function Profile() {
                                 style={{ display: 'none' }}
                                 onChange={handleChangeAvatar}
                             />
+                        </div> */}
+                        <div
+                            className="d-flex justify-content-center align-items-center user-avatar-container"
+                            style={{ position: 'relative' }}
+                        >
+                            <Images
+                                src={img || profile?.img}
+                                alt="user"
+                                className="user-avatar"
+                                fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', opacity: `${loading ? 0.5 : 1}` }}
+                            />
+
+                            <FontAwesomeIcon
+                                className={`update-avatar-loading ${loading ? 'd-block' : 'd-none'}`}
+                                icon={faRotate}
+                            />
+                            <div className="user-avatar-change" style={{ opacity: `${loading ? 0.5 : 1}` }}>
+                                <label htmlFor="logo">
+                                    <FontAwesomeIcon icon={faPen} />
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="logo"
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
+                                    onChange={handleChangeAvatar}
+                                />
+                            </div>
                         </div>
                     </Col>
 

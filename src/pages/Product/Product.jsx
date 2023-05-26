@@ -41,7 +41,10 @@ function Product() {
             toast.warning('Vui lòng đăng nhập trước khi sử dụng tính năng này.');
             return;
         }
-
+        if (currentUser?.user?.role === 'employee') {
+            toast.warning('Tài khoản của bạn không dược phép thực hiện hành động này.');
+            return;
+        }
         try {
             await cartApi.addCart({
                 productId: id,
@@ -57,6 +60,10 @@ function Product() {
     const handleBuyNow = async (id, quantity) => {
         if (!currentUser) {
             navigate(config.routes.login);
+            return;
+        }
+        if (currentUser?.user?.role === 'employee') {
+            toast.warning('Tài khoản của bạn không dược phép thực hiện hành động này.');
             return;
         }
         try {

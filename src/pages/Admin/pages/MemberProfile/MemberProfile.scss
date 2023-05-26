@@ -4,8 +4,8 @@
 }
 .member-avatar-change {
     position: absolute;
-    right: 39%;
-    bottom: 26%;
+    top: 80%;
+    right: 20%;
     label {
         cursor: pointer;
         width: 50px;
@@ -15,5 +15,35 @@
         border: 2px solid var(--color-4);
         border-radius: 999px;
         background-color: var(--white);
+    }
+}
+.member-avatar-container {
+    width: 200px;
+    height: 200px;
+    .member-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 2px solid #ccc;
+        border-radius: 999px;
+    }
+}
+
+.update-avatar-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6rem;
+    color: var(--white);
+    animation: loading 0.5s infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }

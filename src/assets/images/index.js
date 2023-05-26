@@ -7,6 +7,7 @@ const images = {
     background: require('~/assets/images/04.jpg'),
     noCart: require('~/assets/images/no-cart.png'),
     momo: require('~/assets/images/logo-momo.png'),
+    adminLogin: require('~/assets/images/admin_login.avif'),
 };
 
 export default images;

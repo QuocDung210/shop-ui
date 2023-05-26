@@ -55,6 +55,7 @@ function Order() {
                     setTimeout(() => {
                         navigate('/product');
                     }, 2000);
+                    return;
                 }
                 setCartItems(res);
             } catch (err) {
@@ -106,7 +107,6 @@ function Order() {
                 return total + (num.product.price * num.quantity * num.product.discount) / 100;
             }, 0) +
             deliverType;
-        console.log('check total:', total);
         if (total > 50000000 && payType === 2) {
             toast.warning('Giá trị đơn hàng vượt quá giới hạn thanh toán của Momo.');
         } else {
@@ -120,6 +120,7 @@ function Order() {
                 // const payload = info;
                 const payload = { ...info, orderDetails: [], id: '', orderer: '', transMethod: payType };
                 const res = await orderApi.createOrder(payload);
+                context.handleReRender();
                 if (res) {
                     window.location.assign(res);
                 } else {

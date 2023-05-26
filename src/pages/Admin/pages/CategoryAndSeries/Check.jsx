@@ -3,7 +3,6 @@ import Buttons from '~/components/Buttons';
 
 function Check(props) {
     const { type, add, cancel, setData, nameRef, desRef, update } = props;
-
     return (
         <>
             <h3>{type ? 'Cập nhật' : 'Tạo mới'}</h3>

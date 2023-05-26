@@ -63,4 +63,7 @@ export const orderApi = {
     momoPay(payload) {
         return axiosTest.get(`/Order/quick-pay/${payload}`);
     },
+    getOrdersShipper() {
+        return axiosTest.get('/Order/shipper');
+    },
 };

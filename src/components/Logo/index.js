@@ -15,7 +15,7 @@ function Logo() {
 const NotLink = () => {
     return (
         <>
-            <div className="logo">
+            <div className="logo" style={{ cursor: 'default' }}>
                 <h1 className="boujee-text">MyStore</h1>
             </div>
         </>

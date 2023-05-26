@@ -18,7 +18,12 @@ function AdminNotify() {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await noticeApi.getNoticeAdmin();
+                let res;
+                if (auth?.user?.role === 'employee') {
+                    res = await noticeApi.getNoticeUser();
+                } else {
+                    res = await noticeApi.getNoticeAdmin();
+                }
                 setNoticeList(res.reverse());
                 setSelected(res[0]);
             } catch (err) {
@@ -47,7 +52,11 @@ function AdminNotify() {
                 <Col>
                     <h2>Thông báo</h2>
                 </Col>
-                <Col className=" d-flex flex-wrap justify-content-end gap-4">
+                <Col
+                    className={`${
+                        auth?.user?.role === 'employee' ? 'd-none' : 'd-flex'
+                    }  flex-wrap justify-content-end gap-4`}
+                >
                     <div>
                         <Buttons
                             primary

@@ -193,71 +193,76 @@ function Account() {
                     <Col xs={1}></Col>
                 </Row>
                 <hr />
-                {userList.length > 0 &&
-                    userList.map((user, idx) => (
-                        <Row key={idx} className="py-3 acc-list-item">
-                            <Col xs={6} md={3}>
-                                <div className="d-flex align-items-center gap-3">
+                <div style={{ maxHeight: '300px', overflow: 'overlay' }}>
+                    {userList.length > 0 &&
+                        userList.map((user, idx) => (
+                            <Row key={idx} className="py-3 acc-list-item">
+                                <Col xs={6} md={3}>
                                     <div className="d-flex align-items-center gap-3">
-                                        <input
-                                            type={'checkbox'}
-                                            size={60}
-                                            className="acc-checkbox checkbox-item d-none d-sm-block"
-                                            value={user?.phone}
-                                            name={'memberIds[]'}
-                                            onChange={(e) => renderDeleteBtn(e, user)}
-                                        />
-                                        <Images
-                                            src={user?.img}
-                                            alt="user"
-                                            className="current-user d-none d-md-block"
-                                            fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
-                                            style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
-                                        />
+                                        <div className="d-flex align-items-center gap-3">
+                                            <input
+                                                type={'checkbox'}
+                                                size={60}
+                                                className="acc-checkbox checkbox-item d-none d-sm-block"
+                                                value={user?.phone}
+                                                name={'memberIds[]'}
+                                                onChange={(e) => renderDeleteBtn(e, user)}
+                                            />
+                                            <Images
+                                                src={user?.img}
+                                                alt="user"
+                                                className="current-user d-none d-md-block"
+                                                fallback="https:cdn.pixabay.com/photo/2015/01/17/13/52/gem-602252__340.jpg"
+                                                style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)' }}
+                                            />
+                                        </div>
+                                        <span className="ms-3">{user?.name}</span>
                                     </div>
-                                    <span className="ms-3">{user?.name}</span>
-                                </div>
-                            </Col>
-                            <Col xs={2} className="d-none d-md-flex align-items-center">
-                                {user?.phone}
-                            </Col>
-                            <Col xs={4} className="d-none d-md-flex align-items-center">
-                                {user?.email}
-                            </Col>
-                            <Col xs={5} md={2} className="d-flex align-items-center">
-                                {ROLE_ARR.map(
-                                    (item, idx) =>
-                                        user?.role === item.role && (
-                                            <p key={idx} className={`m-0 role  ${item.color}`}>
-                                                {user?.role}
-                                            </p>
-                                        ),
-                                )}
-                            </Col>
-                            <Col xs={1} className="d-flex align-items-center justify-content-end">
-                                <Tippy
-                                    delay={[0, 200]}
-                                    placement="bottom-end"
-                                    interactive
-                                    arrow
-                                    render={(attrs) => (
-                                        <Stack className="acc-menu content-box p-3" {...attrs}>
-                                            <div className="acc-menu-option" onClick={() => handleShowDeleteUser(user)}>
-                                                <p className="my-2 mx-3">Xóa</p>
-                                            </div>
-                                            <div className="acc-menu-option">
-                                                <p className="my-2 mx-3" onClick={() => handleViewDetail(user)}>
-                                                    Xem chi tiết
+                                </Col>
+                                <Col xs={2} className="d-none d-md-flex align-items-center">
+                                    {user?.phone}
+                                </Col>
+                                <Col xs={4} className="d-none d-md-flex align-items-center">
+                                    {user?.email}
+                                </Col>
+                                <Col xs={5} md={2} className="d-flex align-items-center">
+                                    {ROLE_ARR.map(
+                                        (item, idx) =>
+                                            user?.role === item.role && (
+                                                <p key={idx} className={`m-0 role  ${item.color}`}>
+                                                    {user?.role}
                                                 </p>
-                                            </div>
-                                        </Stack>
+                                            ),
                                     )}
-                                >
-                                    <FontAwesomeIcon icon={faEllipsisV} className="acc-menu-icon" />
-                                </Tippy>
-                            </Col>
-                        </Row>
-                    ))}
+                                </Col>
+                                <Col xs={1} className="d-flex align-items-center justify-content-end">
+                                    <Tippy
+                                        delay={[0, 200]}
+                                        placement="bottom-end"
+                                        interactive
+                                        arrow
+                                        render={(attrs) => (
+                                            <Stack className="acc-menu content-box p-3" {...attrs}>
+                                                <div
+                                                    className="acc-menu-option"
+                                                    onClick={() => handleShowDeleteUser(user)}
+                                                >
+                                                    <p className="my-2 mx-3">Xóa</p>
+                                                </div>
+                                                <div className="acc-menu-option">
+                                                    <p className="my-2 mx-3" onClick={() => handleViewDetail(user)}>
+                                                        Xem chi tiết
+                                                    </p>
+                                                </div>
+                                            </Stack>
+                                        )}
+                                    >
+                                        <FontAwesomeIcon icon={faEllipsisV} className="acc-menu-icon" />
+                                    </Tippy>
+                                </Col>
+                            </Row>
+                        ))}
+                </div>
             </Row>
 
             <Modal show={showDeleteMember} onHide={() => setShowDeleteMember(false)} className="delete-member">

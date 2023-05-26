@@ -2,3 +2,21 @@
     font-weight: 500;
     color: var(--text-color-2);
 }
+
+.shipper-avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    border-radius: 999px;
+}
+
+.admin-order-detail-shipper {
+    p {
+        font-weight: 500;
+        color: var(--text-color-2);
+        strong {
+            color: var(--text-color);
+        }
+    }
+}

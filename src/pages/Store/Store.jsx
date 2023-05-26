@@ -197,7 +197,13 @@ function Store() {
             <div>
                 <Offcanvas show={show} onHide={handleClose}>
                     <Offcanvas.Body style={{ maxWidth: '400px' }}>
-                        <Sidebar priceFilter={handlePriceFilter} categoryFilter={handleFilter} setClose={handleClose} />
+                        <Sidebar
+                            currentSelected={cate ? cate[1] : null}
+                            priceFilter={handlePriceFilter}
+                            categoryFilter={handleFilter}
+                            brandFilter={handleFilterbrand}
+                            setClose={handleClose}
+                        />
                     </Offcanvas.Body>
                 </Offcanvas>
             </div>

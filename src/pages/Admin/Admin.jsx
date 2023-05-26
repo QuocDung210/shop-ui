@@ -114,7 +114,7 @@ function AdminMainPage() {
 
     const handleLogOut = () => {
         dispatch(logoutSuccess());
-        navigate('/');
+        navigate('/admin/login');
     };
 
     return (

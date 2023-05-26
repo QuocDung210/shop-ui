@@ -45,6 +45,9 @@ function Sidebar(props) {
                 setData({ ...data, min: e.target.value });
             }
         }
+        if (setClose) {
+            setClose();
+        }
     };
 
     const handleFilter = () => {
@@ -100,7 +103,11 @@ function Sidebar(props) {
                                     <div
                                         onClick={() => {
                                             setSelectedBrand(0);
+
                                             brandFilter(0);
+                                            if (setClose) {
+                                                setClose();
+                                            }
                                         }}
                                     >
                                         <p className={`m-0 w-100 ${selectedBrand === 0 && 'nav-selected'}`}>None</p>
@@ -112,6 +119,9 @@ function Sidebar(props) {
                                                 onClick={() => {
                                                     setSelectedBrand(brand?.id);
                                                     brandFilter(brand?.id);
+                                                    if (setClose) {
+                                                        setClose();
+                                                    }
                                                 }}
                                             >
                                                 <p

@@ -40,13 +40,12 @@ function OrderForm({ submit }) {
             .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
             .required('Vui lòng nhập số điện thoại')
             .min(10, 'Số điện thoại không hợp lệ'),
-        shipAddress: yup.string().required('Vui lòng nhập địa chỉ nhận hàng').nullable(),
+        shipAddress: yup.string().required('Vui lòng nhập địa chỉ nhận hàng'),
         note: yup.string().nullable(),
     });
 
     const handleSubmitForm = async (values) => {
         submit(values);
-        console.log(values);
     };
     return (
         <>
@@ -99,7 +98,6 @@ function OrderForm({ submit }) {
                                 type="text"
                                 placeholder="Địa chỉ nhận hàng..."
                                 readonly={true}
-                                value={user?.address}
                             />
 
                             <FastField name="note" component={InputField} type="text" placeholder="Ghi chú..." />

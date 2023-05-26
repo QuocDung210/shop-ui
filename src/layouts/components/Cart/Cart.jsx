@@ -20,7 +20,7 @@ function Cart(props) {
 
     useEffect(() => {
         const fetch = async () => {
-            if (auth) {
+            if (auth && auth?.user?.role !== 'employee') {
                 try {
                     const res = await cartApi.getCart();
 

@@ -16,7 +16,6 @@ function ProfileForm(props) {
     });
 
     const handleSubmitForm = async (values) => {
-        console.log('check value :', values);
         try {
             await AuthApi.updateName(values.name);
             toast.success('Cập nhật thành công.');

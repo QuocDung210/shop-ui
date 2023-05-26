@@ -3,16 +3,15 @@ import { FormGroup } from 'react-bootstrap';
 import Buttons from '../Buttons';
 import InputField from '../hook-form/InputField';
 import * as yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthApi } from '~/api';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, startLogin, loginFailed } from '~/redux/slices/authSlice';
-import config from '~/config';
 import { toast } from 'react-toastify';
-function LoginForm(props) {
+function AdminLoginForm(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const locate = useLocation();
     const initialValues = {
         phone: '',
         password: '',
@@ -20,10 +19,7 @@ function LoginForm(props) {
     const phoneRegExp =
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const validationSchema = yup.object().shape({
-        // email: yup.string().email('Email không hợp lệ').required('vui lòng nhập email'),
         phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ').required('Vui lòng nhập số điện thoại'),
-        // .min(10, 'Số điện thoại không hợp lệ'),
-        // phone: yup.string().required('Vui lòng nhập số điện thoại'),
         password: yup.string().required('Vui lòng nhập mật khẩu'),
     });
 
@@ -37,8 +33,10 @@ function LoginForm(props) {
             });
 
             dispatch(loginSuccess(res));
-            if (res.user.role === 'admin' || res.user.role === 'employee') {
-                navigate('/admin');
+            if (res.user.role === 'admin') {
+                navigate(locate?.state?.from ? locate?.state?.from?.pathname : '/admin');
+            } else if (res.user.role === 'employee') {
+                navigate('/admin/employee');
             } else {
                 navigate('/');
             }
@@ -61,11 +59,7 @@ function LoginForm(props) {
                     <Form>
                         <FastField name="phone" component={InputField} type="text" placeholder="Phone..." />
                         <FastField name="password" component={InputField} type="password" placeholder="Password..." />
-                        <div className="d-flex justify-content-end mb-2">
-                            <Link to={config.routes.forgot_pw}>
-                                <span style={{ color: 'var(--color-6)' }}>Quên mật khẩu ?</span>
-                            </Link>
-                        </div>
+
                         <FormGroup>
                             <Buttons primary lager className="button-login">
                                 Đăng nhập
@@ -78,4 +72,4 @@ function LoginForm(props) {
     );
 }
 
-export default LoginForm;
+export default AdminLoginForm;

@@ -215,7 +215,6 @@ function AddProduct() {
                 images: urls,
                 available: parseInt(quantity),
             };
-            console.log(data);
             await ProductApi.addProduct(data);
             toast.success('Success');
         } catch (err) {

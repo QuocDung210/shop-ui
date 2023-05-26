@@ -36,6 +36,9 @@ import ScrollTotop from './components/ScrollTotop';
 import PolicyPage from './pages/Police/PolicyPage';
 import WarrantyPolicy from './pages/Police/WarrantyPolicy';
 import ShippingPolicy from './pages/Police/ShippingPolicy';
+import AdminLogin from './pages/Admin/pages/AdminLogin/AdminLogin';
+import ProtectedRoutesAdmin from './ProtectedRoutes/protected-routes-admin';
+import Employee from './pages/Admin/pages/Employee/Employee';
 function App() {
     return (
         <>
@@ -67,26 +70,33 @@ function App() {
                         </Route>
                     </Route>
                     <Route path={config.routes.login} element={<Login />} />
+                    <Route path={'/admin/login'} element={<AdminLogin />} />
                     <Route path={config.routes.register} element={<Register />} />
                     <Route path={config.routes.forgot_pw} element={<ForgetPw />} />
-                    <Route element={<ProtectedRoutes roles={['admin', 'employee']} />}>
+                    <Route element={<ProtectedRoutesAdmin roles={['admin', 'employee']} />}>
                         <Route path={config.routes.adminPage} element={<Admin />}>
-                            <Route index element={<Dashboard />} />
-                            <Route path={config.routes.dashboard} element={<Dashboard />} />
-                            <Route path={config.routes.account} element={<Accounts />} />
-                            <Route path={config.routes.accountDetail} element={<AccountDetail />} />
-                            <Route path={config.routes.addAccount} element={<AddAccount />} />
-                            <Route path={config.routes.adminProducts} element={<AdminProducts />} />
-                            <Route path={config.routes.addProduct} element={<AddProduct />} />
-                            <Route path={config.routes.updateProduct} element={<UpdateProduct />} />
-                            <Route path={config.routes.adminOrders} element={<AdminOrder />} />
-                            <Route path={config.routes.adminOrderDetail} element={<AdminOrderDetail />} />
-                            <Route path={config.routes.adminNotify} element={<AdminNotify />} />
-                            <Route path={config.routes.addNotify} element={<AddNotify />} />
                             <Route path={config.routes.memberProfile} element={<MemberProfile />} />
-                            <Route path={config.routes.Advertising} element={<Ad />} />
-                            <Route path={config.routes.Brand} element={<Brand />} />
-                            <Route path={config.routes.Category} element={<CategoryAndSeries />} />
+                            <Route path={config.routes.adminNotify} element={<AdminNotify />} />
+                            <Route element={<ProtectedRoutesAdmin roles={['admin']} />}>
+                                <Route index element={<Dashboard />} />
+                                <Route path={config.routes.dashboard} element={<Dashboard />} />
+                                <Route path={config.routes.account} element={<Accounts />} />
+                                <Route path={config.routes.accountDetail} element={<AccountDetail />} />
+                                <Route path={config.routes.addAccount} element={<AddAccount />} />
+                                <Route path={config.routes.adminProducts} element={<AdminProducts />} />
+                                <Route path={config.routes.addProduct} element={<AddProduct />} />
+                                <Route path={config.routes.updateProduct} element={<UpdateProduct />} />
+                                <Route path={config.routes.adminOrders} element={<AdminOrder />} />
+                                <Route path={config.routes.adminOrderDetail} element={<AdminOrderDetail />} />
+                                <Route path={config.routes.addNotify} element={<AddNotify />} />
+                                <Route path={config.routes.Advertising} element={<Ad />} />
+                                <Route path={config.routes.Brand} element={<Brand />} />
+                                <Route path={config.routes.Category} element={<CategoryAndSeries />} />
+                            </Route>
+                            <Route element={<ProtectedRoutesAdmin roles={['employee']} />}>
+                                <Route path={'employee'} element={<Employee />} />
+                                <Route path={'employee/order-detail'} element={<AdminOrderDetail />} />
+                            </Route>
                         </Route>
                     </Route>
                 </Routes>
