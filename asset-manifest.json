@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/shop-ui/static/css/main.338a4395.css",
-    "main.js": "/shop-ui/static/js/main.12bb2bbb.js",
+    "main.css": "/shop-ui/static/css/main.070720fa.css",
+    "main.js": "/shop-ui/static/js/main.f8e299e9.js",
     "static/js/787.718908e3.chunk.js": "/shop-ui/static/js/787.718908e3.chunk.js",
     "static/media/no-data.png": "/shop-ui/static/media/no-data.89a08bd3015f47d08f95.png",
     "static/media/login.png": "/shop-ui/static/media/login.5bb6101ef94d5653755b.png",
+    "static/media/admin_login.avif": "/shop-ui/static/media/admin_login.c520919e4a5e9d258f46.avif",
     "static/media/basic_img.jpg": "/shop-ui/static/media/basic_img.8fc923438f7ae1ca124b.jpg",
+    "static/media/logo-momo.png": "/shop-ui/static/media/logo-momo.951e1dba04f5c663c9f9.png",
     "static/media/04.jpg": "/shop-ui/static/media/04.c07cb66609ff0ab0b5de.jpg",
     "static/media/logo.svg": "/shop-ui/static/media/logo.c0f4ccb00268bea2e9ed764a91bd418f.svg",
     "static/media/revicons.eot": "/shop-ui/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/shop-ui/static/media/revicons.57fd05d4ae650374c8de.ttf",
     "static/media/revicons.woff": "/shop-ui/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/shop-ui/index.html",
-    "main.338a4395.css.map": "/shop-ui/static/css/main.338a4395.css.map",
-    "main.12bb2bbb.js.map": "/shop-ui/static/js/main.12bb2bbb.js.map",
+    "main.070720fa.css.map": "/shop-ui/static/css/main.070720fa.css.map",
+    "main.f8e299e9.js.map": "/shop-ui/static/js/main.f8e299e9.js.map",
     "787.718908e3.chunk.js.map": "/shop-ui/static/js/787.718908e3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.338a4395.css",
-    "static/js/main.12bb2bbb.js"
+    "static/css/main.070720fa.css",
+    "static/js/main.f8e299e9.js"
   ]
 }
